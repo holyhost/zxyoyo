@@ -1,7 +1,7 @@
 import User from "@/models/user"
 import { connectToDB } from "@/utils/database"
-import { randomBytes, randomUUID } from "crypto"
-import { MD5 } from "crypto-js"
+// import { randomBytes, randomUUID } from "crypto"
+// import { MD5 } from "crypto-js"
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from 'next-auth/providers/google'
@@ -24,6 +24,7 @@ export const authOptions = {
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
+                console.log('auth-sauthorize-called')
                 // middleware.ts -> authorezed will call this method
                 // You need to provide your own logic here that takes the credentials
                 // submitted and returns eith a object representing a user or value
@@ -77,12 +78,13 @@ export const authOptions = {
         //         return false
         //     }
         // },
-        async session({session}: {session: any}){
+        async session({session, user, token}: {session: any, user: any, token: any}){
             // call getserversession will enter this method
             await connectToDB()
-            const sessionUser = await User.findOne({email:session?.user?.name})
+            console.log('auth-session-called')
+            const sessionUser = await User.findOne({email:session?.user?.email})
             if(session && session.user){
-                session.user.name = sessionUser._id.toString()
+                session.user.name = sessionUser.name
                 session.user = sessionUser
             }
                 
@@ -90,6 +92,7 @@ export const authOptions = {
         },
 
         async jwt({token, account, user}: {token: any, account: any, user: any}) {
+            console.log('auth-jwt-called')
             if(account){
                 console.log('jwt-token', token)
                 token.user = user
