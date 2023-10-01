@@ -25,7 +25,7 @@ const UploadFile = ({onFileChanged}: Props) => {
       const data = new FormData()
       console.log(e)
       data.set('file', e[0])
-      const res = await fetch('/api/upload', {
+      const res = await fetch('/api/file', {
         method: 'POST',
         body: data
       })
