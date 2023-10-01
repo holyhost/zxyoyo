@@ -5,12 +5,12 @@ import { IconCopy, IconTrash } from '@tabler/icons-react';
 
 type Props = {
     file: string,
-    delete: Function
+    onDelete: Function
 }
 
-const SimpleFileItem = ({ file }: Props) => {
+const SimpleFileItem = ({ file, onDelete }: Props) => {
     const onDeleteClick = () => {
-
+        onDelete()
     }
     return (
         <Group justify="center">

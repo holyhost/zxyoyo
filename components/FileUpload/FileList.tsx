@@ -3,10 +3,10 @@ import React from 'react'
 import { IconHistory } from '@tabler/icons-react';
 import SimpleFileItem from './SimpleFileItem';
 
-const FileList = ({fileList}: {fileList: string[]}) => {
+const FileList = ({fileList, deleteFile}: {fileList: string[], deleteFile: Function}) => {
 
-  const deleteFile =async ( file:string) => {
-    
+  const onFileDelete = ( file:string) => {
+    deleteFile(file)
   }
 
   return (
@@ -22,7 +22,7 @@ const FileList = ({fileList}: {fileList: string[]}) => {
           </>
         }
       />
-        {fileList.map(file=> <SimpleFileItem key={file} file={file} delete={deleteFile} />)}
+        {fileList.map(file=> <SimpleFileItem key={file} file={file} onDelete={()=>onFileDelete(file)} />)}
     </Container>
   )
 }
