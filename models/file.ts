@@ -6,6 +6,22 @@ const FileSchema = new Schema({
         type: String,
         default: 'file' // file, image, txt, zip, post
     },
+    name: {
+        type: String,
+        required: [true, 'File name is required!']
+    },
+    orname: {
+        type: String,
+        default: '' // file, image, txt, zip, post
+    },
+    size: {
+        type: Number,
+        default: 0 // file, image, txt, zip, post
+    },
+    public: {
+        type: Number,
+        default: 1 //  1:is public ,0: is secret and only user can visit
+    },
     content: {
         type: String,
         default: '',
@@ -26,6 +42,6 @@ const FileSchema = new Schema({
     }
 })
 
-const File = models.File ||  model('File', FileSchema)
+const FileBean = models.File ||  model('File', FileSchema)
 
-export default File
+export default FileBean
