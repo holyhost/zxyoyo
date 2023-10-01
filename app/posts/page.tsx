@@ -9,19 +9,17 @@ const Page = async () => {
     <Container>
       <MantineLayout>
         <p>
-          <Link href={'/posts/new'}>new post</Link>
+          <Link href={'/posts/new'}>upload file</Link>
           <Button  color='red'>new post</Button>
           <Button>my post</Button>
         </p>
-        <p>this is post 1</p>
-        <p>this is post 1</p>
-        <p>this is post 1</p>
-        <p>this is post 1</p>
-        <p>this is post 1</p>
-        <p>this is post 1</p>
-        <p>this is post 1</p>
-        <p>this is post 1</p>
-        <p>this is post 1</p>
+        <p>this is file 1</p>
+        <p>this is file 1</p>
+        <p>this is file 1</p>
+        <p>this is file 1</p>
+        <p>this is file 1</p>
+        <p>this is file 1</p>
+        <p>this is file 1</p>
       </MantineLayout>
     </Container>
   )
