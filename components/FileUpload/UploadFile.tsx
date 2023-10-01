@@ -6,9 +6,15 @@ import { Dropzone, FileWithPath, MIME_TYPES } from '@mantine/dropzone';
 import { IconCloudUpload, IconX, IconDownload } from '@tabler/icons-react';
 import classes from './uploadFile.module.css';
 import { notifications } from '@mantine/notifications';
-import { AppLayout } from '@/components/layout/AppLayout';
 
-const UploadFile = () => {
+
+type Props = {
+  onFileChanged: Function,
+
+}
+
+
+const UploadFile = ({onFileChanged}: Props) => {
   const theme = useMantineTheme();
   const [uploading, setUploading] = useState(false)
   const openRef = useRef<() => void>(null);
@@ -30,6 +36,7 @@ const UploadFile = () => {
           title: '上传文件成功',
           message: 'file path is:' + jsonData.data,
         })
+        onFileChanged(jsonData.data)
       } else {
         notifications.show({
           title: '上传文件失败',
@@ -46,7 +53,6 @@ const UploadFile = () => {
     }
   }
   return (
-    <AppLayout>
       <Container className={classes.wrapper}>
         <Dropzone
           openRef={openRef}
@@ -100,8 +106,6 @@ const UploadFile = () => {
           Select files
         </Button>
       </Container>
-    </AppLayout>
-
   )
 }
 
