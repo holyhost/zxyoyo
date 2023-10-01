@@ -26,7 +26,7 @@ const links = [
     label: '文件',
     links: [
       { link: '/file/upload', label: '上传文件' },
-      { link: '/file/upload', label: 'demo' },
+      { link: '/file/aaa', label: 'demo' },
       { link: '/forums', label: 'Forums' },
     ],
   },
