@@ -22,11 +22,11 @@ const links = [
   { link: '/about', label: 'About' },
   { link: '/pricing', label: 'Pricing' },
   {
-    link: '#2',
-    label: 'Support',
+    link: '/file',
+    label: '文件',
     links: [
-      { link: '/faq', label: 'FAQ' },
-      { link: '/demo', label: 'Book a demo' },
+      { link: '/file/upload', label: '上传文件' },
+      { link: '/file/upload', label: 'demo' },
       { link: '/forums', label: 'Forums' },
     ],
   },
