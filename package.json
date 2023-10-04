@@ -25,6 +25,7 @@
     "@next/bundle-analyzer": "^13.5.3",
     "@tabler/icons-react": "^2.20.0",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.11.10",
     "masonic": "^3.7.0",
     "mongodb": "^6.1.0",
     "mongoose": "^7.5.2",
