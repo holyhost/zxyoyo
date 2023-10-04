@@ -37,3 +37,10 @@ export function hashify(str: string) {
 export function getFileExtension(value: string) {
     return value.slice(((value.lastIndexOf('.') - 1) >>> 0) + 2);
 }
+
+export function getFileTypeName(value: string) {
+    if( value.includes('image') ) return '图片'
+    if( value.includes('pdf') ) return 'PDF'
+    if( value.includes('zip') ) return 'ZIP'
+    return '文件'
+}
