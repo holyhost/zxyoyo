@@ -14,8 +14,8 @@ const RootError = () => {
         already notified. Try refreshing the page.
       </Text>
       <Group justify="center">
-        <Button variant="white" size="md">
-          Refresh the page
+        <Button variant="white" size="md" component={'a'} href='/'>
+          返回首页
         </Button>
       </Group>
     </Container>
