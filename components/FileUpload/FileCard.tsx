@@ -3,6 +3,7 @@ import React from 'react'
 import { Card, Image, Text, Badge, Button, Group } from '@mantine/core';
 import { getFileTypeName } from '@/utils/string-helpers';
 import { formatDate } from '@/utils/date-helpers';
+import { IconTrash } from '@tabler/icons-react';
 
 type Props = {
     data: {
@@ -15,13 +16,15 @@ type Props = {
         view?: number,
         content?: string,
     },
+    onDelete?: Function,
     width?: number
 
 }
 
-const FileCard = ({ data, width = 220 }: Props) => {
+const FileCard = ({ data, onDelete, width = 220 }: Props) => {
     const fileType = getFileTypeName(data.type)
     const dateText = formatDate(new Date(parseInt(data.creatTime)))
+    
     return (
         <Card shadow="sm" padding="8" radius="md" mt={'md'} withBorder w={width}>
             <Card.Section>
@@ -44,6 +47,7 @@ const FileCard = ({ data, width = 220 }: Props) => {
                 <Badge color="pink" variant="light">
                     {fileType}
                 </Badge>
+                <IconTrash size={'16'} onClick={()=> onDelete && onDelete(data.name)} />
                 <Text size="sm" c="dimmed" >
                     {dateText}
                 </Text>

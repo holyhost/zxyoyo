@@ -1,12 +1,10 @@
-import FileManage from '@/components/FileUpload/FileManage'
 import { AppLayout } from '@/components/layout/AppLayout'
-import { Button, Container, Grid } from '@mantine/core'
+import { Button, Container, Divider, Grid } from '@mantine/core'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import React from 'react'
 import { authOptions } from '../api/auth/[...nextauth]/route'
-import FileCard from '@/components/FileUpload/FileCard'
-import classes from './FilePage.module.css'
+import FileManage from '@/components/FileUpload/FileManage'
 
 const getData = async () => {
   const session = await getServerSession(authOptions)
@@ -34,10 +32,8 @@ const Page = async () => {
           <Button  color='red'>new post</Button>
           <Button>my post</Button>
         </p>
-        {/* <FileManage /> */}
-        <div className={classes.listContainer}>
-          {data && data.data.map((item: any) => <FileCard key={item._id} data={...item}/>)}
-        </div>
+        <Divider my="xs" label={`共有文件${data.total}个`} labelPosition="center" />
+        <FileManage data={data.data} />
       </AppLayout>
     </Container>
   )

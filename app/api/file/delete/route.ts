@@ -22,11 +22,16 @@ export async function GET(request: NextRequest) {
             uid: uid,
             name: id
         })
-
-        const parentPath = process.env.FILE_UPLOAD_PATH
-        const path = `${parentPath}/${id}`
-        unlinkSync(path)
-        console.log(`file of [ ${id} ] was been deleted`)
+        try {
+            const parentPath = process.env.FILE_UPLOAD_PATH
+            const path = `${parentPath}/${id}`
+            unlinkSync(path)
+            console.log(`file of [ ${id} ] was been deleted`)
+        } catch (error) {
+            console.log(error)
+            console.log(`file of [ ${id} ] delete failed.`)
+        }
+        
         return NextResponse.json({ success: true})
     }else{
         return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})
