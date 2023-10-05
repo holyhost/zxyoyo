@@ -67,7 +67,8 @@ export async function GET(request: NextRequest) {
                 .skip(parseInt(pageSize + '') * parseInt(pageNum+''))
                 .limit(parseInt(pageSize + ''))
         if( data){
-            return NextResponse.json({ success: true, data: data })
+            const total = await FileBean.count()
+            return NextResponse.json({ success: true, data: data, total: total })
         }        
         
         return NextResponse.json({ success: true },{ status: 501})
