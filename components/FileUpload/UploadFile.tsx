@@ -91,19 +91,21 @@ const UploadFile = ({onFileChanged}: Props) => {
             </Group>
 
             <Text ta="center" fw={700} fz="lg" mt="xl">
-              <Dropzone.Accept>Drop files here</Dropzone.Accept>
-              <Dropzone.Reject>Pdf file less than 30mb</Dropzone.Reject>
+              <Dropzone.Accept>拖拽文件到这</Dropzone.Accept>
+              <Dropzone.Reject>文件大小小于30mb</Dropzone.Reject>
               <Dropzone.Idle>Upload resume</Dropzone.Idle>
             </Text>
             <Text ta="center" fz="sm" mt="xs" c="dimmed">
-              Drag&apos;n&apos;drop files here to upload. We can accept only <i>.pdf</i> files that
+              Drag&apos;n&apos;drop files here to upload.
+              <br/>
+              We can accept only <i>image, file, .zip, .xlsx,doc, .pdf</i> files that
               are less than 30mb in size.
             </Text>
           </div>
         </Dropzone>
 
         <Button loading={uploading} className={classes.control} size="md" radius="xl" onClick={() => openRef.current?.()}>
-          Select files
+          选择文件
         </Button>
       </Container>
   )
