@@ -13,7 +13,7 @@ const SimpleFileItem = ({ file, onDelete }: Props) => {
         onDelete()
     }
     return (
-        <Group justify="center">
+        <Group justify="space-between" mt={'5'}>
             <Box component="a" href={'/static-files/' + file}>
                 <Text
                     variant="gradient"

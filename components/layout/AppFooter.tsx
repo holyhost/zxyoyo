@@ -1,16 +1,11 @@
 import {
-  Anchor,
   Button,
   ButtonProps,
-  Code,
   Group,
-  Stack,
   Text,
 } from '@mantine/core';
 import { useDebouncedState, useWindowEvent } from '@mantine/hooks';
-// import { env } from '~/env/client.mjs';
 import { useIsMobile } from '@/hooks/useIsMobile';
-// import { useFeatureFlags } from '~/providers/FeatureFlagsProvider';
 import { getScrollPosition } from '@/utils/window-helpers';
 import Link from 'next/link';
 
@@ -25,7 +20,6 @@ const hash = "zxyoyo_123456";
 export function AppFooter() {
   const [showFooter, setShowFooter] = useDebouncedState(true, 200);
   const mobile = useIsMobile();
-  // const features = useFeatureFlags();
 
   useWindowEvent('scroll', () => {
     const scroll = getScrollPosition();
@@ -33,7 +27,7 @@ export function AppFooter() {
   });
 
   return (
-      <Group gap={'md'} wrap={'nowrap' }>
+      <Group gap={'md'} wrap={'nowrap' } className={showFooter? '': 'notDisplay'}>
         <Text
           fw={700}
           style={{ whiteSpace: 'nowrap', userSelect: 'none' }}
@@ -83,7 +77,7 @@ export function AppFooter() {
           >
             Privacy
           </Button>
-          <Button component="a" href="https://github.com/holyhost/myworld" {...buttonProps} target="_blank">
+          <Button component="a" href="https://github.com/holyhost/next-mantine" {...buttonProps} target="_blank">
             GitHub
           </Button>
 
