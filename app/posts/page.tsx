@@ -10,7 +10,7 @@ const Page = async () => {
       <MantineLayout>
         <p>
           <Link href={'/posts/new'}>upload file</Link>
-          <Button  color='red'>new post</Button>
+          <Button  color='red' component='a' href={'/posts/new'}>new post</Button>
           <Button>my post</Button>
         </p>
         <p>this is file 1</p>
