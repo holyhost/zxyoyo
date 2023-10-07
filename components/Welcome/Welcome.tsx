@@ -19,7 +19,9 @@ export function Welcome() {
           中华文化五千年，煌煌巨著随处见，春秋战国有孔孟，百花争鸣巨人间，汉赋唐诗广流传，宋词元曲非等闲，明清小说人知晓，现代文艺领风骚!
         </Text>
       </Anchor>
-      <Divider label={'----'} />
+      <div style={{textAlign: 'center'}}>
+        ---------------
+      </div>
 
     </>
   );
