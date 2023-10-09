@@ -11,7 +11,7 @@ const NewPost = () => {
       title: '',
       type: 'account',
       content: '',
-      public: 0,
+      open: 0,
       secret: 1,
     },
 
@@ -58,10 +58,10 @@ const NewPost = () => {
                 onChange={(event) => form.setFieldValue('secret', event.currentTarget.checked ? 1 : 0)}
               />
               <Checkbox
-                value={form.values.public}
+                value={form.values.open}
                 label="公开"
-                checked={form.values.public > 0}
-                onChange={(event) => form.setFieldValue('public', event.currentTarget.checked ? 1 : 0)}
+                checked={form.values.open > 0}
+                onChange={(event) => form.setFieldValue('open', event.currentTarget.checked ? 1 : 0)}
               />
               </Group>
               

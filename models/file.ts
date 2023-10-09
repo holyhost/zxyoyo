@@ -18,7 +18,7 @@ const FileSchema = new Schema({
         type: Number,
         default: 0 // file, image, txt, zip, post
     },
-    public: {
+    open: {
         type: Number,
         default: 1 //  1:is public ,0: is secret and only user can visit
     },
