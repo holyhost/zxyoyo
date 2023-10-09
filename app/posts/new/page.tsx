@@ -1,82 +1,83 @@
 "use client"
 import React from 'react'
-import { useRef } from 'react';
-import { Text, Group, Button, rem, useMantineTheme, Container } from '@mantine/core';
-import { Dropzone, FileWithPath, MIME_TYPES } from '@mantine/dropzone';
-import { IconCloudUpload, IconX, IconDownload } from '@tabler/icons-react';
-import classes from './newPost.module.css';
+import { Text, Group, Button, Container, Paper, Stack, Checkbox, TextInput, Select, Center } from '@mantine/core';
+import { AppLayout } from '@/components/layout/AppLayout';
+import { useForm } from '@mantine/form';
+import { POST_TYPE } from '@/utils/constants/data.enum';
 
 const NewPost = () => {
-  const theme = useMantineTheme();
-  const openRef = useRef<() => void>(null);
-  const uploadFile = async (e: FileWithPath[]) =>{
-    if(e.length < 1) return
-    try{
-      const data = new FormData()
-      data.set('file', e[0])
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: data
-      })
-      if(!res.ok) throw new Error(await res.text())
-    }catch(e: any){
-      console.log(e)
-    }
+  const form = useForm({
+    initialValues: {
+      title: '',
+      type: 'account',
+      content: '',
+      public: 0,
+      secret: 1,
+    },
+
+    validate: {
+    },
+  });
+  const submitPost = ()=>{
+    console.log(form.values)
   }
   return (
-    <Container className={classes.wrapper}>
-      <Dropzone
-        openRef={openRef}
-        onDrop={(e) => uploadFile(e)}
-        className={classes.dropzone}
-        radius="md"
-        accept={[
-          MIME_TYPES.pdf,
-           MIME_TYPES.png, 
-           MIME_TYPES.jpeg, 
-           MIME_TYPES.gif, 
-           MIME_TYPES.xlsx, 
-           MIME_TYPES.doc, 
-           MIME_TYPES.zip]}
-        maxSize={30 * 1024 ** 2}
-      >
-        <div style={{ pointerEvents: 'none' }}>
-          <Group justify="center">
-            <Dropzone.Accept>
-              <IconDownload
-                style={{ width: rem(50), height: rem(50) }}
-                color={theme.colors.blue[6]}
-                stroke={1.5}
+    <AppLayout>
+      <Paper mt={'xl'} radius="md" p="xl" withBorder>
+
+        <form onSubmit={form.onSubmit(() => submitPost())}>
+          <Stack>
+            <TextInput
+              label="标题"
+              placeholder="请输入标题"
+              value={form.values.title}
+              onChange={(event) => form.setFieldValue('title', event.currentTarget.value)}
+              radius="md"
+            />
+            <TextInput
+              label="内容"
+              placeholder="Your name"
+              value={form.values.content}
+              onChange={(event) => form.setFieldValue('content', event.currentTarget.value)}
+              radius="md"
+            />
+
+            <Group justify="space-between">
+              <Select
+                maw={'10rem'}
+                label="记录类型"
+                placeholder="选择一个类型"
+                value={form.values.type}
+                data={POST_TYPE.map(item => item.value)}
               />
-            </Dropzone.Accept>
-            <Dropzone.Reject>
-              <IconX
-                style={{ width: rem(50), height: rem(50) }}
-                color={theme.colors.red[6]}
-                stroke={1.5}
+              <Group>
+                <Checkbox
+                value={form.values.secret}
+                label="加密存储"
+                checked={form.values.secret > 0}
+                onChange={(event) => form.setFieldValue('secret', event.currentTarget.checked ? 1 : 0)}
               />
-            </Dropzone.Reject>
-            <Dropzone.Idle>
-              <IconCloudUpload style={{ width: rem(50), height: rem(50) }} stroke={1.5} />
-            </Dropzone.Idle>
+              <Checkbox
+                value={form.values.public}
+                label="公开"
+                checked={form.values.public > 0}
+                onChange={(event) => form.setFieldValue('public', event.currentTarget.checked ? 1 : 0)}
+              />
+              </Group>
+              
+            </Group>
+          </Stack>
+
+          <Group justify="flex-end" mt="xl">
+
+            <Button type="submit" radius="xl">
+              提交
+            </Button>
           </Group>
+        </form>
+      </Paper>
 
-          <Text ta="center" fw={700} fz="lg" mt="xl">
-            <Dropzone.Accept>Drop files here</Dropzone.Accept>
-            <Dropzone.Reject>Pdf file less than 30mb</Dropzone.Reject>
-            <Dropzone.Idle>Upload resume</Dropzone.Idle>
-          </Text>
-          <Text ta="center" fz="sm" mt="xs" c="dimmed">
-            Drag&apos;n&apos;drop files here to upload. We can accept only <i>.pdf</i> files that
-            are less than 30mb in size.
-          </Text>
-        </div>
-      </Dropzone>
-
-      <Button className={classes.control} size="md" radius="xl" onClick={() => openRef.current?.()}>
-        Select files
-      </Button>
-    </Container>
+    </AppLayout>
   )
 }
 

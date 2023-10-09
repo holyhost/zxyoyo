@@ -15,6 +15,14 @@ const PostSchema = new Schema({
         default: '',
         required: [false]
     },
+    public: {
+        type: Number,
+        default: 1 //  1:is public ,0: is secret and only user can visit
+    },
+    secret: {
+        type: Number,
+        default: 0 //  1:is secret ,0: is normal
+    },
     uid: {
         type: String,
         required: [true, 'Author is required!']
