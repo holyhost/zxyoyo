@@ -8,8 +8,8 @@ import { theme } from '../theme';
 import UserProvider from '@/components/provider/UserProvider';
 
 export const metadata = {
-  title: 'Mantine Next.js template',
-  description: 'I am using Mantine with Next.js!',
+  title: '只想优优',
+  description: '古诗词，技术文章分享',
 };
 
 export default function RootLayout({ children }: { children: any }) {

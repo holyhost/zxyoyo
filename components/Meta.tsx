@@ -1,5 +1,9 @@
 import Head from 'next/head';
-
+/**
+ * @Deprecation
+ * @param param0 
+ * @returns 
+ */
 export function Meta({ title, description, image }: Props) {
   return (
     <Head>
