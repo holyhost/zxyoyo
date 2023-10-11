@@ -1,13 +1,18 @@
 import { Welcome } from '../components/Welcome/Welcome';
 import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
 import { Button, Group } from '@mantine/core';
-import { Meta } from '@/components/Meta';
 import BeianFooter from '@/components/layout/BeianFooter';
+import { Metadata } from 'next';
+
+
+export const metadata: Metadata = {
+  title: '只想优优',
+  description: '只想优优主页，中国古诗词！'
+}
 
 export default function HomePage() {
   return (
     <>
-      <Meta title='只想优优' description='只想优优主页，中国古诗词！'/>
       <Welcome />
       <ColorSchemeToggle />
       <Group justify="center" mt="xl">

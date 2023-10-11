@@ -1,6 +1,6 @@
 import Head from 'next/head';
 /**
- * @Deprecation
+ * will not use
  * @param param0 
  * @returns 
  */
