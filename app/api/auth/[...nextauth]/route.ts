@@ -85,7 +85,8 @@ export const authOptions = {
             const sessionUser = await User.findOne({email:session?.user?.email})
             if(session && session.user){
                 session.user.name = sessionUser.name
-                session.user = sessionUser
+                session.user._id = sessionUser._id
+                session.user.image = sessionUser.image
             }
                 
             return session
