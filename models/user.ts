@@ -15,6 +15,10 @@ const UserSchema = new Schema({
         type: String,
         default: 'user'
     },
+    keys: {
+        type: String,
+        default: 'zxyoyo'
+    },
     image: {
         type: String
     },

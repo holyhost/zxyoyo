@@ -30,6 +30,10 @@ const PostSchema = new Schema({
     view: {
         type: Number,
         default: 0,
+    },
+    creatTime: {
+        type: String,
+        default: new Date().getTime().toString()
     }
 })
 

@@ -9,18 +9,22 @@ interface UserState {
         keys: string,
         role: string,
     } | null,
+    pin: string,
+    setpin: (s: string)=> void,
     fetch: (pond: string)=> void
 }
 
 export const useUserStore = create<UserState>((set) => ({
     detail: null,
+    pin: '',
+    setpin: (s: string)=>set(()=> ({pin: s})),
     fetch: async (pond: string) => {
       const response = await fetch(pond)
       const res = await response.json()
       set({ detail: res.data })
     },
   }))
-export const userCurrentUser = ()=> {
+export const useCurrentUser = ()=> {
   useUserStore((state)=> !state.detail && state.fetch('/api/user'))
     const userStore = useUserStore((state)=> state.detail)
     return userStore
