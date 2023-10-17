@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { Text, Group, Button, Container, Paper, Stack, Checkbox, TextInput, Select, Center } from '@mantine/core';
+import { Text, Group, Button, Container, Paper, Stack, Checkbox, TextInput, Select, Center, Textarea, Overlay } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { POST_TYPE } from '@/utils/constants/data.enum';
 import { notifications } from '@mantine/notifications';
@@ -15,6 +15,7 @@ const SimplePostForm = () => {
   const userStore = useUserStore()
   const [opened, setOpened] = useState(false)
   const [errorPin, setErrorPin] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const form = useForm({
     initialValues: {
       title: '',
@@ -26,33 +27,33 @@ const SimplePostForm = () => {
 
     validate: {
     },
-  });
+  })
   const onDialogClose = () => {
     console.log('onDialogClose')
     setOpened(false)
-    if(userStore.pin) {
+    if (userStore.pin) {
       submitPost()
     }
   }
   const onPinComplete = (pin: string) => {
     const md5Key = mymd5(pin)
     console.log('md5Key', md5Key)
-    if(user && md5Key === user.keys){
+    if (user && md5Key === user.keys) {
       console.log('pin: check successfully')
       userStore.setpin(pin)
       setOpened(false)
       // submitPost()
-    }else{
+    } else {
       setErrorPin(true)
     }
   }
   const submitPost = async () => {
-
+    setSubmitting(true)
     const bodyData = form.values
     if (form.values.secret && user) {
       // check pin user input
       console.log(userStore.pin)
-      if(!userStore.pin) {
+      if (!userStore.pin) {
         setOpened(true)
         return
       }
@@ -77,6 +78,7 @@ const SimplePostForm = () => {
         message: `数据保存失败！`
       })
     }
+    setSubmitting(false)
   }
   return (
     <Paper mt={'xl'} radius="md" p="xl" withBorder>
@@ -90,13 +92,23 @@ const SimplePostForm = () => {
             onChange={(event) => form.setFieldValue('title', event.currentTarget.value)}
             radius="md"
           />
-          <TextInput
+          {form.values.type === 'account' && <TextInput
             label="内容"
             placeholder="请输入内容"
             value={form.values.content}
             onChange={(event) => form.setFieldValue('content', event.currentTarget.value)}
             radius="md"
-          />
+          />}
+          {form.values.type === 'md' && <Textarea
+            label="内容"
+            placeholder="请输入内容"
+            autosize
+            minRows={10}
+            maxRows={20}
+            value={form.values.content}
+            onChange={(event) => form.setFieldValue('content', event.currentTarget.value)}
+            radius="md"
+          />}
 
           <Group justify="space-between">
             <Select
@@ -127,17 +139,17 @@ const SimplePostForm = () => {
 
         <Group justify="flex-end" mt="xl">
 
-          <Button type="submit" radius="xl">
+          <Button type="submit" radius="xl" loading={submitting}>
             提交
           </Button>
         </Group>
       </form>
-      <PinDialog 
-        opened={opened} 
+      <PinDialog
+        opened={opened}
         error={errorPin}
-        onPinChange={()=> setErrorPin(false)}
-        onComplete={onPinComplete} 
-        onClose={onDialogClose}/>
+        onPinChange={() => setErrorPin(false)}
+        onComplete={onPinComplete}
+        onClose={onDialogClose} />
     </Paper>
 
   )
