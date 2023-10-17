@@ -10,6 +10,10 @@ const PostSchema = new Schema({
         type: String,
         default: 'note' // note , md, file 
     },
+    tag: {
+        type: String,
+        default: '' // front-end, back-end, react, angular, vue, python
+    },
     content: {
         type: String,
         default: '',
@@ -31,7 +35,7 @@ const PostSchema = new Schema({
         type: Number,
         default: 0,
     },
-    creatTime: {
+    createTime: {
         type: String,
         default: new Date().getTime().toString()
     }

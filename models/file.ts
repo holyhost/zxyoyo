@@ -36,7 +36,7 @@ const FileSchema = new Schema({
         default: 0,
     },
 
-    creatTime: {
+    createTime: {
         type: String,
         default: new Date().getTime().toString()
     }

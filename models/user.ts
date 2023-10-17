@@ -20,7 +20,8 @@ const UserSchema = new Schema({
         default: 'zxyoyo'
     },
     image: {
-        type: String
+        type: String,
+        default: 'icon.png'
     },
     password: {
         type: String,
