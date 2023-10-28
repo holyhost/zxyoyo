@@ -17,7 +17,6 @@ const getUserDetail = async ()=> {
 
 const NewPost = async() => {
   const data = await getUserDetail()
-  console.log(123,data)
   
   return (
     <AppLayout login={true}>
