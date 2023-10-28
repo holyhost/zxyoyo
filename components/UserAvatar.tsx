@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Group, Center, Burger, Container, rem, Text, Anchor, Avatar } from '@mantine/core';
+import { Menu, Group, Center, Burger, Container, rem, Text, Anchor, Avatar, NavLink } from '@mantine/core';
 import { IconChevronDown, IconDoorExit, IconInfoCircle } from '@tabler/icons-react';
 import Link from 'next/link';
 
@@ -29,6 +29,11 @@ const UserAvatar = ({
                     leftSection={<IconInfoCircle size={14} />} 
                     key={'user-admin'}>
                       <Link href="/user/admin">管理员</Link>
+                </Menu.Item>
+                <Menu.Item 
+                    leftSection={<IconInfoCircle size={14} />} 
+                    key={'write-post'}>
+                      <Link href="/posts/new">写文章</Link>
                 </Menu.Item>
                 <Menu.Item
                     leftSection={<IconDoorExit size={14} />}  
