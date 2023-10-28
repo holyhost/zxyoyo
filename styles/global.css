@@ -1,5 +1,59 @@
-
-
 .notDisplay {
     display: none;
+}
+
+
+.markdown-content hr {
+    border-width: 0;
+    border-top: 4px solid #777;
+    margin: 30px 0;
+}
+
+.markdown-content h2 {
+    line-height: 1.1;
+    margin-bottom: 0.25em;
+}
+
+.markdown-content h2+p {
+    margin-top: 0;
+}
+
+.markdown-content blockquote {
+    margin: 20px 0;
+    background: #222;
+    padding: 30px;
+    border-top: 4px solid #333;
+}
+.markdown-content code {
+    margin: 20px 0;
+    background: #222;
+    padding: 30px;
+    border-top: 4px solid #333;
+}
+
+.markdown-content blockquote *:last-child {
+    margin-bottom: 0;
+}
+
+.markdown-content img {
+    max-width: 100%;
+}
+
+.markdown-content a {
+    color: #4dabf7;
+    text-decoration: underline;
+}
+
+.markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+}
+
+@media (max-width: 767px) {
+    .markdown-body {
+        padding: 15px;
+    }
 }
