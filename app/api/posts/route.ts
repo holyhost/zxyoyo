@@ -59,9 +59,14 @@ export const GET = async(request: NextRequest)=> {
         // return public data
         console.log('get posts public')
         await connectToDB()
-        const data = await Post.find({open: 1})
+        let data = await Post.find({open: 1})
                 .skip(parseInt(pageSize + '') * parseInt(pageNum+''))
                 .limit(parseInt(pageSize + ''))
+        if(data.length > 0){
+            data.forEach(item => {
+                if(item.content.length > 200) item.content = item.content.substring(0, 200) + '...'
+            })
+        }
         if( data){
             const total = await Post.count()
             return NextResponse.json({ success: true, data: data, aaa: total })

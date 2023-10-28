@@ -1,6 +1,6 @@
 "use client"
 import { formatDate } from '@/utils/date-helpers'
-import { Card, Grid, Text, Image, Stack  } from '@mantine/core'
+import { Card, Grid, Text, Image, Stack } from '@mantine/core'
 import { IconEye } from '@tabler/icons-react'
 import React from 'react'
 import { useRouter } from 'next/navigation'
@@ -24,11 +24,15 @@ const PostItem = ({ data }: { data: PostItemProps }) => {
   return (
     <Card withBorder mt={'md'} onClick={() => router.push('/posts/' + data._id)}>
       <Grid>
-        <Grid.Col span={8}>
-          <Stack justify="space-between">
-          <Text fw={800}>{data.title}</Text>
-          <Text c={'indigo'}>{data.content}</Text>
-          <Text c={'gray'}><IconEye/> {formatDate(new Date(parseInt(data.createTime)))}</Text>
+        <Grid.Col span={8} h={'100%'}>
+          <Stack justify="space-between" h={'9rem'}>
+            <Text fw={800}>{data.title}</Text>
+            <Text c={'indigo'}
+              style={{ overflow: 'hidden' }}
+              mah={'5rem'} >
+              {data.content}
+            </Text>
+            <Text c={'gray'}><IconEye /> {formatDate(new Date(parseInt(data.createTime)))}</Text>
           </Stack>
         </Grid.Col>
         <Grid.Col span={4}>
