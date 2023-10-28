@@ -29,7 +29,6 @@ const SimplePostForm = () => {
     },
   })
   const onDialogClose = () => {
-    console.log('onDialogClose')
     setOpened(false)
     if (userStore.pin) {
       submitPost()
@@ -37,30 +36,25 @@ const SimplePostForm = () => {
   }
   const onPinComplete = (pin: string) => {
     const md5Key = mymd5(pin)
-    console.log('md5Key', md5Key)
     if (user && md5Key === user.keys) {
-      console.log('pin: check successfully')
       userStore.setpin(pin)
-      setOpened(false)
-      // submitPost()
+      onDialogClose()
     } else {
       setErrorPin(true)
     }
   }
   const submitPost = async () => {
-    setSubmitting(true)
-    const bodyData = form.values
+    const bodyData = { ...form.values}
     if (form.values.secret && user) {
       // check pin user input
-      console.log(userStore.pin)
       if (!userStore.pin) {
         setOpened(true)
         return
       }
-      console.log(userStore.pin)
       const secretContent = toAesString(JSON.stringify(form.values), userStore.pin)
       bodyData.content = secretContent
     }
+    setSubmitting(true)
     const response = await fetch('/api/posts', {
       method: 'POST',
       body: JSON.stringify(bodyData)
@@ -71,7 +65,7 @@ const SimplePostForm = () => {
         message: `数据保存成功！`
       })
       form.reset()
-
+      form.setFieldValue('type', bodyData.type)
     } else {
       notifications.show({
         title: "😒 😒 😒 出错了 😒 😒 😒",
