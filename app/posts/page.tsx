@@ -1,4 +1,3 @@
-// "use client"
 import GradientSegmentedControl from '@/components/GradientSegmentedControl/GradientSegmentedControl'
 import PostList from '@/components/POSTS/PostList'
 import MantineLayout from '@/components/layout/MantineLayout'
@@ -7,8 +6,8 @@ import Link from 'next/link'
 import React from 'react'
 
 const getData = async () => {
-  // const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0")
-  const res = await fetch('http://localhost:3000/api/posts/get')
+  const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0")
+  // const res = await fetch('http://localhost:3000/api/posts')
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
@@ -29,7 +28,7 @@ const Page = async () => {
         <p>
           <Link href={'/posts/new'}>upload file</Link>
           <Button color='red' component='a' href={'/posts/new'}>new post</Button>
-          <Button>my post</Button>
+          <Button component='a' href={'/posts/my'}>my post</Button>
         </p>
         {data.data && <PostList data={data.data}/>}
       </MantineLayout>
