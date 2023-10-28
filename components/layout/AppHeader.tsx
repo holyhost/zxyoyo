@@ -38,7 +38,7 @@ const AppHeader = () => {
   const { data: session } = useSession()
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
-      <Menu.Item key={item.link}>{item.label}</Menu.Item>
+      <Menu.Item key={item.link} component='a' href={item.link}>{item.label}</Menu.Item>
     ));
 
     if (menuItems) {
