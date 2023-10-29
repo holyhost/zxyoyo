@@ -6,7 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
     serverComponentsExternalPackages: ["mongoose"]
   },
   images: {
-    domains: ['pojun.top']
+    domains: ['zxyoyo.com']
   },
   webpack(config) {
     config.experiments = {
