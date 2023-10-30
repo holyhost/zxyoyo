@@ -1,0 +1,19 @@
+
+.floatingMenu {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 10;
+}
+
+.floatingCenter {
+    position: absolute;
+    left:0;
+    right:0;
+    top: 40%;
+    margin:0 auto;
+}
+
+.filterGray{
+    filter: grayscale(80%);
+}

@@ -35,6 +35,11 @@ const UserAvatar = ({
                     key={'write-post'}>
                       <Link href="/posts/new">写文章</Link>
                 </Menu.Item>
+                <Menu.Item 
+                    leftSection={<IconInfoCircle size={14} />} 
+                    key={'other-files'}>
+                      <Link href="/file/other">其他文件</Link>
+                </Menu.Item>
                 <Menu.Item
                     leftSection={<IconDoorExit size={14} />}  
                     key={'user-sign-out'} 
