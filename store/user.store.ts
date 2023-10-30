@@ -7,6 +7,7 @@ interface UserState {
         email: string,
         image: string,
         keys: string,
+        keynames: string,
         role: string,
     } | null,
     pin: string,
