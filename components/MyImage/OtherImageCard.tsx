@@ -2,7 +2,7 @@
 import { ActionIcon, Badge, Card, Group, Text, Image, Menu, rem } from "@mantine/core"
 import classes from './OtherImageCard.module.css';
 import { OtherImageBean } from "@/bean/OtherImageBean";
-import { IconTrash, IconDotsVertical, IconDownload, IconClock, IconFileUpload } from "@tabler/icons-react";
+import { IconTrash, IconDotsVertical, IconDownload, IconClock, IconFileUpload, IconBrandWechat } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useCurrentUser } from "@/store/user.store";
 
@@ -13,12 +13,15 @@ const OtherImageCard = ({ index, data, width }: Props) => {
   const backendHost = process.env.NEXT_PUBLIC_BACKEND_HOST
   const imgHost = backendHost + "/app"
   const curUser = useCurrentUser()
-  const deleteImage = async(onlysucai = false)=>{
+  const deleteImage = async(onlysucai?: boolean, onlyfile?:boolean)=>{
     const fd = new FormData()
     fd.set('keynames', curUser?.keynames ?? '')
     fd.set('ids', data.id + '')
     if(onlysucai){
       fd.set('sucai', 'onlysucai')
+    }
+    if(onlyfile){
+      fd.set('file', 'onlyfile')
     }
     const result = await fetch(backendHost + "/filemng/api/file/delete",{
       method: 'POST',
@@ -45,7 +48,7 @@ const OtherImageCard = ({ index, data, width }: Props) => {
       body: fd
     })
     const dd = await result.json()
-    console.log(dd)
+    if(dd.success) setSucai(true)
   }
 
   useEffect(()=>{
@@ -62,6 +65,7 @@ const OtherImageCard = ({ index, data, width }: Props) => {
           {data.type && <Badge color="pink" variant="light">
             {data.type}
           </Badge>}
+          {hasSucai && <IconBrandWechat color="green" size={'16'}/>}
           <Menu trigger="hover" withinPortal position="bottom-end" shadow="sm">
             <Menu.Target>
               <ActionIcon variant="subtle" color="gray">
@@ -94,9 +98,16 @@ const OtherImageCard = ({ index, data, width }: Props) => {
               <Menu.Item
                 leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
                 color="red"
-                onClick={()=> deleteImage()}
+                onClick={()=> deleteImage(false,true)}
               >
                 删除文件
+              </Menu.Item>
+              <Menu.Item
+                leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
+                color="red"
+                onClick={()=> deleteImage()}
+              >
+                删除存档(all)
               </Menu.Item>
             </Menu.Dropdown>
           </Menu>
