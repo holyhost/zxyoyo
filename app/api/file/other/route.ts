@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     if (session && session.user && session.user._id) {
         const uid = session.user._id.toString()
         const backHost = process.env.BACKEND_HOST
-        const result = await fetch(backHost + "/filemng/api/imgs?type=latest&page=" + page)       
+        const result = await fetch(backHost + "/filemng/api/imgs?type=latest&page=" + page + "&count=" + count)       
         const data = await result.json()
         if(data && data.status === 'ok'){
             return NextResponse.json({ success: true, data: data.data })
