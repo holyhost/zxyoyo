@@ -34,12 +34,12 @@ const OtherPage = () => {
     if (onlyfile) {
       fd.set('file', 'onlyfile')
     }
-    const result = await fetch(backendHost + "/filemng/api/file/delete", {
+    const result = await fetch("/api/file/other/delete", {
       method: 'POST',
       body: fd
     })
     const dd = await result.json()
-    if (dd.status === 'ok') {
+    if (dd.success) {
       if (onlysucai) {
         const file = files.find(item => item.id === data.id)
         if (file) {
@@ -51,6 +51,16 @@ const OtherPage = () => {
         setFiles([...newFiles])
       }
 
+      notifications.show({
+        title: "🎉删除成功",
+        message: `🍒🍒🍒🍒`
+      })
+    }else{
+      notifications.show({
+        title: "💔💔💔💔删除失败💔💔💔💔",
+        message: `💔💔💔💔，文件未删除！`,
+        color: 'red'
+      })
     }
   }
 
@@ -126,7 +136,8 @@ const OtherPage = () => {
     }else{
       notifications.show({
         title: "更新失败",
-        message: `校验失败，文件未删除！`
+        message: `校验失败，文件未删除！`,
+        color: 'red'
       })
     }
   }
@@ -167,7 +178,7 @@ const OtherPage = () => {
           columnGutter={28}
           itemKey={item => item.id} />} */}
       <Center ref={ref} mt="md">
-        {!end && inView && <Loader />}
+        {!end && inView && !isLoading && <Loader />}
       </Center>
       {end && <EndOfFeed />}
       <FileInfoDialog opened={opened} onClose={close} onUpdate={updateFile} info={curInfo}/>
