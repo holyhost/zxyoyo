@@ -11,9 +11,25 @@ const getData = async () => {
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
+    return {
+      data: []
+    }
   }
-  return res.json()
+  try {
+    let json = await res.json()
+    console.log("------jsontype-----")
+    console.log(typeof(json))
+    console.log(json)
+    console.log("------jsontype-----")
+    return json
+  } catch (error) {
+    console.log('😅😅😅posts page got error😅😅😅', error)
+  }finally{
+    return {
+      data: []
+    }
+  }
+  
 }
 
 const Page = async () => {

@@ -21,12 +21,18 @@ export const useUserStore = create<UserState>((set) => ({
     setpin: (s: string)=>set(()=> ({pin: s})),
     fetch: async (pond: string) => {
       const response = await fetch(pond)
-      const res = await response.json()
+      try {
+        const res = await response.json()
       set({ detail: res.data })
+      } catch (error) {
+        console.log("😅😅😅 user store fetch user info failed 😅😅😅")
+      }
+      
     },
   }))
 export const useCurrentUser = ()=> {
-  useUserStore((state)=> !state.detail && state.fetch('/api/user'))
+  const host = process.env.NEXT_PUBLIC_APP_HOST
+  useUserStore((state)=> !state.detail && state.fetch(host + '/api/user'))
     const userStore = useUserStore((state)=> state.detail)
     return userStore
 }
