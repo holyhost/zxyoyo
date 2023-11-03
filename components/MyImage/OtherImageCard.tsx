@@ -1,7 +1,7 @@
-import { ActionIcon, Badge, Card, Group, Text, Image, Menu, rem } from "@mantine/core"
+import { ActionIcon, Badge, Card, Group, Text, Image, Menu, rem, Pill } from "@mantine/core"
 import classes from './OtherImageCard.module.css';
 import { OtherImageBean } from "@/bean/OtherImageBean";
-import { IconTrash, IconDotsVertical, IconDownload, IconClock, IconFileUpload, IconBrandWechat } from "@tabler/icons-react";
+import { IconTrash, IconDotsVertical, IconDownload, IconClock, IconFileUpload, IconBrandWechat, IconPlus } from "@tabler/icons-react";
 import Link from "next/link";
 
 const OtherImageCard = ({ index, data, width, upload,update, onDelete}: Props) => {
@@ -74,6 +74,13 @@ const OtherImageCard = ({ index, data, width, upload,update, onDelete}: Props) =
             </Menu.Dropdown>
           </Menu>
         </Group>
+        <div className={classes.floatingTags}>
+          <Group gap={'2px'}>
+            <ActionIcon onClick={()=> update && update('tag')} variant="transparent" c={'teal'} size="lg" aria-label="add tags"><IconPlus/></ActionIcon>
+            {data.tag && data.tag.split(',').map((tag, index) => <Pill key={index}>{tag}</Pill>)}
+          </Group>
+              
+        </div>
       </Card.Section>
       {/* {deleted && <IconTrash className={classes.floatingCenter} color="teal" size={'40px'}/>} */}
 
@@ -88,6 +95,6 @@ type Props = {
   data: OtherImageBean,
   width?: number,
   upload?: (id: number)=> void,
-  update?: ()=> void,
+  update?: (type: string)=> void,
   onDelete?: (data: OtherImageBean,onlysucai?: boolean, onlyfile?:boolean)=> void
 }

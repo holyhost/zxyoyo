@@ -14,6 +14,13 @@
     margin:0 auto;
 }
 
+.floatingTags {
+    position: absolute;
+    left: 4px;
+    bottom: 4px;
+    z-index: 10;
+}
+
 .filterGray{
     filter: grayscale(80%);
 }

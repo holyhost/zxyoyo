@@ -1,3 +1,29 @@
+
+export const constants = {
+    imageTags: [
+        '原神',
+        '美女',
+        '帅哥',
+        '赛博朋克',
+        '二次元',
+        '搞笑',
+        '机器人',
+        '黑丝',
+        '白丝'
+    ],
+    imageTypes: [
+        '动漫',
+        '影视',
+        '明星',
+        '宠物',
+        '人物',
+        'AI',
+        '科技',
+        '变异'
+    ],
+} as const
+
+
 export const POST_TYPE =  [
     {
         label: '账号',
@@ -16,3 +42,6 @@ export const POST_TYPE =  [
         value: 'article'
     }
 ]
+
+
+export type ImageTagType = (typeof constants.imageTags)[number];
