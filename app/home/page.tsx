@@ -16,7 +16,9 @@ const getData = async () =>{
       console.log('home page got error😅😅😅', error)
     }finally{
       return {
-        data: []
+        data: {
+          data: []
+        }
       }
     }
 }
