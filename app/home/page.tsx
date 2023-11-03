@@ -5,15 +5,20 @@ import React from 'react'
 
 const getData = async () =>{
     const res = await fetch( 'http://localhost:3000/api/gsc')
-    // The return value is *not* serialized
-    // You can return Date, Map, Set, etc.
-   
-    if (!res.ok) {
-      // This will activate the closest `error.js` Error Boundary
-      throw new Error('Failed to fetch data')
+    try {
+      let json = await res.json()
+      console.log("------jsontype-----")
+      console.log(typeof(json))
+      console.log(json)
+      console.log("------jsontype-----")
+      return json
+    } catch (error) {
+      console.log('home page got error😅😅😅', error)
+    }finally{
+      return {
+        data: []
+      }
     }
-   
-    return res.json()
 }
 
 const Home = async() => {
