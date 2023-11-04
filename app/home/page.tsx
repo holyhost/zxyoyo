@@ -5,20 +5,15 @@ import React from 'react'
 
 const getData = async () =>{
     const res = await fetch( process.env.NEXT_PUBLIC_APP_HOST + '/api/gsc')
+    let result: any[] = []
     try {
       let json = await res.json()
-      console.log("------jsontype-----")
-      console.log(typeof(json))
-      console.log(json)
-      console.log("------jsontype-----")
-      return json
+      result = json.data.data
     } catch (error) {
       console.log('home page got error😅😅😅', error)
     }finally{
       return {
-        data: {
-          data: []
-        }
+        data: result
       }
     }
 }
@@ -28,7 +23,7 @@ const Home = async() => {
   return (
     <AppLayout>
         <Container mt={'lg'}>
-            <PoemList data={data.data.data} />
+            <PoemList data={data.data} />
         </Container>
     </AppLayout>
   )
