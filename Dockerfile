@@ -7,6 +7,9 @@ RUN mkdir -p /app/
 # 定位到容器的工作目录
 WORKDIR /app/
 
+ARG registry=https://registry.npmmirror.com/
+RUN npm config set registry $registry
+
 # RUN/COPY 是分层的，package.json 提前，只要没修改，就不会重新安装包
 COPY package.json /app/package.json
 RUN cd /app/
