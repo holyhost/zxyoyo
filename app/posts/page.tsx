@@ -6,16 +6,17 @@ import Link from 'next/link'
 import React from 'react'
 
 const getData = async () => {
-  const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0")
-  // const res = await fetch('http://localhost:3000/api/posts')
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    return {
-      data: []
-    }
-  }
   try {
+    const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0")
+    // const res = await fetch('http://localhost:3000/api/posts')
+  
+    if (!res.ok) {
+      // This will activate the closest `error.js` Error Boundary
+      return {
+        data: []
+      }
+    }
     let json = await res.json()
     console.log("------jsontype-----")
     console.log(typeof(json))
