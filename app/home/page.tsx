@@ -4,7 +4,7 @@ import { Container } from '@mantine/core'
 import React from 'react'
 
 const getData = async () =>{
-    const res = await fetch( 'http://localhost:3000/api/gsc')
+    const res = await fetch( process.env.NEXT_PUBLIC_APP_HOST + '/api/gsc')
     try {
       let json = await res.json()
       console.log("------jsontype-----")
