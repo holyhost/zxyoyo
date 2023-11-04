@@ -1,5 +1,5 @@
 # /usr/src/nodejs/hello-docker/Dockerfile
-FROM node:20.9.0
+FROM node:20-alpine3.16
 
 # 在容器中创建一个目录
 RUN mkdir -p /app/
