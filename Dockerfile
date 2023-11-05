@@ -22,7 +22,6 @@ RUN cd /app/
 # 把当前目录下的所有文件拷贝到 Image 的 /usr/src/nodejs/ 目录下
 COPY . /app/
 RUN chmod 777 /app
-RUN chmod 777 /app/.next/standalone
 RUN chmod 777 /app/.next/static
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
