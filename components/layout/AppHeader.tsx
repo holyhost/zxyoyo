@@ -22,12 +22,12 @@ const links = [
   { link: '/about', label: 'About' },
   { link: '/pricing', label: 'Pricing' },
   {
-    link: '/file',
-    label: '文件',
+    link: '/home',
+    label: '其他',
     links: [
-      { link: '/file/upload', label: '上传文件' },
-      { link: '/file/aaa', label: 'demo' },
-      { link: '/forums', label: 'Forums' },
+      { link: '/tool/mqtt', label: 'MQTT' },
+      { link: '/tool/mqtt', label: 'MQTT' },
+      { link: '/tool/mqtt', label: 'MQTT' },
     ],
   },
 ];
@@ -36,6 +36,24 @@ const links = [
 const AppHeader = () => {
   const [opened, { toggle }] = useDisclosure(false);
   const { data: session } = useSession()
+  const fileItems =  (
+    <Menu key={"filesys"} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
+          <Menu.Target>
+            <a
+              href={'/file'}
+              className={classes.link}
+            >
+              <Center>
+                <span className={classes.linkLabel}>{'所有文件'}</span>
+                <IconChevronDown size="0.9rem" stroke={1.5} />
+              </Center>
+            </a>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item key={'/file/upload'} component='a' href={'/file/upload'}>上传文件</Menu.Item>
+          </Menu.Dropdown>
+    </Menu>
+  )
   const items = links.map((link) => {
     const menuItems = link.links?.map((item) => (
       <Menu.Item key={item.link} component='a' href={item.link}>{item.label}</Menu.Item>
@@ -81,13 +99,8 @@ const AppHeader = () => {
 
           <Group gap={5} visibleFrom="sm">
             {items}
-            <UserAvatar user={{ username: session?.user?.name || '晴天小猪猪', image: session?.user?.image || '/admin.png' }} logout={signOut} />
-            {/* {session?.user ? <UserAvatar user={{ username: session.user.name || '', image: session.user.image || '' }} logout={signOut} /> : <Button
-              key={'head-link-login'}
-              onClick={() => signIn()}
-            >
-              登录
-            </Button>} */}
+            {session?.user?.name && fileItems}
+            <UserAvatar user={{ username: session?.user?.name || '晴天小猪猪', image: session?.user?.image || '/admin.png' }} logout={signOut} login={signIn} />
           </Group>
           <Burger
             opened={opened}

@@ -1,11 +1,12 @@
 import React from 'react'
 import { Menu, Group, Center, Burger, Container, rem, Text, Anchor, Avatar, NavLink } from '@mantine/core';
-import { IconChevronDown, IconDoorExit, IconInfoCircle } from '@tabler/icons-react';
+import { IconChevronDown, IconDoorExit, IconInfoCircle, IconLogin } from '@tabler/icons-react';
 import Link from 'next/link';
 
 const UserAvatar = ({
   user,
-  logout
+  logout,
+  login,
 }: Props) => {
   return (
     <Menu key={'user-avatar-men'} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
@@ -41,6 +42,12 @@ const UserAvatar = ({
                       <Link href="/file/other">其他文件</Link>
                 </Menu.Item>
                 <Menu.Item
+                    leftSection={<IconLogin size={14} />}  
+                    key={'user-sign-out'} 
+                    onClick={login}>
+                      Asion
+                </Menu.Item>
+                <Menu.Item
                     leftSection={<IconDoorExit size={14} />}  
                     key={'user-sign-out'} 
                     onClick={logout}>
@@ -58,5 +65,6 @@ type Props = {
     username: string,
     image: string
    }, 
-   logout: ()=> void
+   logout: ()=> void,
+   login: ()=> void
 }
