@@ -1,7 +1,7 @@
 # 查看所有images:docker images 
 # 查看磁盘情况: df -hl
 # 构建一个名叫mynode的docker image: docker build -t mynode .
-# 从mynode 镜像创建一个名叫zxyoyo的容器：docker run --name zxyoyo -d -p 3000:3000 mynode
+# 从mynode 镜像创建一个名叫zxyoyo的容器：docker run --name zxyoyo -d -p 3000:3000 -v /home/soft/zxyoyo/next-mantine/.next:/app/.next mynode
 # /usr/src/nodejs/hello-docker/Dockerfile
 FROM node:20-alpine3.16
 
