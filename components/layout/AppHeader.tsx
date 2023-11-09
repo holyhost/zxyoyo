@@ -25,9 +25,7 @@ const links = [
     link: '/home',
     label: '其他',
     links: [
-      { link: '/tool/mqtt', label: 'MQTT' },
-      { link: '/tool/mqtt', label: 'MQTT' },
-      { link: '/tool/mqtt', label: 'MQTT' },
+      { link: '/tool/mqtt', label: 'MQTT' }
     ],
   },
 ];
@@ -90,7 +88,7 @@ const AppHeader = () => {
 
   return (
     <header className={classes.header}>
-      <Container color='blue' size="md">
+      <Container size="md">
         <div className={classes.inner}>
           <IconBrandApple color="#fff" size={32} />
           <Anchor href='/' style={{ textDecoration: 'none' }}>
