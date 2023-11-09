@@ -7,7 +7,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: '只想优优',
-  description: '只想优优主页，中国古诗词！'
+  description: '只想优优主页，中国古诗词！技术笔记，bug记录，分享生活！'
 }
 
 export default function HomePage() {
@@ -15,9 +15,6 @@ export default function HomePage() {
     <>
       <Welcome />
       <ColorSchemeToggle />
-      <Group justify="center" mt="xl">
-        <Button component='a' href='/home' variant="filled">主页</Button>
-      </Group>
       <BeianFooter/>
     </>
   );
