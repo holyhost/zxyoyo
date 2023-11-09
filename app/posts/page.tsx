@@ -8,7 +8,10 @@ import React from 'react'
 const getData = async () => {
 
   try {
-    const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0")
+    const url = process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0"
+    console.log('====posts, getData=====')
+    console.log(url)
+    const res = await fetch(url)
     // const res = await fetch('http://localhost:3000/api/posts')
   
     if (!res.ok) {
@@ -18,10 +21,6 @@ const getData = async () => {
       }
     }
     let json = await res.json()
-    console.log("------jsontype-----")
-    console.log(typeof(json))
-    console.log(json)
-    console.log("------jsontype-----")
     return json
   } catch (error) {
     console.log('😅😅😅posts page got error😅😅😅', error)
