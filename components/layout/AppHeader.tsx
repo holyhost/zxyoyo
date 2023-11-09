@@ -81,12 +81,13 @@ const AppHeader = () => {
 
           <Group gap={5} visibleFrom="sm">
             {items}
-            {session?.user ? <UserAvatar user={{ username: session.user.name || '', image: session.user.image || '' }} logout={signOut} /> : <Button
+            <UserAvatar user={{ username: session?.user?.name || '晴天小猪猪', image: session?.user?.image || '/admin.png' }} logout={signOut} />
+            {/* {session?.user ? <UserAvatar user={{ username: session.user.name || '', image: session.user.image || '' }} logout={signOut} /> : <Button
               key={'head-link-login'}
               onClick={() => signIn()}
             >
               登录
-            </Button>}
+            </Button>} */}
           </Group>
           <Burger
             opened={opened}
