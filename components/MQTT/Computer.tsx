@@ -20,11 +20,11 @@ export type PayloadType = {
 }
 
 export enum ClientConnectStatus {
-    Connected='Connected',
-    Connecting='Connecting',
-    Reconnecting='Reconnecting',
-    ConnectError='Connection error',
-    DisConnected='DisConnected'
+    Connected = 'Connected',
+    Connecting = 'Connecting',
+    Reconnecting = 'Reconnecting',
+    ConnectError = 'Connection error',
+    DisConnected = 'DisConnected'
 }
 
 type Props = {
@@ -40,7 +40,7 @@ type Props = {
 }
 
 
-export default function Computer({baseinfo}:{baseinfo: Props}) {
+export default function Computer({ baseinfo }: { baseinfo: Props }) {
     const [client, setClient] = useState<MqttClient>()
     const [isSubed, setIsSub] = useState(false)
     const [host, setHost] = useState(baseinfo.host)
@@ -48,7 +48,7 @@ export default function Computer({baseinfo}:{baseinfo: Props}) {
     const [updated, setUpdated] = useState(false)
     const [payload, setPayload] = useState<PayloadType>()
     const [connectStatus, setConnectStatus] = useState<ClientConnectStatus>(ClientConnectStatus.DisConnected)
-    const mqttConnect = useCallback( (host:string, mqttOption:any) => {
+    const mqttConnect = useCallback((host: string, mqttOption: any) => {
         setConnectStatus(ClientConnectStatus.Connecting)
         /**
          * if protocol is "ws", connectUrl = "ws://broker.emqx.io:8083/mqtt"
@@ -63,10 +63,10 @@ export default function Computer({baseinfo}:{baseinfo: Props}) {
         console.log(client)
         console.log("will do setClient")
         setClient(mqtt.connect(host, mqttOption))
-        console.log('client',client)
-    },[client])
+        console.log('client', client)
+    }, [client])
 
-    const autoConnectMqtt = ()=>{
+    const autoConnectMqtt = () => {
         const { protocol, host, clientId, port, username, password } = baseinfo.host
         const url = `${protocol}://${host}:${port}/mqtt`
         const options = {
@@ -80,7 +80,7 @@ export default function Computer({baseinfo}:{baseinfo: Props}) {
         mqttConnect(url, options)
     }
 
-    const toggleEditor = useCallback( ()=> setShowEditor(!showEditor),[])
+    const toggleEditor = useCallback(() => setShowEditor(!showEditor), [])
 
     useEffect(() => {
         // if(!client){
@@ -98,8 +98,8 @@ export default function Computer({baseinfo}:{baseinfo: Props}) {
             client.on('connect', () => {
                 console.log("..connect")
                 setConnectStatus(ClientConnectStatus.Connected)
-                baseinfo.devices.map((device:any)=>{
-                    if(device.topic && device.topic.length>0) mqttSub({topic:device.topic,qos:0})
+                baseinfo.devices.map((device: any) => {
+                    if (device.topic && device.topic.length > 0) mqttSub({ topic: device.topic, qos: 0 })
                 })
 
             })
@@ -118,22 +118,22 @@ export default function Computer({baseinfo}:{baseinfo: Props}) {
 
             // https://github.com/mqttjs/MQTT.js#event-message
             client.on('message', (topic, message) => {
-                const payload:PayloadType = { topic, message: message.toString() }
+                const payload: PayloadType = { topic, message: message.toString() }
                 console.log("on--message")
                 setPayload(payload)
             })
         }
         updated && setUpdated(false)
-        return ()=>{
-            baseinfo.devices.map((device:any)=>mqttUnSub( { topic:device.topic, qos:1 }))
+        return () => {
+            baseinfo.devices.map((device: any) => mqttUnSub({ topic: device.topic, qos: 1 }))
         }
-    }, [client,updated])
+    }, [client, updated])
 
     // disconnect
     // https://github.com/mqttjs/MQTT.js#mqttclientendforce-options-callback
-    const mqttDisconnect = useCallback( () => {
+    const mqttDisconnect = useCallback(() => {
         console.log('come into disconnect')
-        console.log('client',client)
+        console.log('client', client)
         if (client) {
             console.log("....this client")
             try {
@@ -146,29 +146,29 @@ export default function Computer({baseinfo}:{baseinfo: Props}) {
                 console.log(error)
             }
         }
-    },[client])
+    }, [client])
 
     // publish message
     // https://github.com/mqttjs/MQTT.js#mqttclientpublishtopic-message-options-callback
-    const mqttPublish = (context:PayloadType) => {
+    const mqttPublish = (context: PayloadType) => {
         if (client) {
             // topic, QoS & payload for publishing message
-            
-            const { topic,message,qos } = context
-            client.publish(topic, message, { qos,retain:false }, (error) => {
+
+            const { topic, message, qos } = context
+            client.publish(topic, message, { qos, retain: false }, (error) => {
                 if (error) {
                 }
             })
         }
     }
 
-    const mqttSub = (subscription:any) => {
+    const mqttSub = (subscription: any) => {
         if (client) {
             // topic & QoS for MQTT subscribing
             const { topic, qos } = subscription
             // subscribe topic
             // https://github.com/mqttjs/MQTT.js#mqttclientsubscribetopictopic-arraytopic-object-options-callback
-            client.subscribe(topic, { qos }, (error:any) => {
+            client.subscribe(topic, { qos }, (error: any) => {
                 if (error) {
                     return
                 }
@@ -179,7 +179,7 @@ export default function Computer({baseinfo}:{baseinfo: Props}) {
 
     // unsubscribe topic
     // https://github.com/mqttjs/MQTT.js#mqttclientunsubscribetopictopic-array-options-callback
-    const mqttUnSub = (subscription:any) => {
+    const mqttUnSub = (subscription: any) => {
         if (client) {
             const { topic, qos } = subscription
             client.unsubscribe(topic, { qos }, (error) => {
@@ -191,11 +191,11 @@ export default function Computer({baseinfo}:{baseinfo: Props}) {
         }
     }
 
-    const doSwitcherSort = ()=> {
+    const doSwitcherSort = () => {
         baseinfo.devices.push(baseinfo.devices.shift())
-        localStorage.setItem(ConfigKey,btoa(encodeURIComponent(JSON.stringify(baseinfo))))
+        localStorage.setItem(ConfigKey, btoa(encodeURIComponent(JSON.stringify(baseinfo))))
         setUpdated(true)
-        
+
     }
     console.log("Computerrrr...render")
     return (
@@ -205,20 +205,20 @@ export default function Computer({baseinfo}:{baseinfo: Props}) {
                 disconnect={mqttDisconnect}
                 connectOptions={host}
                 connectStatus={connectStatus}
-                toggleEditor = {toggleEditor}
+                toggleEditor={toggleEditor}
             />
-            {showEditor&&<ConfigEdit/>}
+            {showEditor && <ConfigEdit />}
             <Payloads.Provider value={payload}>
-                {baseinfo.devices.map((device:any)=> 
+                {baseinfo.devices.map((device: any) =>
                     <Switcher
-                        doSwitcherSort={doSwitcherSort} 
-                        key={device.topic} 
+                        doSwitcherSort={doSwitcherSort}
+                        key={device.topic}
                         device={device}
-                        pub={mqttPublish}/>)}
-                
-                <Subscriber sub={mqttSub} unSub={mqttUnSub}/>
+                        pub={mqttPublish} />)}
+
+                <Subscriber sub={mqttSub} unSub={mqttUnSub} />
             </Payloads.Provider>
-            <Receiver payload={payload}/>
+            <Receiver payload={payload} />
         </div>
     )
 }

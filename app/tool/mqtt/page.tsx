@@ -1,11 +1,13 @@
 "use client"
-import Computer from '@/components/MQTT/Computer'
 import { generateToken } from '@/utils/string-helpers'
 import { Button, Container, Group, NumberInput, Paper, PasswordInput, Select, TextInput, Title, rem } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
 
-
+const Computer: any = dynamic(() =>
+  import('@/components/MQTT/Computer').then((mod) => mod.default)
+)
 
 const MqttPage = () => {
   const [hostInfo, setHostInfo] = useState<any>({})
