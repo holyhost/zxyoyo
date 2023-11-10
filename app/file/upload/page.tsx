@@ -25,7 +25,7 @@ const UploadPage = () => {
   }
 
   return (
-    <AppLayout>
+    <AppLayout login={true}>
       <Stack>
         <UploadFile onFileChanged={(file: string)=> setFiles([...files, file])}/>
         {files.length>0 && <FileList fileList={files} deleteFile={(file: string)=>deleteFile(file)} />}

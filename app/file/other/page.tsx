@@ -5,29 +5,30 @@ import { AppLayout } from '@/components/layout/AppLayout';
 import { notifications } from '@mantine/notifications';
 import OtherImageCard from '@/components/MyImage/OtherImageCard';
 import { Masonry } from 'masonic';
-import { useCurrentUser } from '@/store/user.store';
+import { useCurrentUser, useUserStore } from '@/store/user.store';
 import { useInView } from 'react-intersection-observer';
 import { EndOfFeed } from '@/components/EndOfFeed/EndOfFeed';
 import { useDisclosure } from '@mantine/hooks';
 import FileInfoDialog from '@/components/Dialog/FileInfoDialog';
 import { OtherImageBean } from '@/bean/OtherImageBean';
+import { useStore } from 'zustand';
 
 const OtherPage = () => {
   const [files, setFiles] = useState<any[]>([])
   const [pageIndex, setPageIndex] = useState<number>(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [keys, setKeys] = useState<string>('')
   const [end, setEnd] = useState<boolean>(false)
   const [curInfo, setCurInfo] = useState<any>(undefined)
   const backendHost = process.env.NEXT_PUBLIC_BACKEND_HOST
   const imgHost = backendHost + "/app"
-  const curUser = useCurrentUser()
-  if(!curUser) return <div>123</div>
+  // useCurrentUser()
+  const userStore = useUserStore()
   const { ref, inView } = useInView();
-  console.log(inView)
   const [opened, { open, close }] = useDisclosure(false);
   const deleteImage = async (data: any, onlysucai?: boolean, onlyfile?: boolean) => {
     const fd = new FormData()
-    fd.set('keynames', curUser?.keynames ?? '')
+    fd.set('keynames', keys)
     fd.set('ids', data.id + '')
     if (onlysucai) {
       fd.set('sucai', 'onlysucai')
@@ -68,7 +69,7 @@ const OtherPage = () => {
   const uploadSucai = async (id: number) => {
     console.log('click upload sucai')
     const fd = new FormData()
-    fd.set('keynames', curUser?.keynames ?? '')
+    fd.set('keynames', keys)
     fd.set('id', id + '')
     const result = await fetch("/api/file/other", {
       method: 'POST',
@@ -84,6 +85,13 @@ const OtherPage = () => {
     }
   }
 
+  useEffect(()=>{
+    if(!userStore.detail){
+      userStore.fetch('/api/user')
+    }else{
+      setKeys(userStore.detail.keynames)
+    }
+  },[userStore.detail])
   useEffect(() => {
     const getData = async () => {
       setIsLoading(true)
@@ -109,7 +117,7 @@ const OtherPage = () => {
   const updateFile = async (bean: OtherImageBean) => {
 
     const fd = new FormData()
-    fd.set('keynames', curUser?.keynames ?? '')
+    fd.set('keynames', keys)
     fd.set('id', bean.id + '')
     type objType = keyof typeof bean
     Object.keys(bean).forEach((key)=> {
