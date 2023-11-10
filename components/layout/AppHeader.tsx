@@ -22,7 +22,7 @@ const links = [
   { link: '/about', label: 'About' },
   { link: '/pricing', label: 'Pricing' },
   {
-    link: '/home',
+    link: '/tool',
     label: '其他',
     links: [
       { link: '/tool/mqtt', label: 'MQTT' }
