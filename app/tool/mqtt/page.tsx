@@ -7,7 +7,7 @@ import React, { useState } from 'react'
 
 
 
-const ToolPage = () => {
+const MqttPage = () => {
   const [hostInfo, setHostInfo] = useState<any>({})
   const form = useForm({
     initialValues: {
@@ -106,4 +106,4 @@ const ToolPage = () => {
   )
 }
 
-export default ToolPage
+export default MqttPage
