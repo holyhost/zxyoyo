@@ -1,3 +1,4 @@
+"use client"
 import { connect, MqttClient } from 'mqtt/types/lib/connect';
 import React, { createContext, useCallback, useEffect, useState } from 'react'
 import * as mqtt from 'mqtt/dist/mqtt'
