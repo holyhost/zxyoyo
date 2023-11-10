@@ -43,7 +43,7 @@ const UserAvatar = ({
                 </Menu.Item>
                 <Menu.Item
                     leftSection={<IconLogin size={14} />}  
-                    key={'user-sign-out'} 
+                    key={'user-sign-in'} 
                     onClick={login}>
                       Asion
                 </Menu.Item>
