@@ -2,7 +2,7 @@
 import React from 'react'
 import { Menu, Group, Center, Burger, Container, rem, Text, Anchor, Button } from '@mantine/core';
 import { useDisclosure, useLocalStorage } from '@mantine/hooks';
-import { IconBrandApple, IconChevronDown } from '@tabler/icons-react';
+import { IconBrandX, IconChevronDown } from '@tabler/icons-react';
 import { useSession, signIn, signOut } from "next-auth/react"
 import UserAvatar from '../UserAvatar';
 import classes from './HeaderMenu.module.css';
@@ -88,9 +88,12 @@ const AppHeader = () => {
 
   return (
     <header className={classes.header}>
-      <Container size="md">
+      <Container size="md" c={'yellow'}>
         <div className={classes.inner}>
-          <IconBrandApple color="#fff" size={32} />
+          <Anchor href='/' style={{ textDecoration: 'none' }}>
+            <IconBrandX color="#fff" size={32} />
+          </Anchor>
+          
           <Anchor href='/' style={{ textDecoration: 'none' }}>
             <Text c="#fff" size="lg">只想优优</Text>
           </Anchor>
