@@ -8,7 +8,10 @@ import FileManage from '@/components/FileUpload/FileManage'
 
 const getData = async () => {
   const session = await getServerSession(authOptions)
-  console.log('session', session.user)
+  if(!session || !session.user) return {
+    total: 0,
+    data: []
+  }
   const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/file?pageSize='+30+"&pageNum=0" + "&id=" + session.user._id)
     // The return value is *not* serialized
     // You can return Date, Map, Set, etc.

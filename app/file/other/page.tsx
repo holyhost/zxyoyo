@@ -21,6 +21,7 @@ const OtherPage = () => {
   const backendHost = process.env.NEXT_PUBLIC_BACKEND_HOST
   const imgHost = backendHost + "/app"
   const curUser = useCurrentUser()
+  if(!curUser) return <div>123</div>
   const { ref, inView } = useInView();
   console.log(inView)
   const [opened, { open, close }] = useDisclosure(false);
@@ -159,7 +160,7 @@ const OtherPage = () => {
   }
 
   return (
-    <AppLayout>
+    <AppLayout login={true}>
 
       {files.length > 0 && <Flex gap="md"
         justify="center"
