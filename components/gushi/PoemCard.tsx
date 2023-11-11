@@ -4,7 +4,7 @@ import classes from './poem.module.css';
 
 const PoemCard = ({ index, data, width }: Props) => {
   return (
-    <Card withBorder padding="lg" mt="xs" radius="md" maw="20rem" miw="10rem">
+    <Card withBorder padding="sm" mt="xs" radius="md" maw="20rem" miw="10rem">
       {/* <Card.Section mb="sm">
         <Image src={''} alt={data.pt_name} height={180} />
       </Card.Section> */}
