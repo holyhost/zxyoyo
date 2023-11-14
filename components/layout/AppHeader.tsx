@@ -7,6 +7,7 @@ import { useSession, signIn, signOut } from "next-auth/react"
 import UserAvatar from '../UserAvatar';
 import classes from './App.module.css';
 import { theme } from '@/theme';
+import AppMenuItems from './MenuItems';
 // import { MantineLogo } from '@mantine/ds';
 const links = [
   { link: '/posts', label: 'Post' },
@@ -38,21 +39,7 @@ const AppHeader = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
   const { data: session } = useSession()
-  const sunIcon = (
-    <IconSun
-      style={{ width: rem(16), height: rem(16) }}
-      stroke={2.5}
-      color={theme.colors.yellow[4]}
-    />
-  );
 
-  const moonIcon = (
-    <IconMoonStars
-      style={{ width: rem(16), height: rem(16) }}
-      stroke={2.5}
-      color={theme.colors.blue[6]}
-    />
-  );
   const fileItems = (
     <Menu key={"filesys"} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
       <Menu.Target>
@@ -121,8 +108,19 @@ const AppHeader = () => {
           <Group gap={5} visibleFrom="sm">
             {items}
             {session?.user?.name && fileItems}
-            <UserAvatar user={{ username: session?.user?.name || '晴天小猪猪', image: session?.user?.image || '/admin.png' }} logout={signOut} login={signIn} />
+            <UserAvatar 
+              theme={theme} 
+              colorScheme={colorScheme} 
+              toggleColorScheme={toggleColorScheme} 
+              user={
+                { 
+                  username: session?.user?.name || '晴天小猪猪', 
+                  image: session?.user?.image || '/admin.png' 
+                }
+              } 
+              login={session?.user? true : false} />
           </Group>
+          {/* for mobile */}
           <Box hiddenFrom="sm">
             <Menu shadow="md" width={200}>
               <Menu.Target>
@@ -138,73 +136,12 @@ const AppHeader = () => {
               <Menu.Dropdown>
                 <Menu.Label>
                   <Group>
-                    <Avatar src={session?.user?.image} onClick={()=>!session?.user && signIn()}/>
+                    <Avatar src={session?.user?.image} onClick={() => !session?.user && signIn()} />
                     {session?.user?.name ?? '晴天小猪猪'}
                   </Group>
                 </Menu.Label>
                 <Menu.Divider />
-                <Menu.Label>功能</Menu.Label>
-                <Menu.Item component='a' href='/home' leftSection={<IconMountain style={{ width: rem(14), height: rem(14) }} />}>
-                  古诗词
-                </Menu.Item>
-                <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
-                  设置
-                </Menu.Item>
-                <Menu.Item component='a' href='/posts' leftSection={<IconArticle style={{ width: rem(14), height: rem(14) }} />}>
-                  文章
-                </Menu.Item>
-                <Menu.Item component='a' href='/posts/new' leftSection={<IconEdit style={{ width: rem(14), height: rem(14) }} />}>
-                  写文章
-                </Menu.Item>
-                <Menu.Item leftSection={<IconPhoto style={{ width: rem(14), height: rem(14) }} />}>
-                  文件
-                </Menu.Item>
-                <Menu.Item component='a' href='/file/upload' leftSection={<IconFileUpload style={{ width: rem(14), height: rem(14) }} />}>
-                  上传文件
-                </Menu.Item>
-                <Menu.Item component='a' href='/file/other' leftSection={<IconPhoto style={{ width: rem(14), height: rem(14) }} />}>
-                  其他文件
-                </Menu.Item>
-                <Menu.Divider />
-                <Menu.Label>工具</Menu.Label>
-                <Menu.Item component='a' href='/tool/mqtt' leftSection={<IconMountain style={{ width: rem(14), height: rem(14) }} />}>
-                  MQTT
-                </Menu.Item>
-                <Menu.Item
-                  leftSection={<IconSearch style={{ width: rem(14), height: rem(14) }} />}
-                  rightSection={
-                    <Text size="xs" c="dimmed">
-                      ⌘K
-                    </Text>
-                  }
-                >
-                  Search
-                </Menu.Item>
-
-                <Menu.Divider />
-
-                <Menu.Label>设置</Menu.Label>
-                <Menu.Item
-                  closeMenuOnClick={false}
-                  leftSection={<IconPalette stroke={1.5} />}
-                  onClick={() => toggleColorScheme()}
-                >
-                  <Group justify="space-between">
-                    主题
-                    <Switch
-                      checked={colorScheme === 'dark'}
-                      color="dark.4" onLabel={moonIcon} offLabel={sunIcon}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  </Group>
-                </Menu.Item>
-                <Menu.Item
-                  color="red"
-                  onClick={()=> signOut()}
-                  leftSection={<IconLogout style={{ width: rem(14), height: rem(14) }} />}
-                >
-                  退出
-                </Menu.Item>
+                <AppMenuItems login={session?.user? true : false} theme={theme} colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}/>
               </Menu.Dropdown>
             </Menu>
           </Box>
@@ -212,8 +149,8 @@ const AppHeader = () => {
 
         </div>
       </Container>
-    
-    {/* </header> */}
+
+      {/* </header> */}
     </>
 
   );

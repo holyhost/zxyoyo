@@ -1,12 +1,14 @@
 import React from 'react'
-import { Menu, Group, Center, Burger, Container, rem, Text, Anchor, Avatar, NavLink } from '@mantine/core';
-import { IconChevronDown, IconDoorExit, IconInfoCircle, IconLogin } from '@tabler/icons-react';
-import Link from 'next/link';
+import { Menu, Center, Avatar } from '@mantine/core';
+import { IconInfoCircle } from '@tabler/icons-react';
+import AppMenuItems from './layout/MenuItems';
 
 const UserAvatar = ({
-  user,
-  logout,
   login,
+  user,
+  theme,
+  colorScheme,
+  toggleColorScheme
 }: Props) => {
   return (
     <Menu key={'user-avatar-men'} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
@@ -26,33 +28,7 @@ const UserAvatar = ({
                     key={'user-detail'}>
                       {user.username} 
                 </Menu.Item>
-                <Menu.Item 
-                    leftSection={<IconInfoCircle size={14} />} 
-                    key={'user-admin'}>
-                      <Link href="/user/admin">管理员</Link>
-                </Menu.Item>
-                <Menu.Item 
-                    leftSection={<IconInfoCircle size={14} />} 
-                    key={'write-post'}>
-                      <Link href="/posts/new">写文章</Link>
-                </Menu.Item>
-                <Menu.Item 
-                    leftSection={<IconInfoCircle size={14} />} 
-                    key={'other-files'}>
-                      <Link href="/file/other">其他文件</Link>
-                </Menu.Item>
-                <Menu.Item
-                    leftSection={<IconLogin size={14} />}  
-                    key={'user-sign-in'} 
-                    onClick={login}>
-                      Asion
-                </Menu.Item>
-                <Menu.Item
-                    leftSection={<IconDoorExit size={14} />}  
-                    key={'user-sign-out'} 
-                    onClick={logout}>
-                      退出
-                </Menu.Item>
+                <AppMenuItems login={login ? true : false} theme={theme} colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}/>
             </Menu.Dropdown>
     </Menu>
   )
@@ -61,10 +37,12 @@ const UserAvatar = ({
 export default UserAvatar
 
 type Props = {
+  login: boolean,
    user: {
     username: string,
     image: string
-   }, 
-   logout: ()=> void,
-   login: ()=> void
+   },
+   theme: any,
+   colorScheme: string,
+  toggleColorScheme: () => void
 }
