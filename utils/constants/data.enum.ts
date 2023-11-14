@@ -26,6 +26,10 @@ export const constants = {
 
 export const POST_TYPE =  [
     {
+        label: '全部',
+        value: 'all'
+    },
+    {
         label: '账号',
         value: 'account'
     },
