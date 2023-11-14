@@ -22,7 +22,7 @@ const Home = async() => {
     const data = await getData()
   return (
     <AppLayout>
-        <Container mt={'lg'}>
+        <Container mt={'md'}>
             <PoemList data={data.data} />
         </Container>
     </AppLayout>

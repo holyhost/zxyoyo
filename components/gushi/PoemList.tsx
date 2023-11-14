@@ -11,7 +11,7 @@ const PoemList =  ({data}:{data: PoemBean[]}) => {
   const [inited, setInited] = useState(false)
   useEffect(()=> setInited(true), [])
   return (
-    <Container mt={'xl'}>
+    <Container>
       {inited && data && data.length >0 && <Masonry items={data} 
                           render={PoemCard} 
                           columnGutter={28} 
