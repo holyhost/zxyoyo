@@ -4,11 +4,10 @@ import {
 }
   from '@mantine/core';
   import { useDebouncedState, useWindowEvent } from '@mantine/hooks';
-import { useIsMobile } from '@/hooks/useIsMobile';
 import { getScrollPosition } from '@/utils/window-helpers';
 
 import AppHeader from './AppHeader';
-import { signOut, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { AppFooter } from './AppFooter';
 import classes from './App.module.css';
 import LoginRedirect from '../LoginRedirect/LoginRedirect';
@@ -16,8 +15,6 @@ import LoginRedirect from '../LoginRedirect/LoginRedirect';
 export function AppLayout({ children, navbar, login=false }: Props) {
   const { data: session } = useSession()
   const [showFooter, setShowFooter] = useDebouncedState(true, 200);
-  const mobile = useIsMobile();
-
   useWindowEvent('scroll', () => {
     const scroll = getScrollPosition();
     setShowFooter(scroll.y < 10);

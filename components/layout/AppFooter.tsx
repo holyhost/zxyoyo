@@ -41,7 +41,7 @@ export function AppFooter() {
           </Button>
           <Button
             component={Link}
-            href="/content/careers"
+            href="/about"
             {...buttonProps}
             variant="subtle"
             color="green"
@@ -52,7 +52,7 @@ export function AppFooter() {
           <Button
             component={Link}
             prefetch={false}
-            href="/content/tos"
+            href="/about"
             {...buttonProps}
             px={mobile ? 5 : 'xs'}
           >
@@ -61,19 +61,19 @@ export function AppFooter() {
           <Button
             component={Link}
             prefetch={false}
-            href="/content/privacy"
+            href="/about"
             {...buttonProps}
             px={mobile ? 5 : 'xs'}
           >
             Privacy
           </Button>
-          <Button component="a" href="https://github.com/holyhost/next-mantine" {...buttonProps} target="_blank">
+          <Button component="a" href="https://github.com/holyhost/zxyoyo" {...buttonProps} target="_blank">
             GitHub
           </Button>
 
           <Button
             component="a"
-            href="/github/wiki/REST-API-Reference"
+            href="https://github.com/holyhost/zxyoyo"
             {...buttonProps}
             target="_blank"
           >
