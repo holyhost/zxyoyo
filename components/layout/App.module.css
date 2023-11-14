@@ -1,6 +1,6 @@
 .header {
     height: rem(56px);
-    margin-bottom: rem(120px);
+    /* margin-bottom: rem(120px); */
     background-color: var(--mantine-color-myColor-9);
     border-bottom: rem(1px) solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
   }
@@ -31,6 +31,14 @@
     margin-right: rem(5px);
   }
 
-  .mt2 {
-    margin-top: 2.2rem;
+
+  .footer {
+    transition-property: 'transform';
+    transition-duration: 0.3s;
+    transition-timing-function: linear;
+    overflow-x: auto;
+  }
+  
+  .down {
+    transform: translateY(200%);
   }

@@ -5,7 +5,7 @@ import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { IconArrowsLeftRight, IconArticle, IconBrandX, IconChevronDown, IconEdit, IconFeather, IconFileUpload, IconLogout, IconMessageCircle, IconMoonStars, IconMountain, IconPaint, IconPalette, IconPhoto, IconSearch, IconSettings, IconSun, IconTrash } from '@tabler/icons-react';
 import { useSession, signIn, signOut } from "next-auth/react"
 import UserAvatar from '../UserAvatar';
-import classes from './HeaderMenu.module.css';
+import classes from './App.module.css';
 import { theme } from '@/theme';
 // import { MantineLogo } from '@mantine/ds';
 const links = [
@@ -106,7 +106,8 @@ const AppHeader = () => {
   });
 
   return (
-    <header className={classes.header}>
+    // <header className={classes.header}>
+    <>
       <Container size="md" c={'yellow'}>
         <div className={classes.inner}>
           <Anchor href='/' style={{ textDecoration: 'none' }}>
@@ -211,7 +212,9 @@ const AppHeader = () => {
 
         </div>
       </Container>
-    </header>
+    
+    {/* </header> */}
+    </>
 
   );
 }

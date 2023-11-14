@@ -4,11 +4,8 @@ import {
   Group,
   Text,
 } from '@mantine/core';
-import { useDebouncedState, useWindowEvent } from '@mantine/hooks';
-import { useIsMobile } from '@/hooks/useIsMobile';
-import { getScrollPosition } from '@/utils/window-helpers';
 import Link from 'next/link';
-
+import { useIsMobile } from '@/hooks/useIsMobile';
 const buttonProps: ButtonProps = {
   size: 'xs',
   variant: 'subtle',
@@ -18,16 +15,9 @@ const buttonProps: ButtonProps = {
 const hash = "zxyoyo_123456";
 
 export function AppFooter() {
-  const [showFooter, setShowFooter] = useDebouncedState(true, 200);
   const mobile = useIsMobile();
-
-  useWindowEvent('scroll', () => {
-    const scroll = getScrollPosition();
-    setShowFooter(scroll.y < 10);
-  });
-
   return (
-      <Group gap={'md'} wrap={'nowrap' } className={showFooter? '': 'notDisplay'}>
+      <Group gap={'md'} wrap={'nowrap' }>
         <Text
           fw={700}
           style={{ whiteSpace: 'nowrap', userSelect: 'none' }}
@@ -35,7 +25,7 @@ export function AppFooter() {
             
           }}
         >
-          &copy; ZXYOYO {new Date().getFullYear()}
+          &nbsp; &copy; ZXYOYO {new Date().getFullYear()}
         </Text>
 
         <Group wrap={'nowrap'}>
