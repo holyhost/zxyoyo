@@ -1,0 +1,51 @@
+import SimplePostForm from '@/components/POSTS/SimplePostForm'
+import { AppLayout } from '@/components/layout/AppLayout'
+import { Container } from '@mantine/core'
+import { Metadata } from 'next'
+import React from 'react'
+
+type Props = {
+  params: { postid: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+ 
+export async function generateMetadata(
+  { params, searchParams }: Props
+): Promise<Metadata> {
+  // read route params
+  const id = params.postid
+ 
+  // fetch data
+  const res = await getData(id)
+ 
+ 
+  return {
+    title: "编辑:" + res.data.title
+  }
+}
+
+const getData = async (id: string) => {
+  const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts/' + id)
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+  return res.json()
+}
+
+const EditPostPage = async ({ params }: Props) => {
+  const result = await getData(params.postid)
+
+  return (
+    <>
+      <AppLayout login={true}>
+        <Container>
+          <SimplePostForm detail={result.data}/>
+        </Container>
+      </AppLayout>
+    </>
+  )
+}
+
+export default EditPostPage
