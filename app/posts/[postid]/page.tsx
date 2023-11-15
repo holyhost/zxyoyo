@@ -19,7 +19,7 @@ export async function generateMetadata(
  
  
   return {
-    title: res.data.title
+    title: res.fail ? 'Not Found:' + id : res.title
   }
 }
 
@@ -28,21 +28,23 @@ const getData = async (id: string) => {
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
+    return {fail: true}
   }
-  return res.json()
+  const jsonData = await res.json()
+  return jsonData.data
 }
 
 const Page = async ({ params }: Props) => {
   const result = await getData(params.postid)
+  if(result?.fail) return <>123</>
   const author = {
-    name: result.data.authorName ?? '晴天小猪',
-    image: result.data.authorImage ?? '/admin.png'
+    name: result.authorName ?? '晴天小猪',
+    image: result.authorImage ?? '/admin.png'
   }
   const detail = {
-    content: result.data.content,
-    secret: result.data.secret,
-    type: result.data.type
+    content: result.content,
+    secret: result.secret,
+    type: result.type
   }
   return (
     <>
