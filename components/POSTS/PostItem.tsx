@@ -22,7 +22,7 @@ export type PostItemProps = {
   image?: string,
 }
 
-const PostItem = ({ data }: { data: PostItemProps }) => {
+const PostItem = ({ data, deleteItem }: { data: PostItemProps, deleteItem?: ()=>void }) => {
   const router = useRouter()
   const { data : session } = useSession()
   const user = session?.user as UserBean
@@ -56,11 +56,13 @@ const PostItem = ({ data }: { data: PostItemProps }) => {
                 </Menu.Target>
                 <Menu.Dropdown>
                   <Menu.Item
+                    onClick={()=> router.push(`/posts/${data._id}/edit`)}
                     leftSection={<IconEdit size={14} />}
                     key={'posts-item-edit'}>
                     <Text>编辑</Text>
                   </Menu.Item>
                   <Menu.Item
+                    onClick={deleteItem}
                     leftSection={<IconTrash size={14} />}
                     key={'posts-item-delete'}>
                     <Text c={'red'}>删除</Text>
