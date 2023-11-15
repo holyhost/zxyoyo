@@ -36,14 +36,25 @@ export  const GET = async(request: NextRequest, {params}:{params: any}) => {
 }
 
 export const PATCH =async (req: NextRequest, {params}:{params: any}) => {
-    const { aa, bb} = await req.json()
+    const jsonData = await req.json()
     try {
-        await connectToDB()
-        const existingPost = await Post.findById(params.id)
-        if(!existingPost) return NextResponse.json({ success: false, data: 'no data' }, {status: 404})
-        existingPost.image = aa
-        await existingPost.save()
-        return NextResponse.json({ success: true, data: existingPost}) 
+        const session = await getServerSession(authOptions)
+        if (session && session.user && session.user._id) {
+            await connectToDB()
+            const existingPost = await Post.findById(params.id)
+            if(!existingPost || existingPost.uid != session.user._id) return NextResponse.json({ success: false, data: 'no data' }, {status: 404})
+            existingPost.title = jsonData.title
+            existingPost.content = jsonData.content
+            existingPost.open = jsonData.open
+            existingPost.secret = jsonData.secret
+            existingPost.type = jsonData.type
+            existingPost.updateTime = new Date().getTime().toString()
+            await existingPost.save()
+            return NextResponse.json({ success: true, data: existingPost}) 
+        }else{
+            return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})
+        }
+        
     } catch (error) {
         console.log('got an error', error)
         return NextResponse.json({ success: false, data: 'system error' }, {status: 500})
@@ -51,14 +62,19 @@ export const PATCH =async (req: NextRequest, {params}:{params: any}) => {
 }
 
 export const DELETE =async (req: NextRequest, {params}:{params: any}) => {
-    const { aa, bb} = await req.json()
+
     try {
-        await connectToDB()
-        const existingPost = await Post.findByIdAndRemove(params.id)
-        if(!existingPost) return NextResponse.json({ success: false, data: 'no data' }, {status: 404})
-        existingPost.image = aa
-        await existingPost.save()
-        return NextResponse.json({ success: true, data: existingPost}) 
+        const session = await getServerSession(authOptions)
+        if (session && session.user && session.user._id) {
+            await connectToDB()
+            const existingPost = await Post.findById(params.id)
+            if(!existingPost || existingPost.uid != session.user._id) return NextResponse.json({ success: false, data: 'no data' }, {status: 404})
+            const result = await Post.findByIdAndRemove(params.id)
+            return NextResponse.json({ success: true, data: result}) 
+        }else{
+            return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})
+        }
+        
     } catch (error) {
         console.log('got an error', error)
         return NextResponse.json({ success: false, data: 'system error' }, {status: 500})
