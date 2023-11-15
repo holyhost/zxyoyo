@@ -5,24 +5,28 @@ import { useForm } from '@mantine/form';
 import { POST_TYPE } from '@/utils/constants/data.enum';
 import { notifications } from '@mantine/notifications';
 import { mymd5, toAesSource, toAesString } from '@/utils/crypto-helper';
-import { useSession } from 'next-auth/react';
 import { useCurrentUser, useUserStore } from '@/store/user.store';
 import PinDialog from '../Dialog/PinDialog';
-import { useDisclosure } from '@mantine/hooks';
+import { PostItemProps } from './PostItem';
 
-const SimplePostForm = () => {
+type Props = {
+  detail?: PostItemProps
+}
+
+const SimplePostForm = ({detail}: Props) => {
   const user = useCurrentUser()
   const userStore = useUserStore()
+
   const [opened, setOpened] = useState(false)
   const [errorPin, setErrorPin] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const form = useForm({
     initialValues: {
-      title: '',
-      type: 'account',
-      content: '',
-      open: 0,
-      secret: 1,
+      title: detail?.title ?? '',
+      type: detail?.type ?? 'account',
+      content: detail?.content ?? '',
+      open: detail?.open ?? 0,
+      secret: detail?.secret ?? 1,
     },
 
     validate: {
@@ -44,7 +48,7 @@ const SimplePostForm = () => {
     }
   }
   const submitPost = async () => {
-    const bodyData = { ...form.values}
+    const bodyData = { ...form.values, _id: detail?._id}
     if (form.values.secret && user) {
       // check pin user input
       if (!userStore.pin) {
@@ -55,8 +59,9 @@ const SimplePostForm = () => {
       bodyData.content = secretContent
     }
     setSubmitting(true)
-    const response = await fetch('/api/posts', {
-      method: 'POST',
+    const url = detail?._id ? '/api/posts/'+detail._id : '/api/posts'
+    const response = await fetch(url, {
+      method: detail?._id ? 'PATCH' : 'POST',
       body: JSON.stringify(bodyData)
     })
     if (response.ok) {
@@ -64,8 +69,10 @@ const SimplePostForm = () => {
         title: "🎉 🎉 🎉 恭喜 🎉 🎉 🎉",
         message: `数据保存成功！`
       })
-      form.reset()
-      form.setFieldValue('type', bodyData.type)
+      if(!detail?._id){
+        form.reset()
+        form.setFieldValue('type', bodyData.type)
+      }
     } else {
       notifications.show({
         title: "😒 😒 😒 出错了 😒 😒 😒",
@@ -134,7 +141,7 @@ const SimplePostForm = () => {
         <Group justify="flex-end" mt="xl">
 
           <Button type="submit" radius="xl" loading={submitting}>
-            提交
+            {detail?._id ? '更新': '提交'}
           </Button>
         </Group>
       </form>
