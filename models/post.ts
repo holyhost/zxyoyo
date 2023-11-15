@@ -38,6 +38,10 @@ const PostSchema = new Schema({
     createTime: {
         type: String,
         default: new Date().getTime().toString()
+    },
+    updateTime: {
+        type: String,
+        default: new Date().getTime().toString()
     }
 })
 
