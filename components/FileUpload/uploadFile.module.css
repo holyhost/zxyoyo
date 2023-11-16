@@ -4,7 +4,6 @@
     border: 1px dashed light-dark(var(--mantine-color-gray-4));
     border-radius: 7px;
     max-width: 30rem;
-    margin-top: 3rem;
 }
 
 .dropzone {
@@ -18,7 +17,7 @@
 
 .control {
     position: absolute;
-    width: rem(250px);
-    left: calc(50% - rem(125px));
+    width: rem(220px);
+    left: calc(50% - rem(110px));
     bottom: rem(-20px);
 }

@@ -9,12 +9,35 @@ import { notifications } from '@mantine/notifications';
 
 
 type Props = {
+  accepts?: Array<any>,
+  title?: string,
+  des?: string,
+  message?: string,
+  fileSize?: number,
   onFileChanged: Function,
 
 }
 
+const defaultFileSize = 30
+const defaultTitle = 'Upload resume'
+const defaultDes = 'Drag & drop files here to upload.'
+const defaultMessage = 'We can accept only image, file, .zip, .xlsx,doc, .pdf files that are less than 30mb in size.'
+const defaultAccepts = [
+  MIME_TYPES.pdf,
+  MIME_TYPES.png,
+  MIME_TYPES.jpeg,
+  MIME_TYPES.gif,
+  MIME_TYPES.xlsx,
+  MIME_TYPES.doc,
+  MIME_TYPES.zip]
 
-const UploadFile = ({onFileChanged}: Props) => {
+const UploadFile = (
+  {onFileChanged, 
+    title = defaultTitle,
+    des= defaultDes,
+    fileSize= defaultFileSize,
+    message = defaultMessage, 
+    accepts= defaultAccepts}: Props) => {
   const theme = useMantineTheme();
   const [uploading, setUploading] = useState(false)
   const openRef = useRef<() => void>(null);
@@ -59,15 +82,8 @@ const UploadFile = ({onFileChanged}: Props) => {
           onDrop={(e) => uploadFile(e)}
           className={classes.dropzone}
           radius="md"
-          accept={[
-            MIME_TYPES.pdf,
-            MIME_TYPES.png,
-            MIME_TYPES.jpeg,
-            MIME_TYPES.gif,
-            MIME_TYPES.xlsx,
-            MIME_TYPES.doc,
-            MIME_TYPES.zip]}
-          maxSize={30 * 1024 ** 2}
+          accept={{accepts}}
+          maxSize={ fileSize * 1024 ** 2}
         >
           <div style={{ pointerEvents: 'none' }}>
             <Group justify="center">
@@ -93,13 +109,12 @@ const UploadFile = ({onFileChanged}: Props) => {
             <Text ta="center" fw={700} fz="lg" mt="xl">
               <Dropzone.Accept>拖拽文件到这</Dropzone.Accept>
               <Dropzone.Reject>文件大小小于30mb</Dropzone.Reject>
-              <Dropzone.Idle>Upload resume</Dropzone.Idle>
+              <Dropzone.Idle>{title}</Dropzone.Idle>
             </Text>
-            <Text ta="center" fz="sm" mt="xs" c="dimmed">
-              Drag&apos;n&apos;drop files here to upload.
-              <br/>
-              We can accept only <i>image, file, .zip, .xlsx,doc, .pdf</i> files that
-              are less than 30mb in size.
+            <Text ta="center" fz="sm" mt="md" c="dimmed">
+              {des}
+              {message && <br/>}
+              {message}
             </Text>
           </div>
         </Dropzone>
