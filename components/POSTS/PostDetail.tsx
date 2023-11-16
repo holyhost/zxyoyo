@@ -1,5 +1,5 @@
 "use client"
-import { Container, Text } from '@mantine/core'
+import { Container, Paper, Text } from '@mantine/core'
 import React, { useEffect, useState } from 'react'
 import Markdown from 'react-markdown'
 import PostHeader from './PostHeader'
@@ -47,13 +47,19 @@ const PostDetail = ({ detail, author }: Props) => {
         if( session && session.user && !userStore.detail) userStore.fetch('/api/user')
     }, [session])
     return (
-        <Container>
+        <Container mt={'md'}>
             <PostHeader name={author.name} image={author.image} />
-            <Markdown
+            {detail.type !== 'md' && 
+                <Paper shadow='md' p={'md'}>
+                    <Text>
+                        {content}
+                    </Text>
+                </Paper>}
+            {detail.type ==='md' && <Markdown
                 className={'markdown-body'}
             >
                 {content}
-            </Markdown>
+            </Markdown>}
             <PinDialog
                 opened={opened}
                 error={errorPin}

@@ -1,6 +1,6 @@
 "use client"
 import { formatDate } from '@/utils/date-helpers'
-import { Card, Grid, Text, Image, Stack, Avatar, Center, Menu, Group, ActionIcon } from '@mantine/core'
+import { Card, Grid, Text, Image, Stack, Avatar, Center, Menu, Group, ActionIcon, Anchor } from '@mantine/core'
 import { IconDotsVertical, IconEdit, IconTrash } from '@tabler/icons-react'
 import React from 'react'
 import { useRouter } from 'next/navigation'
@@ -28,17 +28,17 @@ const PostItem = ({ data, deleteItem }: { data: PostItemProps, deleteItem?: ()=>
   const user = session?.user as UserBean
   const goDetail = ()=> router.push('/posts/' + data._id)
   return (
-    <Card withBorder mt={'md'}>
+    <Card shadow='lg' withBorder mt={'md'}>
       <Grid>
         <Grid.Col span={8} h={'100%'}>
           <Stack justify="space-between" h={'9rem'}>
-            <Text fw={800} onClick={goDetail}>{data.title}</Text>
-            <Text c={'teal'}
+            <Anchor fw={800} onClick={goDetail}>{data.title}</Anchor>
+            <Anchor c={'teal'}
               style={{ overflow: 'hidden' }}
               onClick={goDetail}
               mah={'5rem'} >
               {data.content}
-            </Text>
+            </Anchor>
             <Group justify={'space-between'}>
               <Text c={'gray'}>😊 {formatDate(new Date(parseInt(data.createTime)))}</Text>
               {user && user._id === data.uid  && <Menu withArrow trigger="hover" transitionProps={{ exitDuration: 10 }} withinPortal>
