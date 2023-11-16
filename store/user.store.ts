@@ -11,6 +11,7 @@ interface UserState {
         role: string,
     } | null,
     pin: string,
+    initialed: boolean,
     setpin: (s: string)=> void,
     fetch: (pond: string)=> void
 }
@@ -18,8 +19,10 @@ interface UserState {
 export const useUserStore = create<UserState>((set) => ({
     detail: null,
     pin: '',
+    initialed: false,
     setpin: (s: string)=>set(()=> ({pin: s})),
     fetch: async (pond: string) => {
+      set({initialed: true})
       const response = await fetch(pond)
       try {
         const res = await response.json()
@@ -32,7 +35,7 @@ export const useUserStore = create<UserState>((set) => ({
   }))
 export const useCurrentUser = ()=> {
   const host = process.env.NEXT_PUBLIC_APP_HOST
-  useUserStore((state)=> !state.detail && state.fetch(host + '/api/user'))
+  useUserStore((state)=> !state.detail && !state.initialed && state.fetch(host + '/api/user'))
     const userStore = useUserStore((state)=> state.detail)
     return userStore
 }

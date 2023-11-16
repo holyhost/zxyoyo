@@ -7,6 +7,7 @@ import 'github-markdown-css'
 import { useCurrentUser, useUserStore } from '@/store/user.store'
 import PinDialog from '@/components/Dialog/PinDialog';
 import { mymd5, toAesSource } from '@/utils/crypto-helper'
+import { useSession } from 'next-auth/react'
 
 type Props = {
     detail: any,
@@ -14,7 +15,8 @@ type Props = {
 }
 
 const PostDetail = ({ detail, author }: Props) => {
-    const user = useCurrentUser()
+    // const user = useCurrentUser()
+    const {data: session} = useSession()
     const userStore = useUserStore()
     const [opened, setOpened] = useState(false)
     const [errorPin, setErrorPin] = useState(false)
@@ -30,7 +32,7 @@ const PostDetail = ({ detail, author }: Props) => {
     }
     const onPinComplete = (pinstr: string) => {
         const md5Key = mymd5(pinstr)
-        if (user && md5Key === user.keys) {
+        if (userStore.detail && md5Key === userStore.detail.keys) {
             userStore.setpin(pinstr)
             setPin(pinstr)
             onDialogClose()
@@ -42,7 +44,8 @@ const PostDetail = ({ detail, author }: Props) => {
     useEffect(()=>{
         if(!pin &&detail.secret) setOpened(true)
         if( pin && detail.secret) parseContent(pin)
-    }, [])
+        if( session && session.user && !userStore.detail) userStore.fetch('/api/user')
+    }, [session])
     return (
         <Container>
             <PostHeader name={author.name} image={author.image} />

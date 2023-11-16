@@ -8,15 +8,16 @@ import { mymd5, toAesSource, toAesString } from '@/utils/crypto-helper';
 import { useCurrentUser, useUserStore } from '@/store/user.store';
 import PinDialog from '../Dialog/PinDialog';
 import { PostItemProps } from './PostItem';
+import { useSession } from 'next-auth/react';
 
 type Props = {
   detail?: PostItemProps
 }
 
 const SimplePostForm = ({detail}: Props) => {
-  const user = useCurrentUser()
+  // const user = useCurrentUser()
   const userStore = useUserStore()
-
+  const {data: session} = useSession()
   const [opened, setOpened] = useState(false)
   const [errorPin, setErrorPin] = useState(false)
   const [submitting, setSubmitting] = useState(false)
@@ -38,9 +39,12 @@ const SimplePostForm = ({detail}: Props) => {
       submitPost()
     }
   }
+  useEffect(()=>{
+    if(session && !userStore.initialed && !userStore.detail) userStore.fetch('/api/user')
+  },[session])
   const onPinComplete = (pin: string) => {
     const md5Key = mymd5(pin)
-    if (user && md5Key === user.keys) {
+    if (userStore.detail && md5Key === userStore.detail.keys) {
       userStore.setpin(pin)
       onDialogClose()
     } else {
@@ -49,7 +53,7 @@ const SimplePostForm = ({detail}: Props) => {
   }
   const submitPost = async () => {
     const bodyData = { ...form.values, _id: detail?._id}
-    if (form.values.secret && user) {
+    if (form.values.secret && userStore.detail) {
       // check pin user input
       if (!userStore.pin) {
         setOpened(true)
