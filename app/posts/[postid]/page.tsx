@@ -1,4 +1,5 @@
 import PostDetail from '@/components/POSTS/PostDetail'
+import { PostItemProps } from '@/components/POSTS/PostItem'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { Metadata } from 'next'
 import React from 'react'
@@ -41,11 +42,7 @@ const Page = async ({ params }: Props) => {
     name: result.authorName ?? '晴天小猪',
     image: result.authorImage ?? '/admin.png'
   }
-  const detail = {
-    content: result.content,
-    secret: result.secret,
-    type: result.type
-  }
+  const detail = result as PostItemProps
   return (
     <>
       <AppLayout>
