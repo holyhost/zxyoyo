@@ -9,7 +9,8 @@ import { notifications } from '@mantine/notifications';
 
 
 type Props = {
-  accepts?: Array<any>,
+  types?: Array<any>,
+  third?: boolean,
   title?: string,
   des?: string,
   message?: string,
@@ -35,9 +36,10 @@ const UploadFile = (
   {onFileChanged, 
     title = defaultTitle,
     des= defaultDes,
+    third=false,
     fileSize= defaultFileSize,
     message = defaultMessage, 
-    accepts= defaultAccepts}: Props) => {
+    types= defaultAccepts}: Props) => {
   const theme = useMantineTheme();
   const [uploading, setUploading] = useState(false)
   const openRef = useRef<() => void>(null);
@@ -48,6 +50,7 @@ const UploadFile = (
       const data = new FormData()
       console.log(e)
       data.set('file', e[0])
+      third && data.set('third', 'yes')
       const res = await fetch('/api/file', {
         method: 'POST',
         body: data
@@ -82,7 +85,7 @@ const UploadFile = (
           onDrop={(e) => uploadFile(e)}
           className={classes.dropzone}
           radius="md"
-          accept={{accepts}}
+          accept={types}
           maxSize={ fileSize * 1024 ** 2}
         >
           <div style={{ pointerEvents: 'none' }}>
