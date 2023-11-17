@@ -8,8 +8,6 @@ const getData = async () => {
   let data = null
   try {
     const url = process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0"
-    console.log('====posts, getData=====')
-    console.log(url)
     const res = await fetch(url)
   
     if (!res.ok) {
