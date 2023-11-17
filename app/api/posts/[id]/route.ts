@@ -49,6 +49,7 @@ export const PATCH =async (req: NextRequest, {params}:{params: any}) => {
             existingPost.open = jsonData.open
             existingPost.secret = jsonData.secret
             existingPost.type = jsonData.type
+            existingPost.cover = jsonData.cover
             existingPost.updateTime = new Date().getTime().toString()
             await existingPost.save()
             return NextResponse.json({ success: true, data: existingPost}) 
