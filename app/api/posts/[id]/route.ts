@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import Post from '@/models/post'
+import User from '@/models/user'
 
 const getPostById = async (id: string)=> await Post.findById(id)
 
@@ -70,6 +71,19 @@ export const DELETE =async (req: NextRequest, {params}:{params: any}) => {
             const existingPost = await Post.findById(params.id)
             if(!existingPost || existingPost.uid != session.user._id) return NextResponse.json({ success: false, data: 'no data' }, {status: 404})
             const result = await Post.findByIdAndRemove(params.id)
+            if(existingPost.cover && existingPost.cover.includes('aupload')){
+                // delete cover
+                const userResult = await User.findById(session.user._id)
+                if(!userResult) return NextResponse.json({ success: false, data: 'login pls' }, {status: 401}) 
+                const backHost = process.env.BACKEND_HOST
+                const fd = new FormData()
+                fd.set('keynames', userResult.keynames)
+                fd.set('pathname', existingPost.cover)
+                const result = await fetch(backHost + "/filemng/api/file/delete",{
+                    method: 'POST',
+                    body: fd
+                }) 
+            }
             return NextResponse.json({ success: true, data: result}) 
         }else{
             return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})
