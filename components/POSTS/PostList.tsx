@@ -25,8 +25,16 @@ const PostList = ({data}:{data: PostItemProps[]}) => {
       })
     }
   }
+  const backHost = process.env.NEXT_PUBLIC_BACKEND_HOST + "/app"
   useEffect(()=>{
-    setItems([...data])
+    const tempData = data.map(item => {
+      if(item.cover && item.cover.includes("aupload") && !item.cover.includes(backHost)){
+        item.cover = backHost + item.cover
+      }
+      return item
+    })
+    tempData.reverse()
+    setItems([...tempData])
   }, [data])
   return (
     <>

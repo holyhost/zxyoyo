@@ -19,6 +19,11 @@ const PostSchema = new Schema({
         default: '',
         required: [false]
     },
+    cover: {
+        type: String,
+        default: '',
+        required: [false]
+    },
     open: {
         type: Number,
         default: 1 //  1:is public ,0: is secret and only user can visit

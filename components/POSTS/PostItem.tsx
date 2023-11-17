@@ -19,7 +19,7 @@ export type PostItemProps = {
   view: number,
   uid: string,
   createTime: string,
-  image?: string,
+  cover?: string,
 }
 
 const PostItem = ({ data, deleteItem }: { data: PostItemProps, deleteItem?: ()=>void }) => {
@@ -74,7 +74,7 @@ const PostItem = ({ data, deleteItem }: { data: PostItemProps, deleteItem?: ()=>
           </Stack>
         </Grid.Col>
         <Grid.Col span={4}>
-          <Image onClick={goDetail} mah={'9rem'} radius={'sm'} src={data.image ?? '/static-files/default_cover.jpeg'} />
+          <Image onClick={goDetail} mah={'9rem'} radius={'sm'} src={data && data.cover && data.cover.length >0 ? data.cover : '/static-files/default_cover.jpeg'} />
         </Grid.Col>
       </Grid>
     </Card>

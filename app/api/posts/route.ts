@@ -9,7 +9,7 @@ import Post from '@/models/post'
 
 export const POST = async(request: NextRequest)=> {
     console.log('come into post')
-    const {title, type, content, open, secret} = await request.json()
+    const {title, type, content, open, secret, cover} = await request.json()
     
     const session = await getServerSession(authOptions)
     if (session && session.user && session.user._id) {
@@ -21,6 +21,7 @@ export const POST = async(request: NextRequest)=> {
             content,
             open,
             secret,
+            cover,
             uid
         })
 

@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { Text, Group, Button, Container, Paper, Stack, Checkbox, TextInput, Select, Center, Textarea, Overlay } from '@mantine/core';
+import { Text, Group, Button, Image, Paper, Stack, Checkbox, TextInput, Select, Center, Textarea, Overlay, Switch } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { POST_TYPE } from '@/utils/constants/data.enum';
 import { notifications } from '@mantine/notifications';
@@ -9,6 +9,8 @@ import { useCurrentUser, useUserStore } from '@/store/user.store';
 import PinDialog from '../Dialog/PinDialog';
 import { PostItemProps } from './PostItem';
 import { useSession } from 'next-auth/react';
+import UploadFile from '../FileUpload/UploadFile';
+import { MIME_TYPES } from '@mantine/dropzone';
 
 type Props = {
   detail?: PostItemProps
@@ -19,11 +21,14 @@ const SimplePostForm = ({detail}: Props) => {
   const userStore = useUserStore()
   const {data: session} = useSession()
   const [opened, setOpened] = useState(false)
+  const [hasCover, setHasCover] = useState(detail?.cover ? true : false)
   const [errorPin, setErrorPin] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const imgHost = process.env.NEXT_PUBLIC_BACKEND_HOST + "/app"
   const form = useForm({
     initialValues: {
       title: detail?.title ?? '',
+      cover: detail?.cover ?? '',
       type: detail?.type ?? 'account',
       content: detail?.content ?? '',
       open: detail?.open ?? 0,
@@ -85,6 +90,11 @@ const SimplePostForm = ({detail}: Props) => {
     }
     setSubmitting(false)
   }
+  const updateCover = (path: string)=>{
+    console.log(path)
+    form.setFieldValue('cover', path)
+
+  }
   return (
     <Paper mt={'xl'} radius="md" p="xl" withBorder>
 
@@ -114,6 +124,24 @@ const SimplePostForm = ({detail}: Props) => {
             onChange={(event) => form.setFieldValue('content', event.currentTarget.value)}
             radius="md"
           />}
+          <Switch
+            checked={hasCover}
+            onClick={()=> setHasCover(!hasCover)}
+            defaultChecked
+            color="green"
+            labelPosition='left'
+            label="封面图片"
+          />
+          {hasCover && 
+            <Group>
+              <UploadFile 
+                title=''
+                third
+                types={[MIME_TYPES.png,MIME_TYPES.jpeg,MIME_TYPES.gif]}  
+                message='选择图片' 
+                onFileChanged={updateCover}/>
+              {form.values.cover && <Image mah={'9rem'} maw={'18rem'} radius={5} src={imgHost + form.values.cover}/>}
+            </Group>}
 
           <Group justify="space-between">
             <Select
