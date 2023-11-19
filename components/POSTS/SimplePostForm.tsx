@@ -1,8 +1,8 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { Text, Group, Button, Image, Paper, Stack, Checkbox, TextInput, Select, Center, Textarea, Overlay, Switch } from '@mantine/core';
+import { Text, Group, Button, Image, Paper, Stack, Checkbox, TextInput, Select, Center, Textarea, Overlay, Switch, TagsInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { POST_TYPE } from '@/utils/constants/data.enum';
+import { POST_TYPE, constants } from '@/utils/constants/data.enum';
 import { notifications } from '@mantine/notifications';
 import { mymd5, toAesSource, toAesString } from '@/utils/crypto-helper';
 import { useCurrentUser, useUserStore } from '@/store/user.store';
@@ -16,10 +16,10 @@ type Props = {
   detail?: PostItemProps
 }
 
-const SimplePostForm = ({detail}: Props) => {
+const SimplePostForm = ({ detail }: Props) => {
   // const user = useCurrentUser()
   const userStore = useUserStore()
-  const {data: session} = useSession()
+  const { data: session } = useSession()
   const [opened, setOpened] = useState(false)
   const [hasCover, setHasCover] = useState(detail?.cover ? true : false)
   const [errorPin, setErrorPin] = useState(false)
@@ -31,6 +31,7 @@ const SimplePostForm = ({detail}: Props) => {
       cover: detail?.cover ?? '',
       type: detail?.type ?? 'account',
       content: detail?.content ?? '',
+      tag: detail?.content ?? '',
       open: detail?.open ?? 0,
       secret: detail?.secret ?? 1,
     },
@@ -44,9 +45,9 @@ const SimplePostForm = ({detail}: Props) => {
       submitPost()
     }
   }
-  useEffect(()=>{
-    if(session && !userStore.initialed && !userStore.detail) userStore.fetch('/api/user')
-  },[session])
+  useEffect(() => {
+    if (session && !userStore.initialed && !userStore.detail) userStore.fetch('/api/user')
+  }, [session])
   const onPinComplete = (pin: string) => {
     const md5Key = mymd5(pin)
     if (userStore.detail && md5Key === userStore.detail.keys) {
@@ -57,7 +58,7 @@ const SimplePostForm = ({detail}: Props) => {
     }
   }
   const submitPost = async () => {
-    const bodyData = { ...form.values, _id: detail?._id}
+    const bodyData = { ...form.values, _id: detail?._id }
     if (form.values.secret && userStore.detail) {
       // check pin user input
       if (!userStore.pin) {
@@ -68,7 +69,7 @@ const SimplePostForm = ({detail}: Props) => {
       bodyData.content = secretContent
     }
     setSubmitting(true)
-    const url = detail?._id ? '/api/posts/'+detail._id : '/api/posts'
+    const url = detail?._id ? '/api/posts/' + detail._id : '/api/posts'
     const response = await fetch(url, {
       method: detail?._id ? 'PATCH' : 'POST',
       body: JSON.stringify(bodyData)
@@ -78,7 +79,7 @@ const SimplePostForm = ({detail}: Props) => {
         title: "🎉 🎉 🎉 恭喜 🎉 🎉 🎉",
         message: `数据保存成功！`
       })
-      if(!detail?._id){
+      if (!detail?._id) {
         form.reset()
         form.setFieldValue('type', bodyData.type)
       }
@@ -90,7 +91,7 @@ const SimplePostForm = ({detail}: Props) => {
     }
     setSubmitting(false)
   }
-  const updateCover = (path: string)=>{
+  const updateCover = (path: string) => {
     console.log(path)
     form.setFieldValue('cover', path)
 
@@ -126,21 +127,21 @@ const SimplePostForm = ({detail}: Props) => {
           />}
           <Switch
             checked={hasCover}
-            onClick={()=> setHasCover(!hasCover)}
+            onClick={() => setHasCover(!hasCover)}
             defaultChecked
             color="green"
             labelPosition='left'
             label="封面图片"
           />
-          {hasCover && 
+          {hasCover &&
             <Group>
-              <UploadFile 
+              <UploadFile
                 title=''
                 third
-                types={[MIME_TYPES.png,MIME_TYPES.jpeg,MIME_TYPES.gif]}  
-                message='选择图片' 
-                onFileChanged={updateCover}/>
-              {form.values.cover && <Image mah={'9rem'} maw={'18rem'} radius={5} src={imgHost + form.values.cover}/>}
+                types={[MIME_TYPES.png, MIME_TYPES.jpeg, MIME_TYPES.gif]}
+                message='选择图片'
+                onFileChanged={updateCover} />
+              {form.values.cover && <Image mah={'9rem'} maw={'18rem'} radius={5} src={imgHost + form.values.cover} />}
             </Group>}
 
           <Group justify="space-between">
@@ -168,12 +169,21 @@ const SimplePostForm = ({detail}: Props) => {
             </Group>
 
           </Group>
+          <TagsInput
+            mt={'sm'}
+            label="标签"
+            description="文件标签，可以输入多个,回车确认"
+            placeholder="请输入标签"
+            onChange={(value) => form.setFieldValue('tag', value.join(','))}
+            value={form.values.tag? form.values.tag.split(',') : []}
+            data={Array.from(constants.postTags)}
+          />
         </Stack>
 
         <Group justify="flex-end" mt="xl">
 
           <Button type="submit" radius="xl" loading={submitting}>
-            {detail?._id ? '更新': '提交'}
+            {detail?._id ? '更新' : '提交'}
           </Button>
         </Group>
       </form>

@@ -1,5 +1,20 @@
 
 export const constants = {
+    postTags: [
+        'React',
+        'Angular',
+        'Vue',
+        'Next',
+        'MQTT',
+        'Centos',
+        'Error',
+        '生活',
+        'Python',
+        'Mysql',
+        'ESP8266',
+        'Typescript',
+        'Flask'
+    ],
     imageTags: [
         '原神',
         '美女',
