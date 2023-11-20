@@ -1,5 +1,5 @@
 import { Menu, rem, Group, Switch, Text } from '@mantine/core'
-import { IconMountain, IconSettings, IconArticle, IconEdit, IconPhoto, IconFileUpload, IconSearch, IconPalette, IconLogout, IconMoonStars, IconSun, IconLogin } from '@tabler/icons-react'
+import { IconMountain, IconSettings, IconArticle, IconEdit, IconPhoto, IconFileUpload, IconSearch, IconPalette, IconLogout, IconMoonStars, IconSun, IconLogin, IconContainer, IconFile } from '@tabler/icons-react'
 import { signOut, signIn } from 'next-auth/react'
 import React from 'react'
 
@@ -38,10 +38,13 @@ const AppMenuItems = ({ login = false, theme, colorScheme, toggleColorScheme }: 
             <Menu.Item component='a' href='/posts' leftSection={<IconArticle style={{ width: rem(14), height: rem(14) }} />}>
                 文章
             </Menu.Item>
+            {login && <Menu.Item component='a' href='/posts/my' leftSection={<IconContainer style={{ width: rem(14), height: rem(14) }} />}>
+                我的文章
+            </Menu.Item>}
             {login && <Menu.Item component='a' href='/posts/new' leftSection={<IconEdit style={{ width: rem(14), height: rem(14) }} />}>
                 写文章
             </Menu.Item>}
-            <Menu.Item leftSection={<IconPhoto style={{ width: rem(14), height: rem(14) }} />}>
+            <Menu.Item leftSection={<IconFile style={{ width: rem(14), height: rem(14) }} />}>
                 文件
             </Menu.Item>
             {login && <Menu.Item component='a' href='/file/upload' leftSection={<IconFileUpload style={{ width: rem(14), height: rem(14) }} />}>

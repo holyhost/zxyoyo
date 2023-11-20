@@ -32,12 +32,6 @@ const Page = () => {
         <Center>
           <GradientSegmentedControl />
         </Center>
-
-        <p>
-          <Link href={'/posts/new'}>upload file</Link>
-          <Button color='red' component='a' href={'/posts/new'}>new post</Button>
-          <Button>my post</Button>
-        </p>
         {data && <PostList data={data}/>}
       </AppLayout>
   )
