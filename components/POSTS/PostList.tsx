@@ -37,9 +37,9 @@ const PostList = ({data}:{data: PostItemProps[]}) => {
     setItems([...tempData])
   }, [data])
   return (
-    <>
+    <Container>
         {items && items.map(item => <PostItem key={item._id} deleteItem={()=>onItemDelete(item._id)} data={item}/>)}
-    </>
+    </Container>
   )
 }
 
