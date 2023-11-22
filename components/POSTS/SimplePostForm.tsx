@@ -115,7 +115,7 @@ const SimplePostForm = ({ detail }: Props) => {
             onChange={(event) => form.setFieldValue('content', event.currentTarget.value)}
             radius="md"
           />}
-          {form.values.type === 'md' && <Textarea
+          {'md,note'.includes(form.values.type) && <Textarea
             label="内容"
             placeholder="请输入内容"
             autosize
