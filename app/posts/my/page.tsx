@@ -4,7 +4,6 @@ import PostList from '@/components/POSTS/PostList'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { Button, Center, Container } from '@mantine/core'
 import { useSession } from 'next-auth/react'
-import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 

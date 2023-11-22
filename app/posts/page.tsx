@@ -4,6 +4,8 @@ import { AppLayout } from '@/components/layout/AppLayout'
 import { Button, Center, Container } from '@mantine/core'
 import React from 'react'
 
+export const revalidate = 3600 * 2 // revalidate at most every 2 hour
+
 const getData = async () => {
   let data = null
   try {
