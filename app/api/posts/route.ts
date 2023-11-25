@@ -35,12 +35,13 @@ export const POST = async(request: NextRequest)=> {
 }
 
 export const GET = async(request: NextRequest)=> {
-    console.log('come into get')
+    console.log('posts come into get')
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
     
     const pageSize = searchParams.get('pageSize') || 20
     const pageNum = searchParams.get('pageNum') || 0
+    const postType = searchParams.get('type') || ''
     // should get user id from session, but get null, so client getsession 
     const session = await getServerSession(authOptions)
     console.log('posts session')
@@ -48,7 +49,8 @@ export const GET = async(request: NextRequest)=> {
         console.log('get posts all')
         const uid = session.user._id.toString()
         await connectToDB()
-        const data = await Post.find({uid: uid})
+        const filters = postType ? {uid: uid, type: postType} : {uid: uid}
+        const data = await Post.find(filters)
                 .skip(parseInt(pageSize + '') * parseInt(pageNum+''))
                 .limit(parseInt(pageSize + ''))
         if( data){
@@ -61,7 +63,8 @@ export const GET = async(request: NextRequest)=> {
         // return public data
         console.log('get posts public')
         await connectToDB()
-        let data = await Post.find({open: 1})
+        const filters = postType ? {open: 1, type: postType} : {open: 1}
+        let data = await Post.find(filters)
                 .skip(parseInt(pageSize + '') * parseInt(pageNum+''))
                 .limit(parseInt(pageSize + ''))
         if(data.length > 0){

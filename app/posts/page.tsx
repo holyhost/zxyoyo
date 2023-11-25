@@ -6,10 +6,10 @@ import React from 'react'
 
 export const revalidate = 3600 * 2 // revalidate at most every 2 hour
 
-const getData = async () => {
+const getData = async (postType: string = '') => {
   let data = null
   try {
-    const url = process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0"
+    const url = process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0" + "&type=" + postType
     const res = await fetch(url)
   
     if (!res.ok) {
@@ -27,8 +27,8 @@ const getData = async () => {
   
 }
 
-const Page = async () => {
-  const data = await getData()
+const Page = async ({searchParams}: {searchParams: { [key: string]: string | string[] | undefined }}) => {
+  const data = await getData(searchParams.type as string)
   return (
     <Container>
       <AppLayout>
