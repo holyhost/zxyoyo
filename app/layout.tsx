@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: any }) {
       <body>
         <UserProvider session={undefined}>
           <MantineProvider theme={theme}>
-          <Notifications position='top-center'/>
+          <Notifications position='top-center' autoClose={2000}/>
             {children}
           </MantineProvider>
         </UserProvider>
