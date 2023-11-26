@@ -31,7 +31,7 @@ const SimplePostForm = ({ detail }: Props) => {
       cover: detail?.cover ?? '',
       type: detail?.type ?? 'account',
       content: detail?.content ?? '',
-      tag: detail?.content ?? '',
+      tag: detail?.tag ?? '',
       open: detail?.open ?? 0,
       secret: detail?.secret ?? 1,
     },
