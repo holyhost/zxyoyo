@@ -1,6 +1,6 @@
 "use client"
 import React from 'react'
-import { Menu, Group, Center, Burger, Container, rem, Text, Anchor, Button, Box, Avatar, useMantineColorScheme, Switch, useMantineTheme } from '@mantine/core';
+import { Menu, Group, Center, Burger, Container, rem, Text, Anchor, Button, Box, Avatar, useMantineColorScheme, Switch, useMantineTheme, Input, Pill } from '@mantine/core';
 import { useClickOutside, useDisclosure } from '@mantine/hooks';
 import { IconArrowsLeftRight, IconArticle, IconBrandX, IconChevronDown, IconEdit, IconFeather, IconFileUpload, IconLogout, IconMessageCircle, IconMoonStars, IconMountain, IconPaint, IconPalette, IconPhoto, IconSearch, IconSettings, IconSun, IconTrash } from '@tabler/icons-react';
 import { useSession, signIn, signOut } from "next-auth/react"
@@ -8,6 +8,7 @@ import UserAvatar from '../UserAvatar';
 import classes from './App.module.css';
 import { theme } from '@/theme';
 import AppMenuItems from './MenuItems';
+import { Spotlight, spotlight } from '@mantine/spotlight';
 // import { MantineLogo } from '@mantine/ds';
 const links = [
   { link: '/posts', label: 'Post' },
@@ -21,13 +22,12 @@ const links = [
   //     { link: '/blog', label: 'Blog' },
   //   ],
   // },
-  { link: '/about', label: 'About' },
-  { link: '/pricing', label: 'Pricing' },
   {
     link: '/tool',
     label: '其他',
     links: [
-      { link: '/tool/mqtt', label: 'MQTT' }
+      { link: '/tool/mqtt', label: 'MQTT' },
+      { link: '/about', label: 'About' }
     ],
   },
 ];
@@ -39,7 +39,7 @@ const AppHeader = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
   const { data: session } = useSession()
-
+  
   const fileItems = (
     <Menu key={"filesys"} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
       <Menu.Target>
@@ -104,7 +104,13 @@ const AppHeader = () => {
           <Anchor href='/' style={{ textDecoration: 'none' }}>
             <Text c="#fff" size="lg">只想优优</Text>
           </Anchor>
-
+          <Button
+            onClick={spotlight.open}
+            leftSection={<IconSearch color='gray' size={16}/>}
+            rightSection={<Pill size='sm'>Ctrl+K</Pill>}
+            variant="default">
+            <Text size='sm' c={'gray'}>搜索</Text>
+          </Button>
           <Group gap={5} visibleFrom="sm">
             {items}
             {session?.user?.name && fileItems}
@@ -146,8 +152,16 @@ const AppHeader = () => {
             </Menu>
           </Box>
 
-
         </div>
+        <Spotlight 
+          actions={[]} 
+          nothingFound="功能正在建设中..."
+          highlightQuery
+          onChange={(v)=> console.log(v)}
+          searchProps={{
+            leftSection: <IconSearch style={{ width: rem(20), height: rem(20) }} stroke={1.5} />,
+            placeholder: 'Search...',
+          }}/>
       </Container>
 
       {/* </header> */}
