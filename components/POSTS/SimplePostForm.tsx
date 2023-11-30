@@ -11,6 +11,7 @@ import { PostItemProps } from './PostItem';
 import { useSession } from 'next-auth/react';
 import UploadFile from '../FileUpload/UploadFile';
 import { MIME_TYPES } from '@mantine/dropzone';
+import FileList from '@/components/FileUpload/FileList';
 
 type Props = {
   detail?: PostItemProps
@@ -24,6 +25,22 @@ const SimplePostForm = ({ detail }: Props) => {
   const [hasCover, setHasCover] = useState(detail?.cover ? true : false)
   const [errorPin, setErrorPin] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [files, setFiles] =  useState<string[]>([])
+  const deleteFile =async ( file:string) => {
+    const res = await fetch('/api/file/delete?id=' + file)
+    if(res.ok){
+      notifications.show({
+        title: "删除成功",
+        message: `${file} 已删除！`
+      })
+      setFiles(files.filter(name=> name !== file))
+    }else{
+      notifications.show({
+        title: "删除失败",
+        message: `校验失败，文件未删除！`
+      })
+    }
+  }
   const imgHost = process.env.NEXT_PUBLIC_BACKEND_HOST + "/app"
   const form = useForm({
     initialValues: {
@@ -93,8 +110,9 @@ const SimplePostForm = ({ detail }: Props) => {
   }
   const updateCover = (path: string) => {
     console.log(path)
-    form.setFieldValue('cover', path)
-
+    if(files.length < 1)
+      form.setFieldValue('cover', path)
+    setFiles([...files, path])
   }
   return (
     <Paper mt={'xl'} radius="md" p="xl" withBorder>
@@ -142,6 +160,7 @@ const SimplePostForm = ({ detail }: Props) => {
                 message='选择图片'
                 onFileChanged={updateCover} />
               {form.values.cover && <Image mah={'9rem'} maw={'18rem'} radius={5} src={imgHost + form.values.cover} />}
+              {files.length>0 && <FileList fileList={files} deleteFile={(file: string)=>deleteFile(file)} />}
             </Group>}
 
           <Group justify="space-between">
