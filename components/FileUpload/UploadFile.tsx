@@ -48,7 +48,6 @@ const UploadFile = (
     try {
       setUploading(true)
       const data = new FormData()
-      console.log(e)
       data.set('file', e[0])
       third && data.set('third', 'yes')
       const res = await fetch('/api/file', {
@@ -57,7 +56,6 @@ const UploadFile = (
       })
       const jsonData = await res.json()
       if (res.ok) {
-        console.log(jsonData)
         notifications.show({
           title: '上传文件成功',
           message: 'file path is:' + jsonData.data,
