@@ -10,7 +10,7 @@ const FileList = ({fileList, deleteFile}: {fileList: string[], deleteFile: Funct
   }
 
   return (
-    <Container mt={'md'}>
+    <Container mt={'md'} style={{overflow: 'hidden'}}>
         <Divider
         my="xs"
         variant="dashed"
