@@ -1,3 +1,4 @@
+"use client"
 import { PoemBean } from "@/bean/PoemBean"
 import { Badge, Card, Image, Text, Group, Avatar, Center } from "@mantine/core"
 import classes from './poem.module.css';

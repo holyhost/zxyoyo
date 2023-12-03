@@ -1,3 +1,4 @@
+"use client"
 import { Center, Divider, Group, Stack, Text } from '@mantine/core';
 import { IconClock } from '@tabler/icons-react';
 

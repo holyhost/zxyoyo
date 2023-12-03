@@ -5,6 +5,7 @@ import PoemCard from './PoemCard'
 import { PoemBean } from '@/bean/PoemBean'
 import { Masonry } from 'masonic'
 import { useIsMobile } from '@/hooks/useIsMobile'
+import { EndOfFeed } from '../EndOfFeed/EndOfFeed'
 
 
 
@@ -18,6 +19,7 @@ const PoemList =  ({data}:{data: PoemBean[]}) => {
                           render={PoemCard} 
                           columnGutter={28} 
                           itemKey={item => item.id}/>}
+      {inited && <EndOfFeed/>}
     </Container>
   )
 }
