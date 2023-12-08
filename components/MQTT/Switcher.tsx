@@ -1,3 +1,4 @@
+"use client"
 import React, { useContext, useEffect, useState } from 'react'
 import { Payloads, PayloadType } from './Computer'
 import Temperature from './Temperature'

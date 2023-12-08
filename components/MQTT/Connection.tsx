@@ -1,5 +1,8 @@
+"use client"
 import React, { useEffect, useRef } from 'react'
 import { ClientConnectStatus } from './Computer'
+import { Avatar, Button, Group } from '@mantine/core'
+import { IconActivity, IconCheck, IconFishHook, IconPageBreak, IconRefresh, IconX } from '@tabler/icons-react'
 
 
 const Connection = React.memo(({ connect, disconnect, connectOptions, connectStatus, toggleEditor }: any) => {
@@ -25,30 +28,24 @@ const Connection = React.memo(({ connect, disconnect, connectOptions, connectSta
         disconnect()
     }
 
-    useEffect(()=>{
-        //init
-        // console.log('init connect once')
-        // handleConnect()
-    },[])
+    useEffect(() => {
+        handleConnect()
+    }, [])
 
-    const openConfig = ()=>toggleEditor()
+    const openConfig = () => toggleEditor()
     console.log("Connectionnnn...render")
     return (
-        <header className={connectStatus === ClientConnectStatus.Connected ? 'color-g' : connectStatus === ClientConnectStatus.Connecting ? 'color-gray' : 'color-blue'}>
-        
-            <div className='header-container'>
-                <button onClick={handleConnect} ref={conButton}>
-                    连接服务器
-                </button>
-                -
-                <button onClick={handleDisconnect}>
-                    断开连接
-                </button>
-                <div onClick={openConfig}>
-                    连接状态：{connectStatus}
-                </div>
-            </div>
-        </header>
+        <Group mt={'md'}>
+            <Button  leftSection={<IconRefresh size={14} />} onClick={handleConnect}>
+                重新连接
+            </Button>
+            <Button leftSection={<IconPageBreak size={14} />} onClick={handleDisconnect}>
+                断开连接
+            </Button>
+            <Avatar onClick={openConfig} color={connectStatus === ClientConnectStatus.Connected ? 'teal' : connectStatus === ClientConnectStatus.Connecting ? 'orange' : 'gray'}>
+                {connectStatus === ClientConnectStatus.Connected ? <IconCheck/> : connectStatus === ClientConnectStatus.Connecting ? <IconActivity/> : <IconX/>}
+            </Avatar>
+        </Group>
     )
 })
 

@@ -14,15 +14,14 @@ const MqttPage = () => {
   const form = useForm({
     initialValues: {
       proto: 'http',
-      mqttHost: '',
-      mqttAccount: '',
-      mqttPassword: '',
+      mqttHost: 'mqtt.zxyoyo.com',
+      mqttAccount: 'kahhc',
+      mqttPassword: 'TomKaCbABlcL',
       mqttClientId: '',
       mqttPort: 8887,
       terms: true,
     },
   })
-  console.log(hostInfo)
   const onFormChanged = (fieldName: string, value: string) => {
     form.setFieldValue(fieldName, value)
   }
@@ -39,8 +38,6 @@ const MqttPage = () => {
       devices: []
     }
     setHostInfo(JSON.parse(JSON.stringify(temp)))
-    console.log({...temp})
-    console.log(hostInfo)
   }
   return (
     <Container my={40} maw={'35rem'}>

@@ -1,13 +1,14 @@
 "use client"
 import { connect, MqttClient } from 'mqtt/types/lib/connect';
 import React, { createContext, useCallback, useEffect, useState } from 'react'
-import * as mqtt from 'mqtt/dist/mqtt'
+// import * as mqtt from 'mqtt/dist/mqtt'
+import mqtt from 'mqtt'
 import Connection from './Connection';
 import Receiver from './Receiver';
 import Subscriber from './Subscriber';
 import Switcher from './Switcher';
 import ConfigEdit from './ConfigEdit';
-
+import Publisher from './Publisher';
 
 
 export const QosOption = createContext<any[]>([])
@@ -16,7 +17,7 @@ const ConfigKey = 'react-App-_iot-common-C0nfig'
 export type PayloadType = {
     topic: string,
     message: string,
-    qos?: 1
+    qos?: 0 | 1 | 2
 }
 
 export enum ClientConnectStatus {
@@ -62,37 +63,12 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
          */
         console.log(client)
         console.log("will do setClient")
+        console.log(mqtt)
         setClient(mqtt.connect(host, mqttOption))
         console.log('client', client)
     }, [client])
 
     const autoConnectMqtt = () => {
-        const { protocol, host, clientId, port, username, password } = baseinfo.host
-        const url = `${protocol}://${host}:${port}/mqtt`
-        const options = {
-            clientId,
-            username,
-            password,
-            clean: true,
-            reconnectPeriod: 1000, // ms
-            connectTimeout: 30 * 1000, // ms
-        }
-        mqttConnect(url, options)
-    }
-
-    const toggleEditor = useCallback(() => setShowEditor(!showEditor), [])
-
-    useEffect(() => {
-        // if(!client){
-        //     autoConnectMqtt()
-        // }
-        console.log("...come in effect")
-        // console.log(btoa(encodeURIComponent(JSON.stringify(ainfo))))
-        // let aa = btoa(encodeURIComponent(JSON.stringify(baseinfo)))
-        // console.log(aa)
-        // let bb = decodeURIComponent(atob((aa)))
-        // console.log(JSON.parse(bb))
-        console.log(client)
         if (client) {
             // https://github.com/mqttjs/MQTT.js#event-connect
             client.on('connect', () => {
@@ -123,6 +99,25 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
                 setPayload(payload)
             })
         }
+        // const { protocol, host, clientId, port, username, password } = baseinfo.host
+        // const url = `${protocol}://${host}:${port}/mqtt`
+        // const options = {
+        //     clientId,
+        //     username,
+        //     password,
+        //     clean: true,
+        //     reconnectPeriod: 1000, // ms
+        //     connectTimeout: 30 * 1000, // ms
+        // }
+        // mqttConnect(url, options)
+    }
+
+    const toggleEditor = useCallback(() => setShowEditor(!showEditor), [])
+
+    useEffect(() => {
+
+        console.log('client', client)
+        autoConnectMqtt()
         updated && setUpdated(false)
         return () => {
             baseinfo.devices.map((device: any) => mqttUnSub({ topic: device.topic, qos: 1 }))
@@ -207,7 +202,7 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
                 connectStatus={connectStatus}
                 toggleEditor={toggleEditor}
             />
-            {showEditor && <ConfigEdit />}
+            {/* {showEditor && <ConfigEdit />} */}
             <Payloads.Provider value={payload}>
                 {baseinfo.devices.map((device: any) =>
                     <Switcher
@@ -218,6 +213,7 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
 
                 <Subscriber sub={mqttSub} unSub={mqttUnSub} />
             </Payloads.Provider>
+            <Publisher pub={mqttPublish}/>
             <Receiver payload={payload} />
         </div>
     )

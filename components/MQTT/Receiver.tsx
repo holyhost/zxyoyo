@@ -1,3 +1,4 @@
+"use client"
 import React, { useEffect, useState } from 'react'
 
 export default function Receiver({payload}:any) {
@@ -5,14 +6,14 @@ export default function Receiver({payload}:any) {
 
     useEffect(() => {
         if (payload && payload.topic) {
-            setMessages((messages:any[]) => [payload,...messages.slice(0,5)])
+            setMessages((messages:any[]) => [{...payload, rtime: new Date().toLocaleTimeString()},...messages.slice(0,5)])
         }
     }, [payload])
 
     return (
         <div>
             {messages.map((item,index)=>(<p key={index}>
-                title={item.topic}, description={item.message}
+                接收时间={item.rtime} ,title={item.topic}, description={item.message}
             </p>))}
         </div>
     )
