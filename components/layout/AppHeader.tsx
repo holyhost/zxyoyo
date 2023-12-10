@@ -39,7 +39,7 @@ const AppHeader = () => {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const theme = useMantineTheme();
   const { data: session } = useSession()
-  
+
   const fileItems = (
     <Menu key={"filesys"} trigger="hover" transitionProps={{ exitDuration: 0 }} withinPortal>
       <Menu.Target>
@@ -105,26 +105,34 @@ const AppHeader = () => {
             <Text c="#fff" size="lg">只想优优</Text>
           </Anchor>
           <Button
+            hiddenFrom='sm'
             onClick={spotlight.open}
-            leftSection={<IconSearch color='gray' size={16}/>}
-            rightSection={<Pill size='sm'>Ctrl+K</Pill>}
+            leftSection={<IconSearch color='gray' size={16} />}
+            rightSection={<Pill visibleFrom="sm" size='sm'>Ctrl+K</Pill>}
             variant="default">
             <Text size='sm' c={'gray'}>搜索</Text>
           </Button>
           <Group gap={5} visibleFrom="sm">
+            <Button
+              onClick={spotlight.open}
+              leftSection={<IconSearch color='gray' size={16} />}
+              rightSection={<Pill c={'teal.7'} size='sm'>Ctrl+K</Pill>}
+              variant="default">
+              <Text size='sm' c={'gray'} mr={'3rem'}>搜索</Text>
+            </Button>
             {items}
             {session?.user?.name && fileItems}
-            <UserAvatar 
-              theme={theme} 
-              colorScheme={colorScheme} 
-              toggleColorScheme={toggleColorScheme} 
+            <UserAvatar
+              theme={theme}
+              colorScheme={colorScheme}
+              toggleColorScheme={toggleColorScheme}
               user={
-                { 
-                  username: session?.user?.name || '晴天小猪猪', 
-                  image: session?.user?.image || '/admin.png' 
+                {
+                  username: session?.user?.name || '晴天小猪猪',
+                  image: session?.user?.image || '/admin.png'
                 }
-              } 
-              login={session?.user? true : false} />
+              }
+              login={session?.user ? true : false} />
           </Group>
           {/* for mobile */}
           <Box hiddenFrom="sm">
@@ -147,21 +155,21 @@ const AppHeader = () => {
                   </Group>
                 </Menu.Label>
                 <Menu.Divider />
-                <AppMenuItems login={session?.user? true : false} theme={theme} colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}/>
+                <AppMenuItems login={session?.user ? true : false} theme={theme} colorScheme={colorScheme} toggleColorScheme={toggleColorScheme} />
               </Menu.Dropdown>
             </Menu>
           </Box>
 
         </div>
-        <Spotlight 
-          actions={[]} 
+        <Spotlight
+          actions={[]}
           nothingFound="功能正在建设中..."
           highlightQuery
-          onChange={(v)=> console.log(v)}
+          onChange={(v) => console.log(v)}
           searchProps={{
             leftSection: <IconSearch style={{ width: rem(20), height: rem(20) }} stroke={1.5} />,
             placeholder: 'Search...',
-          }}/>
+          }} />
       </Container>
 
       {/* </header> */}
