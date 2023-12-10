@@ -66,7 +66,7 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
         console.log(mqtt)
         setClient(mqtt.connect(host, mqttOption))
         console.log('client', client)
-    }, [client])
+    }, [client,host])
 
     const autoConnectMqtt = () => {
         if (client) {
