@@ -5,13 +5,13 @@ import classes from './poem.module.css';
 
 const PoemCard = ({ index, data, width }: Props) => {
   return (
-    <Card withBorder padding="sm" mt="xs" radius="md" maw="20rem" miw="10rem">
-      {/* <Card.Section mb="sm">
-        <Image src={''} alt={data.pt_name} height={180} />
-      </Card.Section> */}
-      <Badge className={classes.dynasty}>{data.pt_name}</Badge>
+    <Card shadow="md" withBorder padding="sm" mt="xs" radius="md" maw="20rem" miw="10rem">
+
+      <Badge className={classes.dynasty} component="a" href={`/gushi/shiren/${data.pt_id}`}>
+        {data.pt_name}
+      </Badge>
       <Center>
-        <Text fw={700} mt={'md'}>{data.title}</Text>
+        <Text fw={700} mt={'md'} component="a" href={`/gushi/${data.id}`}>{data.title}</Text>
       </Center>
       
       {/* <Group mt="sm">
