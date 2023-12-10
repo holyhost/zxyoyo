@@ -14,9 +14,9 @@ const MqttPage = () => {
   const form = useForm({
     initialValues: {
       proto: 'http',
-      mqttHost: 'mqtt.zxyoyo.com',
-      mqttAccount: 'kahhc',
-      mqttPassword: 'TomKaCbABlcL',
+      mqttHost: '',
+      mqttAccount: '',
+      mqttPassword: '',
       mqttClientId: '',
       mqttPort: 8887,
       terms: true,
