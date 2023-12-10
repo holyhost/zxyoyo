@@ -1,19 +1,27 @@
 "use client"
 import React from 'react'
 import { Container, Timeline, Text, Avatar, ThemeIcon } from '@mantine/core'
-import { IconBrandDocker, IconCategory, IconDashboard, IconInfoCircle, IconStar, IconSun, IconVideo } from '@tabler/icons-react'
+import { IconBrandDocker, IconBrush, IconCategory, IconDashboard, IconInfoCircle, IconPointer, IconStar, IconSun, IconVideo } from '@tabler/icons-react'
 
 const UpdateHistory = () => {
     return (
         <>
             <Text fw={700} mt={'md'}>更新历史</Text>
-            <Timeline mt={'sm'} bulletSize={24} lineWidth={3} active={4} reverseActive>
-                <Timeline.Item title="新增关于界面-add about page" bullet={<IconDashboard/>}>
+            <Timeline mt={'sm'} bulletSize={24} lineWidth={3} active={5} reverseActive>
+                <Timeline.Item title="更新计划-planning" bullet={<IconDashboard/>}>
                     <Text c="dimmed" size="md">
-                        完善古诗词，文章等界面
+                        完善古诗词详情界面
                     </Text>
                     <Text size="xs">
-                        2023-11-xx
+                        2023-12-xx
+                    </Text>
+                </Timeline.Item>
+                <Timeline.Item title="古诗词-add poem and poet detail" bullet={<IconBrush/>}>
+                    <Text c="dimmed" size="md">
+                        新增古诗，诗人详情
+                    </Text>
+                    <Text size="xs">
+                        2023-12-10
                     </Text>
                 </Timeline.Item>
                 <Timeline.Item title="笔记分类-update category" bullet={<IconCategory/>}>
