@@ -29,27 +29,33 @@ export enum ClientConnectStatus {
 }
 
 type Props = {
-    host: {
-        protocol: string,
-        host: string,
-        clientId: string,
-        port: number,
-        username: string,
-        password: string
-    },
+    protocol: string,
+    host: string,
+    clientId: string,
+    port: number,
+    username: string,
+    password: string,
     devices: any[]
 }
 
 
-export default function Computer({ baseinfo }: { baseinfo: Props }) {
+export default function Computer({ 
+    protocol,
+    host,
+    clientId,
+    port,
+    username,
+    password,
+    devices
+ }: Props) {
     const [client, setClient] = useState<MqttClient>()
     const [isSubed, setIsSub] = useState(false)
-    const [host, setHost] = useState(baseinfo.host)
     const [showEditor, setShowEditor] = useState(false)
     const [updated, setUpdated] = useState(false)
     const [payload, setPayload] = useState<PayloadType>()
     const [connectStatus, setConnectStatus] = useState<ClientConnectStatus>(ClientConnectStatus.DisConnected)
     const mqttConnect = useCallback((host: string, mqttOption: any) => {
+        mqttDisconnect()
         setConnectStatus(ClientConnectStatus.Connecting)
         /**
          * if protocol is "ws", connectUrl = "ws://broker.emqx.io:8083/mqtt"
@@ -66,15 +72,16 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
         console.log(mqtt)
         setClient(mqtt.connect(host, mqttOption))
         console.log('client', client)
-    }, [client,host])
+    }, [client,protocol,host,username, password, clientId, port])
 
     const autoConnectMqtt = () => {
+        mqttDisconnect()
         if (client) {
             // https://github.com/mqttjs/MQTT.js#event-connect
             client.on('connect', () => {
                 console.log("..connect")
                 setConnectStatus(ClientConnectStatus.Connected)
-                baseinfo.devices.map((device: any) => {
+                devices.map((device: any) => {
                     if (device.topic && device.topic.length > 0) mqttSub({ topic: device.topic, qos: 0 })
                 })
 
@@ -120,7 +127,7 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
         autoConnectMqtt()
         updated && setUpdated(false)
         return () => {
-            baseinfo.devices.map((device: any) => mqttUnSub({ topic: device.topic, qos: 1 }))
+            devices.map((device: any) => mqttUnSub({ topic: device.topic, qos: 1 }))
         }
     }, [client, updated])
 
@@ -141,7 +148,7 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
                 console.log(error)
             }
         }
-    }, [client])
+    }, [client,protocol,host,username, password, clientId, port])
 
     // publish message
     // https://github.com/mqttjs/MQTT.js#mqttclientpublishtopic-message-options-callback
@@ -187,12 +194,13 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
     }
 
     const doSwitcherSort = () => {
-        baseinfo.devices.push(baseinfo.devices.shift())
-        localStorage.setItem(ConfigKey, btoa(encodeURIComponent(JSON.stringify(baseinfo))))
+        devices.push(devices.shift())
+        // todo 
+        localStorage.setItem(ConfigKey, btoa(encodeURIComponent(JSON.stringify(''))))
         setUpdated(true)
 
     }
-    console.log("Computerrrr...render")
+    console.log("Computerrrr...render", host)
     return (
         <div>
             <Connection
@@ -204,7 +212,7 @@ export default function Computer({ baseinfo }: { baseinfo: Props }) {
             />
             {/* {showEditor && <ConfigEdit />} */}
             <Payloads.Provider value={payload}>
-                {baseinfo.devices.map((device: any) =>
+                {devices.map((device: any) =>
                     <Switcher
                         doSwitcherSort={doSwitcherSort}
                         key={device.topic}

@@ -30,14 +30,14 @@ const MqttPage = () => {
       host: {
         protocol: form.values.proto,
         host: form.values.mqttHost,
-        clientId: form.values.mqttClientId ?? generateToken(18),
+        clientId: form.values.mqttClientId.length > 0 ?form.values.mqttClientId: generateToken(18),
         port: form.values.mqttPort,
         username: form.values.mqttAccount,
         password: form.values.mqttPassword
       },
       devices: []
     }
-    setHostInfo(JSON.parse(JSON.stringify(temp)))
+    setHostInfo(temp)
   }
   return (
     <Container my={40} maw={'35rem'}>
@@ -98,7 +98,7 @@ const MqttPage = () => {
           </Button>
 
         </form>
-        {hostInfo&& hostInfo.host && <Computer baseinfo={hostInfo} />}
+        {hostInfo&& hostInfo.host && <Computer {...hostInfo} />}
       </Paper>
 
     </Container>
