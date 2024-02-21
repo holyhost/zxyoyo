@@ -165,13 +165,19 @@ export default function Computer({
     }
 
     const mqttSub = (subscription: any) => {
+        console.log('..do sub')
         if (client) {
             // topic & QoS for MQTT subscribing
             const { topic, qos } = subscription
+            console.log(client)
+            // if(!client.connected){
+            //     mqtt.connect(host)
+            // }
             // subscribe topic
             // https://github.com/mqttjs/MQTT.js#mqttclientsubscribetopictopic-arraytopic-object-options-callback
             client.subscribe(topic, { qos }, (error: any) => {
                 if (error) {
+                    console.log(error)
                     return
                 }
                 setIsSub(true)
