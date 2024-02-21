@@ -19,6 +19,7 @@ export type PostItemProps = {
   view: number,
   uid: string,
   createTime: string,
+  updateTime: string,
   cover?: string,
 }
 
@@ -40,7 +41,7 @@ const PostItem = ({ data, deleteItem }: { data: PostItemProps, deleteItem?: ()=>
               {data.content}
             </Anchor>
             <Group justify={'space-between'}>
-              <Text c={'gray'}>😊 {formatDate(new Date(parseInt(data.createTime)))}</Text>
+              <Text c={'gray'}>😊 {formatDate(new Date(parseInt(data.updateTime)))}</Text>
               {user && user._id === data.uid  && <Menu withArrow trigger="hover" transitionProps={{ exitDuration: 10 }} withinPortal>
                 <Menu.Target>
                   <ActionIcon

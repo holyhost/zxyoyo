@@ -14,6 +14,8 @@ export const POST = async(request: NextRequest)=> {
     const session = await getServerSession(authOptions)
     if (session && session.user && session.user._id) {
         const uid = session.user._id.toString()
+        const createTime = new Date().getTime().toString()
+        const updateTime = createTime
         await connectToDB()
         await Post.create({
             title,
@@ -23,7 +25,9 @@ export const POST = async(request: NextRequest)=> {
             open,
             secret,
             cover,
-            uid
+            uid,
+            createTime,
+            updateTime
         })
 
         return NextResponse.json({ success: true })
