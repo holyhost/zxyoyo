@@ -4,12 +4,20 @@ import { Button, Container, Group, NumberInput, Paper, PasswordInput, Select, Te
 import { useForm } from '@mantine/form'
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
+import { Metadata } from 'next'
+
+
+export const metadata: Metadata = {
+  title: 'MQTT',
+  description: '链接测试MQTT服务'
+}
 
 const Computer: any = dynamic(() =>
   import('@/components/MQTT/Computer').then((mod) => mod.default)
 )
 
-const MqttPage = () => {
+
+const MqttPage = async() => {
   const [hostInfo, setHostInfo] = useState<any>({})
   const form = useForm({
     initialValues: {
