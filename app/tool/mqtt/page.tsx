@@ -1,6 +1,6 @@
 "use client"
 import { generateToken } from '@/utils/string-helpers'
-import { Button, Container, Group, NumberInput, Paper, PasswordInput, Select, TextInput, Title, rem } from '@mantine/core'
+import { Anchor, Button, Container, Group, NumberInput, Paper, PasswordInput, Select, TextInput, Title, rem } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
@@ -55,6 +55,9 @@ const MqttPage = async() => {
       >
         测试连接MQTT
       </Title>
+      <Anchor href="http://tt.zxyoyo.com/" target="_blank">
+        由于本地址是https，如果连接的是非https会失败；连接http点此链接！
+      </Anchor>
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={form.onSubmit(() => onSubmit())}>
           <Select
