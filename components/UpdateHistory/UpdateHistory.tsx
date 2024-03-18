@@ -13,7 +13,7 @@ const UpdateHistory = () => {
                         完善古诗词详情界面
                     </Text>
                     <Text size="xs">
-                        2023-12-xx
+                        2024-03-xx
                     </Text>
                 </Timeline.Item>
                 <Timeline.Item title="古诗词-add poem and poet detail" bullet={<IconBrush/>}>
