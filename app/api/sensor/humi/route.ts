@@ -9,7 +9,8 @@ export const GET = async(request: NextRequest)=> {
     const maker = searchParams.get('maker')
     const temp = searchParams.get('temp')
     const humi = searchParams.get('humi')
-    if(token != 'K123qwelolqwel--utnAB') return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})
+    const st = process.env.SENSOR_TOKEN
+    if(token != st) return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})
     await connectToDB()
     await SensorData.create({
         serio: maker,
@@ -27,7 +28,8 @@ export const POST = async(request: NextRequest)=> {
     const stime = searchParams.get('stime')
     const etime = searchParams.get('etime')
     const name = searchParams.get('name')
-    if(token != 'K123qwelolqwel--utnAB') return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})
+    const st = process.env.SENSOR_TOKEN
+    if(token != st) return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})
     await connectToDB()
     const data = await SensorData.find({name, createTime: { $elemMatch: { $gte: stime, $lte: etime}}})
     if( data){
