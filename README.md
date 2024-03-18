@@ -35,3 +35,15 @@ This template comes with the following features:
 - `storybook` – starts storybook dev server
 - `storybook:build` – build production storybook bundle to `storybook-static`
 - `prettier:write` – formats all files with Prettier
+
+
+### Deploy to self node server
+```
+1. local: run command: yarn build
+2. local: go to .next/cache/webpack folder, delete development folder. keep production folder
+3. connect to server
+4. cd /home/soft/zxyoyo/next-mantine
+5. rm -rf .next
+6. update local .next folder to server => /home/soft/zxyoyo/next-mantine
+7. docker restart zxyoyo
+```
