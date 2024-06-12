@@ -8,6 +8,7 @@ type Props = {
   params: { postid: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }
+export const revalidate = 60 // revalidate at most per minute
  
 export async function generateMetadata(
   { params, searchParams }: Props
