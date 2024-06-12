@@ -27,7 +27,8 @@ const links = [
     label: '其他',
     links: [
       { link: '/tool/mqtt', label: 'MQTT' },
-      { link: '/about', label: 'About' }
+      { link: '/about', label: 'About' },
+      { link: '/share', label: 'Future' }
     ],
   },
 ];
