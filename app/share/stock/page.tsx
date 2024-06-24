@@ -9,6 +9,7 @@ import { DateInput, DateValue } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
 import { IconCalendar } from '@tabler/icons-react';
 import dayjs from 'dayjs';
+import { XAXisOption } from 'echarts/types/dist/shared';
 
 
 const Stock = () => {
@@ -25,12 +26,54 @@ const Stock = () => {
   const [series, setSeries] = useState<any[]>([])
   const colorList = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'];
   const labelFont = 'bold 12px Sans-serif';
+  const xoptions: XAXisOption[] = [
+    {
+      type: 'category',
+      data: xData,
+      boundaryGap: false,
+      axisLine: { lineStyle: { color: '#777' } },
+      axisLabel: {
+        formatter: function (value) {
+          return value.slice(-4)
+        }
+      },
+      min: 'dataMin',
+      max: 'dataMax',
+      axisPointer: {
+        show: true
+      }
+    },
+    {
+      type: 'category',
+      gridIndex: 1,
+      data: xData,
+      boundaryGap: false,
+      splitLine: { show: false },
+      axisLabel: { show: false },
+      axisTick: { show: false },
+      axisLine: { lineStyle: { color: '#777' } },
+      min: 'dataMin',
+      max: 'dataMax',
+      axisPointer: {
+        type: 'shadow',
+        label: { show: false },
+        triggerTooltip: true,
+        handle: {
+          show: true,
+          margin: 30,
+          color: '#B80C00'
+        }
+      }
+    }
+  ]
   const option = {
+    color: colorList,
     title: {
       text: echarTitle
     },
     legend: {
-      type: 'plain'
+      top: 30,
+      data: ['日K', 'MA5', 'Volume']
     },
     tooltip: {},
     dataZoom: [
@@ -49,46 +92,7 @@ const Stock = () => {
         end: 100
       }
     ],
-    xAxis: [
-      {
-        type: 'category',
-        data: xData,
-        boundaryGap: false,
-        axisLine: { lineStyle: { color: '#777' } },
-        axisLabel: {
-          formatter: function (value: any) {
-            return value.slice(-4)
-          }
-        },
-        min: 'dataMin',
-        max: 'dataMax',
-        axisPointer: {
-          show: true
-        }
-      },
-      {
-        type: 'category',
-        gridIndex: 1,
-        data: xData,
-        boundaryGap: false,
-        splitLine: { show: false },
-        axisLabel: { show: false },
-        axisTick: { show: false },
-        axisLine: { lineStyle: { color: '#777' } },
-        min: 'dataMin',
-        max: 'dataMax',
-        axisPointer: {
-          type: 'shadow',
-          label: { show: false },
-          triggerTooltip: true,
-          handle: {
-            show: true,
-            margin: 30,
-            color: '#B80C00'
-          }
-        }
-      }
-    ],
+    xAxis: xoptions,
     yAxis: [
       {
         scale: true,
@@ -156,6 +160,23 @@ const Stock = () => {
     ],
     series
   }
+
+  const calculateMA = (dayCount: number, data: number[][]) => {
+    let result = [];
+    for (let i = 0, len = data.length; i < len; i++) {
+      if (i < dayCount -1) {
+        result.push('-');
+        continue;
+      }
+      let sum = 0;
+      for (let j = 0; j < dayCount; j++) {
+        sum += data[i - j][1];
+      }
+      result.push((sum / dayCount).toFixed(2));
+    }
+    console.log(result)
+    return result;
+  }
   const getData = async()=> {
     open()
     const d1 = dayjs(startDate).format('YYYYMMDD')
@@ -175,6 +196,16 @@ const Stock = () => {
             type: 'candlestick',
             name: '日K',
             data: data,
+          },
+          {
+            name: 'MA5',
+            type: 'line',
+            data: calculateMA(5, data),
+            smooth: true,
+            showSymbol: false,
+            lineStyle: {
+              width: 1
+            }
           },
           {
             name: 'Volume',
