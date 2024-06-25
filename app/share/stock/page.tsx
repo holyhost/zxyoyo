@@ -14,18 +14,24 @@ import { XAXisOption } from 'echarts/types/dist/shared';
 
 const Stock = () => {
 
-  let [options, setOptions] = useState<EChartsOption>({})
   const [tscode, setTscode] = useState('000010')
+  const [legendData, setLegendData] = useState<string[]>([])
   const [futureName, setFutureName] = useState('')
-  const [startDate, setStartDate] = useState<DateValue>(new Date())
-  const [endDate, setEndDate] = useState<DateValue>(new Date())
+  const [startDate, setStartDate] = useState<DateValue>()
+  const [endDate, setEndDate] = useState<DateValue>()
   const [visible, { open, close }] = useDisclosure(false);
+  // console.log(dayjs(startDate!.getTime() - 30*24*60*60*1000).format('YYYYMMDD'))
   const [date, setDate] = useState('')
   const [echarTitle, setEcharTitle] = useState('')
   const [xData, setXData] = useState<string[]>([])
   const [series, setSeries] = useState<any[]>([])
   const colorList = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'];
   const labelFont = 'bold 12px Sans-serif';
+  useEffect(()=> {
+    const d = new Date()
+    setStartDate(new Date(d.getTime() - 60*24*60*60*1000))
+    setEndDate(d)
+  }, [])
   const xoptions: XAXisOption[] = [
     {
       type: 'category',
@@ -73,7 +79,7 @@ const Stock = () => {
     },
     legend: {
       top: 30,
-      data: ['日K', 'MA5', 'Volume']
+      data: legendData
     },
     tooltip: {},
     dataZoom: [
@@ -87,7 +93,7 @@ const Stock = () => {
         show: true,
         type: 'slider',
         xAxisIndex: [0, 1],
-        top: '90%',
+        bottom: '10',
         start: 0,
         end: 100
       }
@@ -120,13 +126,13 @@ const Stock = () => {
         left: 20,
         right: 20,
         top: 110,
-        height: 120
+        height: 220
       },
       {
         left: 20,
         right: 20,
         height: 40,
-        top: 260
+        top: 370
       }
     ],
     graphic: [
@@ -186,21 +192,29 @@ const Stock = () => {
     console.log(res)
     if(res.success && res.data){
       const allItems:any[] = res.data
-      console.log(allItems)
       if(allItems.length > 0){
         const items = allItems.sort((a, b) => a.trade_date - b.trade_date)
-        console.log(items.map(i => i.trade_date))
         const data = items.map(d => (d ? [d.open || 0,d.close|| 0,d.low|| 0,d.high|| 0]: []))
         setSeries([
           {
             type: 'candlestick',
-            name: '日K',
+            name: 'day',
             data: data,
           },
           {
             name: 'MA5',
             type: 'line',
             data: calculateMA(5, data),
+            smooth: true,
+            showSymbol: false,
+            lineStyle: {
+              width: 1
+            }
+          },
+          {
+            name: 'MA10',
+            type: 'line',
+            data: calculateMA(10, data),
             smooth: true,
             showSymbol: false,
             lineStyle: {
@@ -224,6 +238,7 @@ const Stock = () => {
           },
         ])
         setXData(items.map(item => item.trade_date))
+        setLegendData(['day', 'MA5', 'MA10', 'Volume'])
       }else{
         setSeries([])
         setXData([])
