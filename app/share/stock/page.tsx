@@ -3,7 +3,7 @@ import { AppLayout } from '@/components/layout/AppLayout'
 import { Button, CloseButton, Container, Group, LoadingOverlay, Select, SelectProps, TextInput } from '@mantine/core'
 import React, { useEffect, useRef, useState } from 'react'
 import * as echarts from 'echarts/core';
-import { EChartsOption } from "echarts";
+import { EChartsOption, color } from "echarts";
 import Charts from "@/components/Echarts";
 import { DateInput, DateValue } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
@@ -192,7 +192,6 @@ const Stock = () => {
       }
       result.push((sum / dayCount).toFixed(2));
     }
-    console.log(result)
     return result;
   }
   const getData = async()=> {
@@ -207,16 +206,49 @@ const Stock = () => {
       if(allItems.length > 0){
         const items = allItems.sort((a, b) => a.trade_date - b.trade_date)
         const data = items.map(d => (d ? [d.open || 0,d.close|| 0,d.low|| 0,d.high|| 0]: []))
+        const datama5 = calculateMA(5, data)
+        const datama10 = calculateMA(10, data)
+        console.log('data', data.length)
+        console.log('ma5', datama5.length)
+        console.log('ma10', datama10.length)
+        const pointData: any[] = []
+        if(data.length == datama5.length && data.length == datama10.length && data.length > 10){
+          for (let index = 9; index < data.length; index++) {
+            const bean = items[index];
+            if(datama5[index] >= datama10[index] && datama5[index-1] < datama10[index-1]){
+              pointData.push({
+                name: bean.trade_date,
+                value: '',
+                coord: [bean.trade_date, bean.low * 0.99],
+                symbolSize: 30
+              })
+            }
+          }
+        }
+        console.log(pointData)
+        const markPoint = {
+          symbol: 'pin',
+          symbolRotate: 180,
+          label: {
+            show: true
+          },
+          itemStyle: {
+            color: 'teal'
+          },
+          data: pointData
+
+        }
         setSeries([
           {
             type: 'candlestick',
             name: 'day',
             data: data,
+            markPoint: markPoint
           },
           {
             name: 'MA5',
             type: 'line',
-            data: calculateMA(5, data),
+            data: datama5,
             smooth: true,
             showSymbol: false,
             lineStyle: {
@@ -226,7 +258,7 @@ const Stock = () => {
           {
             name: 'MA10',
             type: 'line',
-            data: calculateMA(10, data),
+            data: datama10,
             smooth: true,
             showSymbol: false,
             lineStyle: {
