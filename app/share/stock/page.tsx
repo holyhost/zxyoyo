@@ -1,6 +1,6 @@
 "use client"
 import { AppLayout } from '@/components/layout/AppLayout'
-import { Button, CloseButton, Container, Group, LoadingOverlay, TextInput } from '@mantine/core'
+import { Button, CloseButton, Container, Group, LoadingOverlay, Select, SelectProps, TextInput } from '@mantine/core'
 import React, { useEffect, useRef, useState } from 'react'
 import * as echarts from 'echarts/core';
 import { EChartsOption } from "echarts";
@@ -11,11 +11,16 @@ import { IconCalendar } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { XAXisOption } from 'echarts/types/dist/shared';
 
+type ShareBean = {
+  tscode: string,
+  name: string
+}
 
 const Stock = () => {
 
   const [tscode, setTscode] = useState('000010')
   const [legendData, setLegendData] = useState<string[]>([])
+  const [shareList, setShareList] = useState<ShareBean[]>([])
   const [futureName, setFutureName] = useState('')
   const [startDate, setStartDate] = useState<DateValue>()
   const [endDate, setEndDate] = useState<DateValue>()
@@ -31,7 +36,14 @@ const Stock = () => {
     const d = new Date()
     setStartDate(new Date(d.getTime() - 60*24*60*60*1000))
     setEndDate(d)
+    initBasicInfo()
   }, [])
+  const initBasicInfo = async () => {
+    const result = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/share/basic')
+    const res = await result.json()
+    setShareList(res.data)
+
+  }
   const xoptions: XAXisOption[] = [
     {
       type: 'category',
@@ -250,6 +262,7 @@ const Stock = () => {
     
     return res
   }
+
   const onDateChange = (event: any)=> {
     console.log(event)
     setEndDate(event)
@@ -259,20 +272,14 @@ const Stock = () => {
       <Container mt={'lg'}>
         <LoadingOverlay visible={visible} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
         <Group>
-            <TextInput
-              label="名称"
-              placeholder="请输入代码"
-              value={tscode}
-              onChange={(event) => setTscode(event.currentTarget.value)}
-              rightSectionPointerEvents="all"
-              w={'8rem'}
-              rightSection={
-                <CloseButton
-                  aria-label="Clear input"
-                  onClick={() => setFutureName('')}
-                  style={{ display: futureName ? undefined : 'none' }}
-                />
-              }
+            <Select
+              label="名称|代码"
+              placeholder=""
+              searchable
+              clearable
+              nothingFoundMessage="Nothing found..."
+              onChange={(event) => event && setTscode(event?.split(',')[1])}
+              data={shareList.map(s => s.name + ' ,' + s.tscode)}
             />
             <DateInput 
               valueFormat="YYYYMMDD"
@@ -290,7 +297,7 @@ const Stock = () => {
               rightSection={<IconCalendar/>}
               onChange={(event) => setEndDate(event)}
               placeholder="Date input" />
-            <Button variant="filled" onClick={getData}>查询</Button>
+            <Button variant="filled" mt={22} onClick={getData}>查询</Button>
         </Group>
         <Charts options={option} />
       </Container>
