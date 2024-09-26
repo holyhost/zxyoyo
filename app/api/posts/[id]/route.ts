@@ -5,7 +5,15 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import Post from '@/models/post'
 import User from '@/models/user'
 
-const getPostById = async (id: string)=> await Post.findById(id)
+export const getPostById = async (id: string)=> {
+    try {
+        return await Post.findById(id)
+    } catch (error) {
+        console.log("query error and id is: " + id)
+        return null
+    }
+    
+}
 
 export  const GET = async(request: NextRequest, {params}:{params: any}) => {
     const id = params.id
@@ -17,8 +25,13 @@ export  const GET = async(request: NextRequest, {params}:{params: any}) => {
         const uid = session.user._id.toString()
         await connectToDB()
         const data = await getPostById(id as string)
-        if( data){
+        if( data && data.uid.toString() === session.user._id.toString()){
             return NextResponse.json({ success: true, data: data})
+        }else{
+            console.log('session uid: ', session.user._id)
+            console.log('session uid: ', session.user)
+            console.log('data uid: ', data._id)
+            console.log('uid not match')
         }        
         
         return NextResponse.json({ success: true },{ status: 404})
@@ -27,8 +40,10 @@ export  const GET = async(request: NextRequest, {params}:{params: any}) => {
         console.log('get posts public')
         await connectToDB()
         const data = await getPostById(id as string)
-        if( data){
+        if( data && data.open === 1){
             return NextResponse.json({ success: true, data: data})
+        }else{
+            console.log('not logined user, can not get private data')
         }    
         return NextResponse.json({ success: false, data: 'no data' }, {status: 404})
     }
