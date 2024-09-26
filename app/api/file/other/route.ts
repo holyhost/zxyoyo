@@ -7,7 +7,6 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 export async function GET(request: NextRequest) {
-    console.log('come into get')
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('userid') || ''
     const tags = searchParams.get('tags') || ''
@@ -39,7 +38,6 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-    console.log('come into post')
     const fd = await request.formData()
     const session = await getServerSession(authOptions)
     if (session && session.user && session.user._id) {

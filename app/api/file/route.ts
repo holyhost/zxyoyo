@@ -8,7 +8,6 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import User from '@/models/user'
 
 export async function POST(request: NextRequest) {
-    console.log('come into post')
     const data = await request.formData()
     const file: File | null = data.get('file') as unknown as File
     if (!file || !file.name) {
@@ -72,7 +71,6 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-    console.log('come into get')
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
     

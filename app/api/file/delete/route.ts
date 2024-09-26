@@ -6,10 +6,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { unlinkSync } from 'fs'
 
 export async function GET(request: NextRequest) {
-    console.log('come into file delete')
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
-    console.log('id', id)
     if( !id || id.length < 10){
         return NextResponse.json({ success: false }, {status: 401})
     }
