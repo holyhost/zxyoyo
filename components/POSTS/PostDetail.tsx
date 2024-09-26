@@ -12,6 +12,8 @@ import { PostItemProps } from './PostItem'
 import { formatDate } from '@/utils/date-helpers'
 import { IconTransfer } from '@tabler/icons-react'
 import { useIsMobile } from '@/hooks/useIsMobile'
+import { API } from '@/utils/api'
+import { ResType } from '@/types/base.type'
 
 type Props = {
     detail: PostItemProps,
@@ -35,6 +37,18 @@ const PostDetail = ({ detail, author }: Props) => {
         setOpened(false)
 
     }
+    const updatePostContent = async()=> {
+        if(session && session.user && session.user._id === detail.uid && detail && detail.open !==1 && detail.content.startsWith('******')){
+            const res:ResType<PostItemProps> = await (await fetch(API('/posts/' + detail._id))).json()
+            res.success && (detail.content = res.data.content)
+        }
+        
+        if (detail.secret && detail.content.length > 10) {
+            setContent(detail.content.slice(0, 10) + "...")
+        } else {
+            setContent(detail.content)
+        }
+    }
     const onPinComplete = (pinstr: string) => {
         const md5Key = mymd5(pinstr)
         if (userStore.detail && md5Key === userStore.detail.keys) {
@@ -47,17 +61,13 @@ const PostDetail = ({ detail, author }: Props) => {
         }
     }
     useEffect(() => {
-        if (detail.secret && detail.content.length > 10) {
-            setContent(detail.content.slice(0, 10) + "...")
-        } else {
-            setContent(detail.content)
-        }
+        updatePostContent()
         if (session && session.user && !pin && detail.secret) setOpened(true)
         if (pin && detail.secret) parseContent(pin)
         if (session && session.user && !userStore.detail) userStore.fetch('/api/user')
     }, [session])
     return (
-        <Container mt={'md'}>
+        <Container mt={'md'} pl={0} pt={0}>
             <PostHeader name={author.name} image={author.image} />
             {detail.type !== 'md' &&
                 <Paper shadow='md' p={'md'}>
