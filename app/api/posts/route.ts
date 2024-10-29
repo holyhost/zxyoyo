@@ -6,6 +6,7 @@ import { randomUUID } from 'crypto'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import Post from '@/models/post'
+import { revalidateTag } from 'next/cache'
 
 export const POST = async(request: NextRequest)=> {
     console.log('come into post')
@@ -29,7 +30,7 @@ export const POST = async(request: NextRequest)=> {
             createTime,
             updateTime
         })
-
+        revalidateTag('post')
         return NextResponse.json({ success: true })
     }else{
         return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})

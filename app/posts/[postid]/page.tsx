@@ -47,7 +47,7 @@ const getData = async (id: string) => {
 export const dynamicParams = true // or false, to 404 on unknown paths
 
 export async function generateStaticParams() {
-  const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=1000')
+  const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=1000', {next: {tags: ['note']}})
   const jsonData: ResType<PostItemProps[]> = await res.json()
   const ids = jsonData.data.map((post) => ({id: post._id}))
   // console.log('generate static params')

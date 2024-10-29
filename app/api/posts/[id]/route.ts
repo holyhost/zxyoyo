@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import Post from '@/models/post'
 import User from '@/models/user'
+import { revalidateTag } from 'next/cache'
 
 export const getPostById = async (id: string)=> {
     try {
@@ -67,6 +68,7 @@ export const PATCH =async (req: NextRequest, {params}:{params: any}) => {
             existingPost.cover = jsonData.cover
             existingPost.updateTime = new Date().getTime().toString()
             await existingPost.save()
+            revalidateTag('post')
             return NextResponse.json({ success: true, data: existingPost}) 
         }else{
             return NextResponse.json({ success: false, data: 'login pls' }, {status: 401})

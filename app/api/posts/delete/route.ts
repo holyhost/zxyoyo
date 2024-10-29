@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from "next-auth/next"
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import Post from '@/models/post'
+import { revalidateTag } from 'next/cache'
 
 export async function GET(request: NextRequest) {
     console.log('come into post delete')
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
             uid: uid,
             name: id
         })
-        
+        revalidateTag('post')
         
         return NextResponse.json({ success: true})
     }else{

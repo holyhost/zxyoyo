@@ -15,8 +15,8 @@ const Page = () => {
   useEffect(()=>{
     const getData = async () => {
       const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST 
-        + '/api/posts?pageSize=' + 30 
-        + "&pageNum=0")
+        + '/api/posts?pageSize=' + 38 
+        + "&pageNum=0", {next: {tags: ['note']}})
       const resJson = await res.json()
       if (!res.ok) {
         // show error

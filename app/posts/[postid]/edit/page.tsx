@@ -25,7 +25,7 @@ export async function generateMetadata(
 }
 
 const getData = async (id: string) => {
-  const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts/' + id)
+  const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts/' + id, {next: {tags: ['note']}})
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
