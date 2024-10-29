@@ -1,3 +1,4 @@
+import { getPostById } from '@/app/api/posts/[id]/route'
 import SimplePostForm from '@/components/POSTS/SimplePostForm'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { Container } from '@mantine/core'
@@ -25,13 +26,13 @@ export async function generateMetadata(
 }
 
 const getData = async (id: string) => {
-  const res = await fetch(process.env.NEXT_PUBLIC_APP_HOST + '/api/posts/' + id, {next: {tags: ['note']}})
+  const res = await getPostById(id)
 
-  if (!res.ok) {
+  if (!res) {
     // This will activate the closest `error.js` Error Boundary
     throw new Error('Failed to fetch data')
   }
-  return res.json()
+  return {data: res}
 }
 
 const EditPostPage = async ({ params }: Props) => {
