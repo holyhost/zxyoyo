@@ -1,5 +1,5 @@
 import { Menu, rem, Group, Switch, Text } from '@mantine/core'
-import { IconMountain, IconSettings, IconArticle, IconEdit, IconPhoto, IconFileUpload, IconSearch, IconPalette, IconLogout, IconMoonStars, IconSun, IconLogin, IconContainer, IconFile } from '@tabler/icons-react'
+import { IconMountain, IconSettings, IconArticle, IconEdit, IconPhoto, IconFileUpload, IconSearch, IconPalette, IconLogout, IconMoonStars, IconSun, IconLogin, IconContainer, IconFile, IconDog } from '@tabler/icons-react'
 import { signOut, signIn } from 'next-auth/react'
 import React from 'react'
 
@@ -31,6 +31,9 @@ const AppMenuItems = ({ login = false, theme, colorScheme, toggleColorScheme }: 
             <Menu.Label>功能</Menu.Label>
             <Menu.Item component='a' href='/home' leftSection={<IconMountain style={{ width: rem(14), height: rem(14) }} />}>
                 古诗词
+            </Menu.Item>
+            <Menu.Item component='a' href='/share/a' leftSection={<IconDog style={{ width: rem(14), height: rem(14) }} />}>
+                A
             </Menu.Item>
             <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
                 设置
