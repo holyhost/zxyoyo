@@ -23,7 +23,7 @@ const ShareTable = ({data, title, config}:{data: any[],title?: string, config?: 
     console.log(data)
     const tempArr: any[] = []
     data.forEach(item => tempArr.push(item))
-    const [tableData, setTableData] = useState<any[]>(tempArr)
+    const [tableData, setTableData] = useState<any[]>([...data])
     
     // const [rows, setRows] = useState<any[]>([...data])
     setTimeout(() => {
@@ -42,7 +42,7 @@ const ShareTable = ({data, title, config}:{data: any[],title?: string, config?: 
             setTableData([...data])
         }else{
             setSort(v)
-            const arr = tableData.sort((a,b)=> (v-2)*(a.pct_chg - b.pct_chg))
+            const arr = tableData.sort((a,b)=> (2-v)*(a.pct_chg - b.pct_chg))
             setTableData([...arr])
         }
     }
@@ -55,7 +55,7 @@ const ShareTable = ({data, title, config}:{data: any[],title?: string, config?: 
                 <IconSortAscending color={sot === 1? 'teal' : 'gray'} onClick={()=> updateSortValue(1)}/>
                 <IconSortDescending color={sot === 3? 'teal' : 'gray'} onClick={()=> updateSortValue(3)}/>
             </Group>
-            <Table striped stickyHeader >
+            <Table striped >
                 <Table.Thead>
                     <Table.Tr>
                         {headers}
