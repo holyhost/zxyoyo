@@ -32,7 +32,7 @@ const AppMenuItems = ({ login = false, theme, colorScheme, toggleColorScheme }: 
             <Menu.Item component='a' href='/home' leftSection={<IconMountain style={{ width: rem(14), height: rem(14) }} />}>
                 古诗词
             </Menu.Item>
-            <Menu.Item component='a' href='/share/a' leftSection={<IconDog style={{ width: rem(14), height: rem(14) }} />}>
+            <Menu.Item component='a' href='/share' leftSection={<IconDog style={{ width: rem(14), height: rem(14) }} />}>
                 A
             </Menu.Item>
             <Menu.Item leftSection={<IconSettings style={{ width: rem(14), height: rem(14) }} />}>
