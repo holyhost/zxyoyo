@@ -70,8 +70,10 @@ export const GET = async(request: NextRequest)=> {
         await connectToDB()
         const filters = postType ? {open: 1, type: postType} : {open: 1}
         let data = await Post.find(filters)
-                .skip(parseInt(pageSize + '') * parseInt(pageNum+''))
+                .sort({updateTime: -1})
                 .limit(parseInt(pageSize + ''))
+                .skip(parseInt(pageSize + '') * parseInt(pageNum+''))
+                
         if(data.length > 0){
             data.forEach(item => {
                 if(item.content.length > 200) item.content = item.content.substring(0, 200) + '...'

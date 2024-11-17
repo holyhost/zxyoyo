@@ -6,7 +6,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 export  const GET = async(request: NextRequest, {params}:{params: any}) => {
     const session = await getServerSession(authOptions)
     if (session && session.user && session.user._id) {
-        const backHost = process.env.BACKEND_HOST
+        const backHost = process.env.BACKEND_A_HOST
         const url = backHost + "/shareapi/basic"
         // console.log(url)
         const data = await fetch( url)

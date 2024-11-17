@@ -10,7 +10,7 @@ export  const GET = async(request: NextRequest, {params}:{params: any}) => {
         const { searchParams } = new URL(request.url)
         const startDate = searchParams.get('startDate') || ''
         const endDate = searchParams.get('endDate') || ''
-        const backHost = process.env.BACKEND_HOST
+        const backHost = process.env.BACKEND_A_HOST
         const url = backHost + "/shareapi/dayk?tscode=" + id + "&startDate=" + startDate + "&endDate=" + endDate
         // console.log(url)
         const data = await fetch( url)
