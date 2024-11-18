@@ -1,18 +1,18 @@
 import { AppLayout } from '@/components/layout/AppLayout'
 import { Container } from '@mantine/core'
 import React from 'react'
-import ShareMenu from '@/components/Share/ShareMenu/ShareMenu';
+import ShareTest from '@/components/Share/ShareTest/ShareTest';
 
 
-const SharePage = () => {
+const ShareTestPage = () => {
   
   return (
     <AppLayout>
       <Container mt={'lg'}>
-        <ShareMenu/>
+        <ShareTest/>
       </Container>
     </AppLayout>
   )
 }
 
-export default SharePage
+export default ShareTestPage

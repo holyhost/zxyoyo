@@ -111,7 +111,7 @@ const ShareTestDuration = () => {
             </Group>
             <Text mt={'10px'}>{message}</Text>
 
-            <ShareTable data={result}/>
+            {result && result.length ? <ShareTable data={result}/> : null}
         </div>
     )
 }

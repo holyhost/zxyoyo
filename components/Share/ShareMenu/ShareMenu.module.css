@@ -1,0 +1,16 @@
+
+.itemContainer {
+    width: 10rem;
+    height: 6rem;
+    border-radius: 6px;
+    background: linear-gradient(to bottom right, var(--mantine-color-yellow-filled), var(--mantine-color-blue-filled));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.gradientB2R {
+    background: linear-gradient(to bottom right, var(--mantine-color-blue-filled), var(--mantine-color-red-filled));
+
+}

@@ -40,22 +40,13 @@ export default function SharePage() {
   return (
     <AppLayout>
       <Container bg={'white'}>
-        <Group>
-          <DateInput
-            value={curDate}
-            valueFormat="YYYYMMDD"
-            onChange={setCurDate}
-            label="日期"
-            placeholder="选择日期"
-          />
-        </Group>
         <Container>
           <ShareTestDuration/>
         </Container>
-        <Container>
+        {/* <Container>
           <LoadingOverlay visible={loading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }}/>
           <ShareTable data={shares}/>
-        </Container>
+        </Container> */}
         
       </Container>
     </AppLayout>
