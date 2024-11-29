@@ -1,5 +1,5 @@
 import { Menu, rem, Group, Switch, Text } from '@mantine/core'
-import { IconMountain, IconSettings, IconArticle, IconEdit, IconPhoto, IconFileUpload, IconSearch, IconPalette, IconLogout, IconMoonStars, IconSun, IconLogin, IconContainer, IconFile, IconDog } from '@tabler/icons-react'
+import { IconMountain, IconSettings, IconArticle, IconEdit, IconPhoto, IconFileUpload, IconSearch, IconPalette, IconLogout, IconMoonStars, IconSun, IconLogin, IconContainer, IconFile, IconDog, IconElevator } from '@tabler/icons-react'
 import { signOut, signIn } from 'next-auth/react'
 import React from 'react'
 
@@ -49,6 +49,9 @@ const AppMenuItems = ({ login = false, theme, colorScheme, toggleColorScheme }: 
             </Menu.Item>}
             <Menu.Item leftSection={<IconFile style={{ width: rem(14), height: rem(14) }} />}>
                 文件
+            </Menu.Item>
+            <Menu.Item component='a'  href='/share' leftSection={<IconElevator style={{ width: rem(14), height: rem(14) }} />}>
+                Future
             </Menu.Item>
             {login && <Menu.Item component='a' href='/file/upload' leftSection={<IconFileUpload style={{ width: rem(14), height: rem(14) }} />}>
                 上传文件

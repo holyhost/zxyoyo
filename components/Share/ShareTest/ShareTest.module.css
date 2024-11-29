@@ -16,3 +16,10 @@
     word-wrap: normal;
     word-break: break-word;
 }
+
+.ellipsisText {
+    display: block;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+}
