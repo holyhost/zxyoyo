@@ -32,7 +32,7 @@ const PostItem = ({ data, deleteItem }: { data: PostItemProps, deleteItem?: ()=>
     <Card shadow='lg' withBorder mt={'md'}>
       <Grid>
         <Grid.Col span={8} h={'100%'}>
-          <Stack justify="space-between" h={'9rem'}>
+          <Stack justify="space-between" mah={'12rem'}>
             <Anchor fw={800} onClick={goDetail}>{data.title}</Anchor>
             <Anchor c={'teal'}
               style={{ overflow: 'hidden' }}

@@ -4,13 +4,12 @@ import { AppLayout } from '@/components/layout/AppLayout'
 import { Button, Center, Container } from '@mantine/core'
 import React from 'react'
 
-export const revalidate = 3600 * 2 // revalidate at most every 2 hour
 
 const getData = async (postType: string = '') => {
   let data = null
   try {
     const url = process.env.NEXT_PUBLIC_APP_HOST + '/api/posts?pageSize=' + 30 + "&pageNum=0" + "&type=" + postType
-    const res = await fetch(url, {next: {tags: ['note']}})
+    const res = await fetch(url, {next: {tags: ['post']}})
   
     if (!res.ok) {
       // This will activate the closest `error.js` Error Boundary

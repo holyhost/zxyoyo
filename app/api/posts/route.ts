@@ -49,15 +49,16 @@ export const GET = async(request: NextRequest)=> {
     const postType = searchParams.get('type') || ''
     // should get user id from session, but get null, so client getsession 
     const session = await getServerSession(authOptions)
-    console.log('posts session')
+    console.log('get session')
     if (session && session.user && session.user._id) {
         console.log('get posts all')
         const uid = session.user._id.toString()
         await connectToDB()
         const filters = postType ? {uid: uid, type: postType} : {uid: uid}
         const data = await Post.find(filters)
-                .skip(parseInt(pageSize + '') * parseInt(pageNum+''))
+                .sort({createTime: -1})
                 .limit(parseInt(pageSize + ''))
+                .skip(parseInt(pageSize + '') * parseInt(pageNum+''))
         if( data){
             const total = await Post.count()
             return NextResponse.json({ success: true, data: data, bbb: total })

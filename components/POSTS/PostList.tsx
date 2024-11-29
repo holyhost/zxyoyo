@@ -33,7 +33,6 @@ const PostList = ({data}:{data: PostItemProps[]}) => {
       }
       return item
     })
-    tempData.reverse()
     setItems([...tempData])
   }, [data])
   return (
