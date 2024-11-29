@@ -50,9 +50,6 @@ const AppMenuItems = ({ login = false, theme, colorScheme, toggleColorScheme }: 
             <Menu.Item leftSection={<IconFile style={{ width: rem(14), height: rem(14) }} />}>
                 文件
             </Menu.Item>
-            <Menu.Item component='a'  href='/share' leftSection={<IconElevator style={{ width: rem(14), height: rem(14) }} />}>
-                Future
-            </Menu.Item>
             {login && <Menu.Item component='a' href='/file/upload' leftSection={<IconFileUpload style={{ width: rem(14), height: rem(14) }} />}>
                 上传文件
             </Menu.Item>}
