@@ -28,7 +28,6 @@ const ShareTest = () => {
     const getData = async () => {
       setIsLoading(true)
       const res = await getShareTestResult(pageIndex)
-      console.log(res)
       if(res.success){
         setLogs([...logs, ...res.data])
         setPageIndex(pageIndex + 1)
@@ -41,7 +40,6 @@ const ShareTest = () => {
   useEffect(()=>{
     const getData = async()=> {
       const res = await getShareTestResult()
-      console.log(res)
       if(res.success){
         setLogs([...res.data])
       }
