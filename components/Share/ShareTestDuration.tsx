@@ -30,7 +30,6 @@ const ShareTestDuration = () => {
 
     // }, [startDate, endDate])
     const updateShares = async(dt: Date | null,updateDate: Function, func: Function)=> {
-        console.log(dt)
         if(!dt) return
         updateDate(dt)
         setLoading(true)
@@ -38,7 +37,6 @@ const ShareTestDuration = () => {
         if(result.ok && result.res){
             func(result.res)
         }else{
-            console.log('updateShares error')
             updateDate(null)
         }
         setLoading(false)
@@ -46,7 +44,6 @@ const ShareTestDuration = () => {
     }
     const compareShares = ()=> {
         let allShares = [...shares]
-        console.log(allShares.length, shares2.length)
         
         if(mainBoard){
             allShares = shares.filter(i => isMainBoard(i.ts_code))
@@ -58,7 +55,7 @@ const ShareTestDuration = () => {
             const s2 = shares2.find(item => item.ts_code === code)
             if(s2){
                 const close = s2.close
-                const pctChange = getPercentChange(open, close)
+                const pctChange = getPercentChange(s.pre_close, close)
                 // console.log(code, `开${open}, 收${close}, 变化${pctChange}`)
                 tempResult.push({
                     ts_code: code,
@@ -75,10 +72,8 @@ const ShareTestDuration = () => {
             }
             
         })
-        console.log(tempResult)
         const s = tempResult.filter(s => s.pct_chg > 0)
         setMessage('总' + allShares.length + ' , ' + "涨个数：" + s.length + ', 占比：'+ (s.length/allShares.length*100).toFixed(2))
-        console.log('总' + allShares.length + ' , ' + "涨个数：", s.length)
         setResult([...tempResult])
     }
 
@@ -87,6 +82,7 @@ const ShareTestDuration = () => {
             ShareTestDuration
             <Group>
                 <DateInput
+                    w={'6rem'}
                     value={startDate}
                     valueFormat="YYYYMMDD"
                     onChange={(d) => updateShares(d,setStartDate, setShares)}
@@ -94,6 +90,7 @@ const ShareTestDuration = () => {
                     placeholder="选择日期"
                 />
                 <DateInput
+                    w={'6rem'}
                     value={endDate}
                     valueFormat="YYYYMMDD"
                     onChange={(d) => updateShares(d, setEndDate,setShares2)}

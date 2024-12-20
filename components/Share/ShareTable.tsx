@@ -7,12 +7,12 @@ import { IconSortAscending, IconSortDescending } from '@tabler/icons-react';
 const defaultTableConfig = {
     ts_code: '代码',
     name: '名称',
+    pct_chg: '涨幅(%)',
     open: '开',
     close: '关',
     high: '高',
     low: '低',
-    pct_chg: '涨幅(%)',
-    amount: '量',
+    amount: '量(万)',
 }
 
 type sortType = 1 | 2 | 3
@@ -21,12 +21,12 @@ const ShareTable = ({ data, title, config }: { data: any[], title?: string, conf
     const tableConfig = config || defaultTableConfig
     const [sot, setSort] = useState(2)
     const [tableData, setTableData] = useState<any[]>([...data])
-    const keys = Object.keys(tableConfig)
-    useEffect(()=> {
-        if(sot != 2) {
+    const keys = Object.keys(tableConfig).filter(k => k !== 'name')
+    useEffect(() => {
+        if (sot != 2) {
             const arr = data.sort((a, b) => (2 - sot) * (a.pct_chg - b.pct_chg))
             setTableData([...arr])
-        }else{
+        } else {
             setTableData([...data])
         }
     }, [data])
@@ -50,18 +50,23 @@ const ShareTable = ({ data, title, config }: { data: any[], title?: string, conf
                 <IconSortAscending color={sot === 1 ? 'teal' : 'gray'} onClick={() => updateSortValue(1)} />
                 <IconSortDescending color={sot === 3 ? 'teal' : 'gray'} onClick={() => updateSortValue(3)} />
             </Group>
-            <Table striped >
-                <Table.Thead>
-                    <Table.Tr>
-                        {headers}
-                    </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>{tableData.map((element, index) => (
-                    <Table.Tr key={element.ts_code + index}>
-                        {keys.map(k => <Table.Td key={k}>{element[k]}</Table.Td>)}
-                    </Table.Tr>
-                ))}</Table.Tbody>
-            </Table>
+            <Table.ScrollContainer minWidth={500}>
+                <Table striped >
+                    <Table.Thead style={{position: 'sticky'}}>
+                        <Table.Tr>
+                            {headers}
+                        </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>{tableData.map((element, index) => (
+                        <Table.Tr key={element.ts_code + index}>
+                            {keys.map(k => k === 'ts_code' ? <Table.Td key={k}>
+                                <div>{element.name}</div>
+                                <div style={{ fontSize: '12px', color: 'gray' }}>{element[k]}</div>
+                            </Table.Td> : <Table.Td key={k}>{element[k]}</Table.Td>)}
+                        </Table.Tr>
+                    ))}</Table.Tbody>
+                </Table>
+            </Table.ScrollContainer>
         </Stack>
     )
 }
