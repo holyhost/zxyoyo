@@ -18,13 +18,13 @@ export const getShareListInfo = async(tradeDate:string,perChange: number = -100.
     
 }
 
-export const getShareTestResult = async(page=0, count=10) => {
+export const getShareTestResult = async(page=0, count=10,tradeDate='', testType='', maTags='') => {
     const res: ResType<ShareTestBean[]> = {
         success: false,
         data: []
     }
     try {
-        const result = await (await fetch(`/api/share/test?page=${page}&count=${count}`)).json()
+        const result = await (await fetch(`/api/share/test?page=${page}&count=${count}&testType=${testType}&testDate=${tradeDate}&maTags=${maTags}`)).json()
         res.success = result.ok
         res.data = result.res
     } catch (error) {

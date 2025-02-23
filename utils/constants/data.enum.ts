@@ -17,6 +17,17 @@ export const constants = {
         'Typescript',
         'Flask'
     ],
+    maTags: [
+        'ma5+',
+        'ma5-',
+        'ma10+',
+        'ma10-',
+        'kiss',
+        'kis>',
+        'firstkiss',
+        'up',
+        'stopfall'
+    ],
     imageTags: [
         '原神',
         '美女',
@@ -61,6 +72,37 @@ export const POST_TYPE =  [
     {
         label: '文章',
         value: 'article'
+    }
+]
+
+export const SHARE_TEST_TYPE =  [
+    {
+        label: '市场',
+        value: 'all_board'
+    },
+    {
+        label: '大盘',
+        value: 'main_board'
+    },
+    {
+        label: '均线',
+        value: 'day-ma'
+    },
+    {
+        label: '沪市',
+        value: '沪市'
+    },
+    {
+        label: '深市',
+        value: '深市'
+    },
+    {
+        label: '北证',
+        value: '北证'
+    },
+    {
+        label: '其他',
+        value: ''
     }
 ]
 
