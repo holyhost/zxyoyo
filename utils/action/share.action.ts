@@ -24,7 +24,11 @@ export const getShareTestResult = async(page=0, count=10,tradeDate='', testType=
         data: []
     }
     try {
-        const result = await (await fetch(`/api/share/test?page=${page}&count=${count}&testType=${testType}&testDate=${tradeDate}&maTags=${maTags}`)).json()
+        let dd = ''
+        if(testType === 'day-ma'){
+            dd = tradeDate
+        }
+        const result = await (await fetch(`/api/share/test?page=${page}&count=${count}&testType=${testType}&testDate=${dd}&maTags=${maTags}`)).json()
         res.success = result.ok
         res.data = result.res
     } catch (error) {

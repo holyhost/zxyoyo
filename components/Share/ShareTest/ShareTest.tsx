@@ -88,11 +88,16 @@ const ShareTest = () => {
     handleTagsChange()
   }
   ,[startDate])
+  useEffect(()=>{
+    setStartDate(new Date())
+    setTabIndex('all_board')
+  }, [])
   return (
     <Container>
       <Group>
         <SegmentedControl
           radius="xl"
+          defaultValue="day-report"
           value={tabIndex}
           size="md"
           data={tabs}
@@ -100,7 +105,7 @@ const ShareTest = () => {
           onChange={(v) => updateTab(v)}
         />
       </Group>
-      <Group>
+      {tabIndex === 'day-ma' && <Group>
         <DateInput
           valueFormat="YYYYMMDD"
           label="开始日期"
@@ -112,13 +117,13 @@ const ShareTest = () => {
         <TagsInput
           mt={'sm'}
           label="标签"
-          description="MA标签，可以输入多个,回车确认"
           placeholder="请输入标签"
           onChange={(value) => updateTagLog(value)}
           value={selectedMaTags}
           data={Array.from(constants.maTags)}
         />
-      </Group>
+        <Text size='sm' c={'gray-3'}>共{logs.length}个</Text>
+      </Group>}
       
       {logs.map(item => (<div key={item.id} className={classes.itemContainer}>
         <Group justify='space-between'>
