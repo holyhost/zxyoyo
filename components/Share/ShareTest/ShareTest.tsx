@@ -1,15 +1,17 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import classes from './ShareTest.module.css'
-import { Anchor, Badge, Center, Container, Group, Loader, SegmentedControl, Spoiler, TagsInput, Text } from '@mantine/core'
+import { Anchor, Badge, Button, Center, Container, Group, Loader, SegmentedControl, Spoiler, TagsInput, Text } from '@mantine/core'
 import { getShareTestResult } from '@/utils/action/share.action'
 import { useInView } from 'react-intersection-observer'
 import { EndOfFeed } from '@/components/EndOfFeed/EndOfFeed'
 import { constants, SHARE_TEST_TYPE } from '@/utils/constants/data.enum'
-import { useDebounceCallback, useDebouncedState } from '@mantine/hooks'
+import { useClipboard, useDebounceCallback, useDebouncedState } from '@mantine/hooks'
 import { DateInput, DateValue } from '@mantine/dates'
 import { IconCalendar } from '@tabler/icons-react'
 import dayjs from 'dayjs'
+import { useRouter } from 'next/navigation'
+
 
 export type ShareTestBean = {
   createtime: string,
@@ -35,6 +37,8 @@ const ShareTest = () => {
   const [selectedMaTags, setSelectedMaTags] = useState<string[]>([])
   // const [selectedMaTags, setSelectedMaTags] = useDebouncedState([], 2000);
   const [end, setEnd] = useState<boolean>(false)
+  const router = useRouter()
+  const clipboard = useClipboard({ timeout: 500 });
   const tabs = [...SHARE_TEST_TYPE]
   const handleTagsChange = useDebounceCallback(async ()=>{
     const tags = selectedMaTags.join(',')
@@ -45,6 +49,7 @@ const ShareTest = () => {
         setEnd(true)
       }
     // setLogs([...arr])
+    console.log('changed....')
   }, 1200)
   useEffect(() => {
     const getData = async () => {
@@ -78,10 +83,14 @@ const ShareTest = () => {
     setTabIndex(v)
   }
   const updateTagLog = (v: string[]) => {
-    if(selectedMaTags.length === 0 && logs0.length === 0){
-      setLogs([...logs])
-    }
+    console.log(v)
+    console.log(selectedMaTags)
     setSelectedMaTags([ ...v])
+    // if(v.length === 0 && logs0.length === 0){
+    //   setLogs([...logs])
+    // }else{
+      
+    // }
     handleTagsChange()
   }
   useEffect(()=>{
@@ -92,6 +101,12 @@ const ShareTest = () => {
     setStartDate(new Date())
     setTabIndex('all_board')
   }, [])
+  const itemClick = (item: ShareTestBean) => {
+    console.log(item)
+    if(tabIndex === 'day-ma'){
+      router.push('/share/a/' + item.ts_code)
+    }
+  }
   return (
     <Container>
       <Group>
@@ -123,9 +138,15 @@ const ShareTest = () => {
           data={Array.from(constants.maTags)}
         />
         <Text size='sm' c={'gray-3'}>共{logs.length}个</Text>
+        <Button
+          color={clipboard.copied ? 'gray' : 'teal'}
+          onClick={() => clipboard.copy(logs.map(item => item.ts_code).join('\r\n'))}
+        >
+          {clipboard.copied ? '已复制' : '复制代码'}
+        </Button>
       </Group>}
       
-      {logs.map(item => (<div key={item.id} className={classes.itemContainer}>
+      {logs.map(item => (<div key={item.id} onClick={()=>itemClick(item)} className={classes.itemContainer}>
         <Group justify='space-between'>
           <Text>{item.ts_code}  {item.trade_date}</Text>
           <Badge>{item.test_type}</Badge>
